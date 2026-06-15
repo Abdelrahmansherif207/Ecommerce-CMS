@@ -1,11 +1,16 @@
-function App() {
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
+import { AdminLayout } from '@/layouts/admin-layout'
+import { DashboardPage } from '@/features/dashboard/pages/dashboard-page'
+
+export default function App() {
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline bg-amber-500">
-        Hello world!
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AdminLayout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
-
-export default App
