@@ -1,9 +1,9 @@
-import { Search, Bell, LogOut, Settings, User, Moon, Sun } from 'lucide-react'
-import { SidebarTrigger } from '@/shared/ui/sidebar'
-import { Separator } from '@/shared/ui/separator'
-import { Input } from '@/shared/ui/input'
-import { Badge } from '@/shared/ui/badge'
-import { Button } from '@/shared/ui/button'
+import { Search, Bell, LogOut, Settings, User, Languages } from "lucide-react";
+import { SidebarTrigger } from "@/shared/ui/sidebar";
+import { Separator } from "@/shared/ui/separator";
+import { Input } from "@/shared/ui/input";
+import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,12 +12,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/shared/ui/avatar'
+} from "@/shared/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { useLogout } from "@/features/auth/hooks/use-auth";
+import { useLanguage } from "@/shared/hooks/use-language";
 
 export function Header() {
   return (
@@ -29,29 +27,42 @@ export function Header() {
 
       <div className="relative flex-1 max-w-md">
         <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          placeholder="Search..."
-          className="h-9 pl-8 bg-muted/50"
-        />
+        <Input placeholder="Search..." className="h-9 pl-8 bg-muted/50" />
       </div>
 
-      <div className="ml-auto flex items-center gap-1">
-        <ThemeToggle />
+      <div className="ml-auto flex items-center gap-2">
+        <LanguageSwitcher />
         <NotificationButton />
         <UserMenu />
       </div>
     </header>
-  )
+  );
 }
 
-function ThemeToggle() {
+function LanguageSwitcher() {
+  const { language, setLanguage } = useLanguage();
+
   return (
-    <Button variant="ghost" size="icon-sm">
-      <Sun className="size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
-  )
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
+        <Languages className="size-4" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-32">
+        <DropdownMenuItem
+          onClick={() => setLanguage("en")}
+          className={language === "en" ? "bg-accent" : ""}
+        >
+          English
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setLanguage("ar")}
+          className={language === "ar" ? "bg-accent" : ""}
+        >
+          العربية
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
 
 function NotificationButton() {
@@ -65,10 +76,12 @@ function NotificationButton() {
         3
       </Badge>
     </Button>
-  )
+  );
 }
 
 function UserMenu() {
+  const logoutMutation = useLogout();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
@@ -83,7 +96,9 @@ function UserMenu() {
         <DropdownMenuLabel>
           <div className="flex flex-col gap-0.5">
             <span className="text-sm font-medium">John Doe</span>
-            <span className="text-xs text-muted-foreground">john@example.com</span>
+            <span className="text-xs text-muted-foreground">
+              john@example.com
+            </span>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -98,11 +113,15 @@ function UserMenu() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">
+        <DropdownMenuItem
+          variant="destructive"
+          onClick={() => logoutMutation.mutate()}
+          disabled={logoutMutation.isPending}
+        >
           <LogOut className="mr-2 size-4" />
-          Log out
+          {logoutMutation.isPending ? "Signing out..." : "Log out"}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

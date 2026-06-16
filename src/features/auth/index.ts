@@ -1,7 +1,6 @@
-// Public API — features/auth
-// Export: types, hooks, constants, permissions, routes, pages
-
-// export type {} from './types/auth.types';
-// export { useAuth } from './hooks/use-auth';
-// export { authRoutes } from './routes/auth.routes';
-// export { AUTH_PERMISSIONS } from './permissions/auth.permissions';
+export { LoginPage } from './pages/login-page';
+export { ProtectedRoute } from './components/protected-route';
+export { GuestRoute } from './components/guest-route';
+export { useAuthStore } from './store/auth.store';
+export { useLogin, useLogout } from './hooks/use-auth';
+export type { LoginData, LoginResponse, AuthData, User } from './types/auth.types';
