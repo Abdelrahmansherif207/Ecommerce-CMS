@@ -22,3 +22,9 @@
     @apply font-sans;
   }
 }
+
+@layer utilities {
+  .direction-ltr {
+    direction: ltr !important;
+  }
+}

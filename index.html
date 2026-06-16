@@ -5,6 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ecommerce-cms</title>
+    <script>
+      (function() {
+        var lang = localStorage.getItem('language');
+        if (lang === 'ar') {
+          document.documentElement.lang = 'ar';
+          document.documentElement.dir = 'rtl';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
