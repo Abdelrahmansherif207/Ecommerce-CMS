@@ -22,7 +22,8 @@
     "actions": "Actions",
     "status": "Status",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "saving": "Saving..."
   },
   "sidebar": {
     "overview": "Overview",
@@ -38,7 +39,7 @@
     "brands": "Brands",
     "reviews": "Reviews",
     "content": "Content",
-    "cms": "CMS",
+    "sections": "Sections",
     "insights": "Insights",
     "analytics": "Analytics",
     "payments": "Payments",
@@ -125,5 +126,22 @@
     "search": "Search...",
     "profile": "Profile",
     "settings": "Settings"
+  },
+  "sections": {
+    "title": "Sections",
+    "subtitle": "Manage homepage sections displayed on the storefront.",
+    "type": "Type",
+    "titleLabel": "Title",
+    "order": "Order",
+    "endpoint": "Endpoint",
+    "actions": "Actions",
+    "editTitle": "Edit Section",
+    "editDescription": "Update section order, visibility, and title.",
+    "titleEn": "Title (English)",
+    "titleAr": "Title (Arabic)",
+    "titleVisible": "Title Visible",
+    "isActive": "Active",
+    "saving": "Saving...",
+    "noSections": "No sections found."
   }
 }

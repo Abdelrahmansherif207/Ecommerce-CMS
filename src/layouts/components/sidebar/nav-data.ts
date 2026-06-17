@@ -59,7 +59,7 @@ export function useNavGroups(): NavGroup[] {
     {
       title: t('sidebar.content'),
       items: [
-        { title: t('sidebar.cms'), url: '/cms', icon: FileText },
+        { title: t('sidebar.sections'), url: '/sections', icon: FileText },
       ],
     },
     {
