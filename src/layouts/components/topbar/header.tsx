@@ -19,7 +19,12 @@ import { useLanguage } from "@/shared/hooks/use-language";
 
 export function Header() {
   return (
-    <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border px-4 transition-[width,height] ease-linear">
+    <header className="flex h-14 shrink-0 items-center gap-2 px-4 transition-[width,height] ease-linear">
+      {/* Brand / Logo — always visible in the full-width header */}
+      <div className="flex items-center gap-2 min-w-fit me-4">
+        <img src="/meem.svg" alt="Meem Logo" className="h-10 w-auto shrink-0 object-contain" />
+      </div>
+
       <div className="flex items-center gap-2">
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mr-2 h-4" />
@@ -30,7 +35,7 @@ export function Header() {
         <Input placeholder="Search..." className="h-9 pl-8 bg-muted/50" />
       </div>
 
-      <div className="ml-auto flex items-center gap-2">
+      <div className="ms-auto flex items-center gap-2">
         <LanguageSwitcher />
         <NotificationButton />
         <UserMenu />
