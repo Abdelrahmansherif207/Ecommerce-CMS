@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Plus, Search, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
@@ -115,9 +115,9 @@ export function CategoriesPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t('categories.allLevels')}</SelectItem>
-                  <SelectItem value="1">{t('categories.root')} (Level 1)</SelectItem>
-                  <SelectItem value="2">{t('categories.sub')} (Level 2)</SelectItem>
-                  <SelectItem value="3">{t('categories.subSub')} (Level 3)</SelectItem>
+                  <SelectItem value="1">{t('categories.root')} </SelectItem>
+                  <SelectItem value="2">{t('categories.sub')} </SelectItem>
+                  <SelectItem value="3">{t('categories.subSub')} </SelectItem>
                 </SelectContent>
               </Select>
 
@@ -188,3 +188,4 @@ export function CategoriesPage() {
     </div>
   );
 }
+
