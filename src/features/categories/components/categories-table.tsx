@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import {
   MoreHorizontal,
   Pencil,
+  Star,
   Trash2,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +31,7 @@ interface CategoriesTableProps {
   data: CategoryListItem[];
   isLoading: boolean;
   onEdit: (category: CategoryListItem) => void;
+  onAddToFeatured?: (category: CategoryListItem) => void;
   onRefresh: () => void;
 }
 
@@ -37,6 +39,7 @@ export function CategoriesTable({
   data,
   isLoading,
   onEdit,
+  onAddToFeatured,
   onRefresh,
 }: CategoriesTableProps) {
   const { t } = useTranslation();
@@ -89,7 +92,7 @@ export function CategoriesTable({
                   </TableCell>
                   <TableCell>
                     <span className="text-sm text-muted-foreground">
-                      {category.parent_id ? `ID: ${category.parent_id}` : '—'}
+                      {category.parent_id ? `ID: ${category.parent_id}` : 'â€”'}
                     </span>
                   </TableCell>
                   <TableCell className="text-end">
@@ -105,6 +108,12 @@ export function CategoriesTable({
                           <Pencil className="me-2 h-4 w-4" />
                           {t('common.edit')}
                         </DropdownMenuItem>
+                         {onAddToFeatured && (
+                           <DropdownMenuItem onClick={() => onAddToFeatured(category)}>
+                             <Star className="me-2 h-4 w-4" />
+                             {t('categories.addToFeatured')}
+                           </DropdownMenuItem>
+                         )}
                         <DropdownMenuItem
                           className="text-destructive"
                           onClick={() => setDeleteTarget(category)}
@@ -180,3 +189,5 @@ function TableSkeleton() {
     </div>
   );
 }
+
+

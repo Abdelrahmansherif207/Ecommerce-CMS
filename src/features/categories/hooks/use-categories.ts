@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+﻿import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import {
   fetchCategories,
@@ -21,10 +21,11 @@ function handleApiError(error: unknown, fallbackMessage: string): ApiErrorRespon
   return apiError;
 }
 
-export function useCategories(params: FetchCategoriesParams = {}) {
+export function useCategories(params: FetchCategoriesParams = {}, enabled?: boolean) {
   return useQuery({
     queryKey: ['categories', params],
     queryFn: () => fetchCategories(params),
+    enabled,
   });
 }
 
@@ -118,3 +119,4 @@ export function useDeleteCategory() {
     },
   });
 }
+

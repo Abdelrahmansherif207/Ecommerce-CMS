@@ -22,7 +22,9 @@
                    "actions":  "Actions",
                    "status":  "Status",
                    "yes":  "Yes",
-                   "no":  "No"
+                   "no":  "No",
+                   "page":  "Page",
+                   "perPage":  "per page"
                },
     "sidebar":  {
                     "overview":  "Overview",
@@ -44,7 +46,8 @@
                     "payments":  "Payments",
                     "system":  "System",
                     "notifications":  "Notifications",
-                    "settings":  "Settings"
+                    "settings":  "Settings",
+                    "sliders":  "Sliders"
                 },
     "categories":  {
                        "title":  "Categories",
@@ -106,7 +109,9 @@
                        "nameArRequired":  "Arabic name is required",
                        "emailRequired":  "Email is required",
                        "passwordRequired":  "Password is required",
-                       "identifierRequired":  "Email or phone number is required"
+                       "identifierRequired":  "Email or phone number is required",
+                       "titleEnRequired":  "العنوان بالإنجليزية مطلوب",
+                       "titleArRequired":  "العنوان بالعربية مطلوب"
                    },
     "auth":  {
                  "welcomeBack":  "Welcome back",
@@ -160,5 +165,51 @@
                        "status":  "Status",
                        "updateBrand":  "Update Brand",
                        "inactive":  "Inactive"
-                   }
+                   },
+        "sliders":  {
+                    "activate":  "Activate",
+                    "inactive":  "Inactive",
+                    "search":  "Search sliders...",
+                    "editSlider":  "Edit Slider",
+                    "update":  "Update",
+                    "deleteConfirm":  "Are you sure you want to delete",
+                    "createSlider":  "Create Slider",
+                    "pageTitle":  "Sliders",
+                    "deleting":  "Deleting...",
+                    "deactivate":  "Deactivate",
+                    "creating":  "Creating...",
+                    "active":  "Active",
+                    "title":  "Title",
+                    "subtitle":  "Manage slider images and banners",
+                    "deleteWarning":  "This action cannot be undone.",
+                    "updating":  "Updating...",
+                    "deleteTitle":  "Delete Slider",
+                    "image":  "Image",
+                    "create":  "Create",
+                    "sortBy":  "Sort By",
+                    "sortOrder":  "Order",
+                    "sortTitle":  "Title",
+                    "sortCreatedAt":  "Created At",
+                    "sortStatus":  "Status",
+                    "sortedBy":  "Direction",
+                    "asc":  "Ascending",
+                    "desc":  "Descending"
+                },
+            "slidersForm":  {
+                        "productsSelected":  "selected",
+                        "typeToSearch":  "Type to search products",
+                        "title":  "Title",
+                        "selectProducts":  "Select Products",
+                        "desktopImage":  "Desktop Image",
+                        "createSlider":  "Create Slider",
+                        "searchProducts":  "Search products...",
+                        "status":  "Status",
+                        "inactive":  "Inactive",
+                        "mobileImage":  "Mobile Image",
+                        "updateSlider":  "Update Slider",
+                        "active":  "Active",
+                        "products":  "Products",
+                        "titleEn":  "Title (English)",
+                        "titleAr":  "Title (Arabic)"
+                    }
 }

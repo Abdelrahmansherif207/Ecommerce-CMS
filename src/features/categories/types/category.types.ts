@@ -1,4 +1,4 @@
-export interface CategoryImage {
+﻿export interface CategoryImage {
   desktop: string | null;
   mobile: string | null;
 }
@@ -52,7 +52,8 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export type CategoriesListResponse = PaginatedResponse<CategoryListItem>;
+export type CategoriesListResponse = ApiResponse<PaginatedResponse<CategoryListItem>>;
+export type FeaturedCategoriesResponse = ApiResponse<CategoryListItem[]>;
 export type CategoryDetailResponse = ApiResponse<CategoryDetail>;
 
 export interface CreateCategoryData {
@@ -69,3 +70,4 @@ export interface CreateCategoryData {
 export interface UpdateCategoryData extends CreateCategoryData {
   _method: 'PUT';
 }
+
