@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+﻿import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { AdminLayout } from "@/layouts/admin-layout";
 import { DashboardPage } from "@/features/dashboard/pages/dashboard-page";
 import { CategoriesPage } from "@/features/categories/pages/categories-page";
+import { BrandsPage } from "@/features/brands/pages/brands-page";
 import { LoginPage } from "@/features/auth/pages/login-page";
 import { ProtectedRoute } from "@/features/auth/components/protected-route";
 import { GuestRoute } from "@/features/auth/components/guest-route";
@@ -18,6 +19,7 @@ export default function App() {
           <Route element={<AdminLayout />}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
+            <Route path="/brands" element={<BrandsPage />} />
           </Route>
         </Route>
 
@@ -26,3 +28,4 @@ export default function App() {
     </BrowserRouter>
   );
 }
+

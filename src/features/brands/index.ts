@@ -1,6 +1,16 @@
-// Public API — features/brands
-// Export: types, hooks, constants, permissions, routes, pages
-
-// export type {} from './types/brand.types';
-// export { brandRoutes } from './routes/brand.routes';
-// export { BRAND_PERMISSIONS } from './permissions/brand.permissions';
+﻿export { BrandsPage } from './pages/brands-page';
+export {
+  useBrands,
+  useBrand,
+  useCreateBrand,
+  useUpdateBrand,
+  useDeleteBrand,
+} from './hooks/use-brands';
+export type {
+  Brand,
+  BrandImage,
+  CreateBrandData,
+  UpdateBrandData,
+  BrandsListResponse,
+  BrandDetailResponse,
+} from './types/brand.types';
