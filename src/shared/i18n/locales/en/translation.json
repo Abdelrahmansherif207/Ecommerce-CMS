@@ -125,5 +125,26 @@
     "search": "Search...",
     "profile": "Profile",
     "settings": "Settings"
+  },
+  "settings": {
+    "subtitle": "Manage your application settings and configuration.",
+    "general": "General Settings",
+    "contact": "Contact Information",
+    "social": "Social Media",
+    "branding": "Branding",
+    "siteNameEn": "Site Name (English)",
+    "siteNameAr": "Site Name (Arabic)",
+    "siteDescEn": "Site Description (English)",
+    "siteDescAr": "Site Description (Arabic)",
+    "metaDescEn": "Meta Description (English)",
+    "metaDescAr": "Meta Description (Arabic)",
+    "copyRightEn": "Copyright (English)",
+    "copyRightAr": "Copyright (Arabic)",
+    "siteEmail": "Site Email",
+    "emailSupport": "Support Email",
+    "phone": "Phone Number",
+    "promoVideo": "Promotion Video URL",
+    "logo": "Logo",
+    "favicon": "Favicon"
   }
 }
