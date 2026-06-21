@@ -24,7 +24,8 @@
         "yes": "نعم",
         "no": "لا",
         "page": "صفحة",
-        "perPage": "لكل صفحة"
+        "perPage": "لكل صفحة",
+        "close": "إغلاق"
     },
     "sidebar": {
         "overview": "نظرة عامة",
@@ -50,7 +51,8 @@
         "sliders": "السلايدرات",
         "flashSale": "العروض الخاطفة",
         "faqs": "الأسئلة الشائعة",
-        "coupons": "الكوبونات"
+        "coupons": "الكوبونات",
+        "contacts": "اتصل بنا"
     },
     "categories": {
         "title": "الفئات",
@@ -354,6 +356,39 @@
         "dates": "التواريخ",
         "usage": "المستخدم",
         "searchPlaceholder": "البحث بالاسم أو الكود..."
+    },
+    "contacts": {
+        "pageTitle": "اتصل بنا",
+        "subtitle": "إدارة استفسارات العملاء والرسائل.",
+        "viewTitle": "تفاصيل الرسالة",
+        "replyTitle": "إرسال رد",
+        "replyTo": "رد على",
+        "email": "البريد الإلكتروني",
+        "subject": "الموضوع",
+        "message": "الرسالة",
+        "status": "الحالة",
+        "date": "التاريخ",
+        "read": "مقروء",
+        "unread": "غير مقروء",
+        "replied": "تم الرد",
+        "notReplied": "لم يتم الرد",
+        "view": "عرض",
+        "reply": "رد",
+        "send": "إرسال",
+        "sending": "جاري الإرسال...",
+        "deleteTitle": "حذف الرسالة",
+        "deleteConfirm": "هل أنت متأكد من حذف",
+        "deleteWarning": "لا يمكن التراجع عن هذا الإجراء.",
+        "deleting": "جاري الحذف...",
+        "deleteAll": "حذف الكل",
+        "deleteAllTitle": "حذف جميع الرسائل",
+        "deleteAllConfirm": "هل أنت متأكد من حذف جميع الرسائل بشكل دائم؟ لا يمكن التراجع عن هذا الإجراء.",
+        "deleteAllRead": "حذف المقروء",
+        "deleteAllReadTitle": "حذف جميع الرسائل المقروءة",
+        "deleteAllReadConfirm": "هل أنت متأكد من حذف جميع الرسائل المقروءة بشكل دائم؟ لا يمكن التراجع عن هذا الإجراء.",
+        "searchPlaceholder": "البحث بالبريد الإلكتروني أو الموضوع أو الرسالة...",
+        "readFilter": "حالة القراءة",
+        "replayFilter": "حالة الرد"
     },
     "couponsForm": {
         "nameEn": "الاسم (إنجليزي)",

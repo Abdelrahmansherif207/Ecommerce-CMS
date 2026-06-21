@@ -17,6 +17,7 @@ import {
   Image,
   HelpCircle,
   Tag,
+  Mail,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -67,6 +68,7 @@ export function useNavGroups(): NavGroup[] {
         { title: t('sidebar.sliders'), url: '/sliders', icon: Image },
         { title: t('sidebar.faqs'), url: '/faqs', icon: HelpCircle },
         { title: t('sidebar.flashSale'), url: '/flash-sale', icon: Megaphone },
+        { title: t('sidebar.contacts'), url: '/contacts', icon: Mail },
       ],
     },
     {
