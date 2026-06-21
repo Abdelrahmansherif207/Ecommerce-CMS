@@ -2,6 +2,7 @@
 import { AdminLayout } from "@/layouts/admin-layout";
 import { DashboardPage } from "@/features/dashboard/pages/dashboard-page";
 import { CategoriesPage } from "@/features/categories/pages/categories-page";
+import { SettingsPage } from "@/features/settings/pages/settings-page";
 import { BrandsPage } from "@/features/brands/pages/brands-page";
 import { SlidersPage } from "@/features/sliders/pages/sliders-page";
 import { FaqsPage } from "@/features/faqs/pages/faqs-page";
@@ -24,6 +25,7 @@ export default function App() {
           <Route element={<AdminLayout />}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="/brands" element={<BrandsPage />} />
             <Route path="/sliders" element={<SlidersPage />} />
             <Route path="/faqs" element={<FaqsPage />} />
