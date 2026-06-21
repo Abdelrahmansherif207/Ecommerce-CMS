@@ -49,7 +49,8 @@
         "settings": "Settings",
         "sliders": "Sliders",
         "flashSale": "Flash Sale",
-        "faqs": "FAQs"
+        "faqs": "FAQs",
+        "coupons": "Coupons"
     },
     "categories": {
         "title": "Categories",
@@ -121,7 +122,8 @@
         "faqTitleEnRequired": "English title is required (min 3 characters)",
         "faqTitleArRequired": "Arabic title is required (min 3 characters)",
         "faqDescriptionEnRequired": "English description is required (min 3 characters)",
-        "faqDescriptionArRequired": "Arabic description is required (min 3 characters)"
+        "faqDescriptionArRequired": "Arabic description is required (min 3 characters)",
+        "discountTypeRequired": "Discount type is required"
     },
     "auth": {
         "welcomeBack": "Welcome back",
@@ -323,5 +325,55 @@
         "faqDescriptionAr": "Description (Arabic)",
         "createFaq": "Create FAQ",
         "updateFaq": "Update FAQ"
+    },
+    "coupons": {
+        "pageTitle": "Coupons",
+        "subtitle": "Manage discount coupons.",
+        "createCoupon": "Create Coupon",
+        "editCoupon": "Edit Coupon",
+        "deleteTitle": "Delete Coupon",
+        "deleteConfirm": "Are you sure you want to delete",
+        "deleteWarning": "This action cannot be undone.",
+        "creating": "Creating...",
+        "updating": "Updating...",
+        "deleting": "Deleting...",
+        "active": "Active",
+        "inactive": "Inactive",
+        "sortBy": "Sort By",
+        "sortCreatedAt": "Created At",
+        "sortDiscount": "Discount",
+        "sortStartDate": "Start Date",
+        "sortEndDate": "End Date",
+        "sortedBy": "Direction",
+        "asc": "Ascending",
+        "desc": "Descending",
+        "image": "Image",
+        "code": "Code",
+        "name": "Name",
+        "discount": "Discount",
+        "dates": "Dates",
+        "usage": "Used",
+        "searchPlaceholder": "Search by name or code..."
+    },
+    "couponsForm": {
+        "nameEn": "Name (English)",
+        "nameAr": "Name (Arabic)",
+        "discount": "Discount",
+        "discountType": "Discount Type",
+        "percentage": "Percentage",
+        "fixedRate": "Fixed Rate",
+        "maxDiscountAmount": "Max Discount Amount",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "limiter": "Usage Limit",
+        "status": "Status",
+        "active": "Active",
+        "inactive": "Inactive",
+        "borderColor": "Border Color",
+        "borderless": "Borderless",
+        "desktopImage": "Desktop Image",
+        "mobileImage": "Mobile Image",
+        "createCoupon": "Create Coupon",
+        "updateCoupon": "Update Coupon"
     }
 }
