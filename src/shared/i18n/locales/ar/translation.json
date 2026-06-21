@@ -49,7 +49,8 @@
         "settings": "الإعدادات",
         "sliders": "السلايدرات",
         "flashSale": "العروض الخاطفة",
-        "faqs": "الأسئلة الشائعة"
+        "faqs": "الأسئلة الشائعة",
+        "coupons": "الكوبونات"
     },
     "categories": {
         "title": "الفئات",
@@ -121,7 +122,8 @@
         "faqTitleEnRequired": "العنوان بالإنجليزية مطلوب (3 أحرف على الأقل)",
         "faqTitleArRequired": "العنوان بالعربية مطلوب (3 أحرف على الأقل)",
         "faqDescriptionEnRequired": "الوصف بالإنجليزية مطلوب (3 أحرف على الأقل)",
-        "faqDescriptionArRequired": "الوصف بالعربية مطلوب (3 أحرف على الأقل)"
+        "faqDescriptionArRequired": "الوصف بالعربية مطلوب (3 أحرف على الأقل)",
+        "discountTypeRequired": "نوع الخصم مطلوب"
     },
     "auth": {
         "welcomeBack": "مرحباً بعودتك",
@@ -323,5 +325,55 @@
         "faqDescriptionAr": "الوصف (عربي)",
         "createFaq": "إنشاء سؤال شائع",
         "updateFaq": "تحديث السؤال الشائع"
+    },
+    "coupons": {
+        "pageTitle": "الكوبونات",
+        "subtitle": "إدارة كوبونات الخصم.",
+        "createCoupon": "إضافة كوبون",
+        "editCoupon": "تعديل الكوبون",
+        "deleteTitle": "حذف الكوبون",
+        "deleteConfirm": "هل أنت متأكد من حذف",
+        "deleteWarning": "لا يمكن التراجع عن هذا الإجراء.",
+        "creating": "جاري الإنشاء...",
+        "updating": "جاري التحديث...",
+        "deleting": "جاري الحذف...",
+        "active": "نشط",
+        "inactive": "غير نشط",
+        "sortBy": "ترتيب حسب",
+        "sortCreatedAt": "تاريخ الإنشاء",
+        "sortDiscount": "قيمة الخصم",
+        "sortStartDate": "تاريخ البداية",
+        "sortEndDate": "تاريخ النهاية",
+        "sortedBy": "الاتجاه",
+        "asc": "تصاعدي",
+        "desc": "تنازلي",
+        "image": "الصورة",
+        "code": "الكود",
+        "name": "الاسم",
+        "discount": "الخصم",
+        "dates": "التواريخ",
+        "usage": "المستخدم",
+        "searchPlaceholder": "البحث بالاسم أو الكود..."
+    },
+    "couponsForm": {
+        "nameEn": "الاسم (إنجليزي)",
+        "nameAr": "الاسم (عربي)",
+        "discount": "قيمة الخصم",
+        "discountType": "نوع الخصم",
+        "percentage": "نسبة مئوية",
+        "fixedRate": "قيمة ثابتة",
+        "maxDiscountAmount": "الحد الأقصى للخصم",
+        "startDate": "تاريخ البداية",
+        "endDate": "تاريخ النهاية",
+        "limiter": "حد الاستخدام",
+        "status": "الحالة",
+        "active": "نشط",
+        "inactive": "غير نشط",
+        "borderColor": "لون الحدود",
+        "borderless": "بدون حدود",
+        "desktopImage": "صورة سطح المكتب",
+        "mobileImage": "صورة الجوال",
+        "createCoupon": "إنشاء كوبون",
+        "updateCoupon": "تحديث الكوبون"
     }
 }
