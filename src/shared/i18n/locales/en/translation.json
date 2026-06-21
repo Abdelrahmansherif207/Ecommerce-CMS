@@ -24,7 +24,8 @@
         "yes": "Yes",
         "no": "No",
         "page": "Page",
-        "perPage": "per page"
+        "perPage": "per page",
+        "close": "Close"
     },
     "sidebar": {
         "overview": "Overview",
@@ -50,7 +51,8 @@
         "sliders": "Sliders",
         "flashSale": "Flash Sale",
         "faqs": "FAQs",
-        "coupons": "Coupons"
+        "coupons": "Coupons",
+        "contacts": "Contact Us"
     },
     "categories": {
         "title": "Categories",
@@ -354,6 +356,39 @@
         "dates": "Dates",
         "usage": "Used",
         "searchPlaceholder": "Search by name or code..."
+    },
+    "contacts": {
+        "pageTitle": "Contact Us",
+        "subtitle": "Manage customer inquiries and messages.",
+        "viewTitle": "Contact Details",
+        "replyTitle": "Send Reply",
+        "replyTo": "Reply to",
+        "email": "Email",
+        "subject": "Subject",
+        "message": "Message",
+        "status": "Status",
+        "date": "Date",
+        "read": "Read",
+        "unread": "Unread",
+        "replied": "Replied",
+        "notReplied": "Not Replied",
+        "view": "View",
+        "reply": "Reply",
+        "send": "Send",
+        "sending": "Sending...",
+        "deleteTitle": "Delete Contact",
+        "deleteConfirm": "Are you sure you want to delete",
+        "deleteWarning": "This action cannot be undone.",
+        "deleting": "Deleting...",
+        "deleteAll": "Delete All",
+        "deleteAllTitle": "Delete All Contacts",
+        "deleteAllConfirm": "Are you sure you want to permanently delete ALL contacts? This action cannot be undone.",
+        "deleteAllRead": "Delete Read",
+        "deleteAllReadTitle": "Delete All Read Contacts",
+        "deleteAllReadConfirm": "Are you sure you want to permanently delete all read contacts? This action cannot be undone.",
+        "searchPlaceholder": "Search by email, subject, or message...",
+        "readFilter": "Read Status",
+        "replayFilter": "Reply Status"
     },
     "couponsForm": {
         "nameEn": "Name (English)",
