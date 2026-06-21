@@ -22,7 +22,9 @@
                    "actions":  "إجراءات",
                    "status":  "الحالة",
                    "yes":  "نعم",
-                   "no":  "لا"
+                   "no":  "لا",
+                   "page":  "صفحة",
+                   "perPage":  "لكل صفحة"
                },
     "sidebar":  {
                     "overview":  "نظرة عامة",
@@ -44,7 +46,8 @@
                     "payments":  "المدفوعات",
                     "system":  "النظام",
                     "notifications":  "الإشعارات",
-                    "settings":  "الإعدادات"
+                    "settings":  "الإعدادات",
+                    "sliders":  "السلايدرات"
                 },
     "categories":  {
                        "title":  "الفئات",
@@ -106,7 +109,9 @@
                        "nameArRequired":  "الاسم بالعربية مطلوب",
                        "emailRequired":  "البريد الإلكتروني مطلوب",
                        "passwordRequired":  "كلمة المرور مطلوبة",
-                       "identifierRequired":  "البريد الإلكتروني أو رقم الهاتف مطلوب"
+                       "identifierRequired":  "البريد الإلكتروني أو رقم الهاتف مطلوب",
+                       "titleEnRequired":  "العنوان بالإنجليزية مطلوب",
+                       "titleArRequired":  "العنوان بالعربية مطلوب"
                    },
     "auth":  {
                  "welcomeBack":  "مرحباً بعودتك",
@@ -160,5 +165,51 @@
                        "status":  "الحالة",
                        "updateBrand":  "تحديث العلامة التجارية",
                        "inactive":  "غير نشط"
-                   }
+                   },
+    "sliders":  {
+                    "activate":  "تفعيل",
+                    "inactive":  "غير نشط",
+                    "search":  "البحث في السلايدرات...",
+                    "editSlider":  "تعديل السلايدر",
+                    "update":  "تحديث",
+                    "deleteConfirm":  "هل أنت متأكد من حذف",
+                    "createSlider":  "إضافة سلايدر",
+                    "pageTitle":  "السلايدرات",
+                    "deleting":  "جارِ الحذف...",
+                    "deactivate":  "إلغاء التفعيل",
+                    "creating":  "جارِ الإنشاء...",
+                    "active":  "نشط",
+                    "title":  "العنوان",
+                    "subtitle":  "إدارة صور السلايدر والبانرات",
+                    "deleteWarning":  " هذا الإجراء لا يمكن التراجع عنه.",
+                    "updating":  "جارِ التحديث...",
+                    "deleteTitle":  "حذف السلايدر",
+                    "image":  "الصورة",
+                    "create":  "إنشاء",
+                    "sortBy":  "ترتيب حسب",
+                    "sortOrder":  "الترتيب اليدوي",
+                    "sortTitle":  "العنوان",
+                    "sortCreatedAt":  "تاريخ الإنشاء",
+                    "sortStatus":  "الحالة",
+                    "sortedBy":  "الاتجاه",
+                    "asc":  "تصاعدي",
+                    "desc":  "تنازلي"
+                },
+    "slidersForm":  {
+                        "productsSelected":  "مختار",
+                        "typeToSearch":  "اكتب للبحث عن منتجات",
+                        "title":  "العنوان",
+                        "selectProducts":  "اختيار منتجات",
+                        "desktopImage":  "صورة سطح المكتب",
+                        "createSlider":  "إنشاء سلايدر",
+                        "searchProducts":  "البحث عن منتجات...",
+                        "status":  "الحالة",
+                        "inactive":  "غير نشط",
+                        "mobileImage":  "صورة الجوال",
+                        "updateSlider":  "تحديث السلايدر",
+                        "active":  "نشط",
+                        "products":  "المنتجات",
+                        "titleEn":  "العنوان (إنجليزي)",
+                        "titleAr":  "العنوان (عربي)"
+                    }
 }
