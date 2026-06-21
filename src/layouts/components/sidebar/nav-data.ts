@@ -62,6 +62,7 @@ export function useNavGroups(): NavGroup[] {
       items: [
         { title: t('sidebar.cms'), url: '/cms', icon: FileText },
         { title: t('sidebar.sliders'), url: '/sliders', icon: Image },
+        { title: t('sidebar.flashSale'), url: '/flash-sale', icon: Megaphone },
       ],
     },
     {
@@ -80,5 +81,6 @@ export function useNavGroups(): NavGroup[] {
     },
   ];
 }
+
 
 

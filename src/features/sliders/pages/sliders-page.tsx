@@ -132,6 +132,13 @@ export function SlidersPage() {
         perPage={perPage}
         onPageChange={setPage}
       />
+
+      <SliderFormDialog
+        slider={editingSlider}
+        open={openForm}
+        onOpenChange={setOpenForm}
+        onSuccess={handleFormSuccess}
+      />
     </div>
   );
 }
