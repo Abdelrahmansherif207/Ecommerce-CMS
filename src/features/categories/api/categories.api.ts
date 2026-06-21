@@ -1,4 +1,4 @@
-import { axiosClient } from '@/shared/api';
+﻿import { axiosClient } from '@/shared/api';
 import type {
   CategoriesListResponse,
   CategoryDetailResponse,
@@ -6,6 +6,7 @@ import type {
   CreateCategoryData,
   UpdateCategoryData,
   ApiResponse,
+  FeaturedCategoriesResponse,
 } from '../types/category.types';
 
 export interface FetchCategoriesParams {
@@ -46,7 +47,7 @@ export async function fetchCategoryById(id: number): Promise<CategoryDetailRespo
 export async function fetchFeaturedCategories({
   page = 1,
   perPage = 15,
-}: { page?: number; perPage?: number } = {}): Promise<CategoriesListResponse> {
+}: { page?: number; perPage?: number } = {}): Promise<FeaturedCategoriesResponse> {
   const params = new URLSearchParams();
   params.append('page', page.toString());
   params.append('per_page', perPage.toString());
@@ -79,10 +80,6 @@ export async function createCategory(payload: CreateCategoryData): Promise<ApiRe
     formData.append('parent_id', payload.parent_id.toString());
   }
 
-  if (payload['shops_id[]']?.length) {
-    payload['shops_id[]'].forEach((id) => formData.append('shops_id[]', id.toString()));
-  }
-
   const { data } = await axiosClient.post<ApiResponse<CategoryListItem>>('/categories', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
@@ -107,10 +104,6 @@ export async function updateCategory(
     formData.append('parent_id', payload.parent_id.toString());
   }
 
-  if (payload['shops_id[]']?.length) {
-    payload['shops_id[]'].forEach((sid) => formData.append('shops_id[]', sid.toString()));
-  }
-
   const { data } = await axiosClient.post<ApiResponse<CategoryListItem>>(`/categories/${id}`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
@@ -121,3 +114,6 @@ export async function deleteCategory(id: number): Promise<ApiResponse<null>> {
   const { data } = await axiosClient.delete<ApiResponse<null>>(`/categories/${id}`);
   return data;
 }
+
+
+

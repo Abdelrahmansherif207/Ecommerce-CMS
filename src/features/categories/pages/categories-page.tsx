@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { Plus, Search, Star } from 'lucide-react';
+﻿import { useState } from 'react';
+import { Plus, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
+import { Pagination } from '@/shared/components/pagination';
 import { Input } from '@/shared/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import {
@@ -11,10 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
-import { useCategories } from '../hooks/use-categories';
+import { useCategories, useAddToFeatured } from '../hooks/use-categories';
 import { CategoriesTable } from '../components/categories-table';
 import { CategoryFormDialog } from '../components/category-form-dialog';
-import { FeaturedCategoriesPage, AddFeaturedCategoryDialog } from './featured-categories-page';
+import { FeaturedCategoriesPage } from './featured-categories-page';
 import type { CategoryListItem } from '../types/category.types';
 
 export function CategoriesPage() {
@@ -24,7 +25,6 @@ export function CategoriesPage() {
   const [page, setPage] = useState(1);
   const [level, setLevel] = useState<string>('all');
   const [formOpen, setFormOpen] = useState(false);
-  const [featuredDialogOpen, setFeaturedDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<CategoryListItem | null>(null);
 
   const { data, isLoading, refetch } = useCategories({
@@ -50,6 +50,13 @@ export function CategoriesPage() {
     refetch();
   };
 
+  const addToFeaturedMutation = useAddToFeatured();
+  const handleAddToFeatured = (category: CategoryListItem) => {
+    addToFeaturedMutation.mutate(category.id, {
+      onSuccess: () => refetch(),
+    });
+  };
+
   const handleClearFilters = () => {
     setSearch('');
     setLevel('all');
@@ -70,10 +77,6 @@ export function CategoriesPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={() => setFeaturedDialogOpen(true)}>
-            <Star className="mr-2 h-4 w-4" />
-            {t('categories.addFeatured')}
-          </Button>
           <Button onClick={handleCreate}>
             <Plus className="mr-2 h-4 w-4" />
             {t('categories.addCategory')}
@@ -115,9 +118,9 @@ export function CategoriesPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t('categories.allLevels')}</SelectItem>
-                  <SelectItem value="1">{t('categories.root')} (Level 1)</SelectItem>
-                  <SelectItem value="2">{t('categories.sub')} (Level 2)</SelectItem>
-                  <SelectItem value="3">{t('categories.subSub')} (Level 3)</SelectItem>
+                  <SelectItem value="1">{t('categories.root')} </SelectItem>
+                  <SelectItem value="2">{t('categories.sub')} </SelectItem>
+                  <SelectItem value="3">{t('categories.subSub')} </SelectItem>
                 </SelectContent>
               </Select>
 
@@ -130,40 +133,22 @@ export function CategoriesPage() {
           </div>
 
           <CategoriesTable
-            data={data?.data || []}
+            data={data?.data?.data || []}
             isLoading={isLoading}
             onEdit={handleEdit}
+            onAddToFeatured={handleAddToFeatured}
             onRefresh={refetch}
           />
 
-          {data && data.total > 0 && (
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                {t('common.showing')} {data.from} {t('common.to')} {data.to} {t('common.of')} {data.total} {t('categories.title').toLowerCase()}
-              </p>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                >
-                  {t('common.previous')}
-                </Button>
-                <span className="text-sm text-muted-foreground">
-                  {t('common.showing')} {page} {t('common.of')} {data.last_page}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage((p) => Math.min(data.last_page, p + 1))}
-                  disabled={page >= data.last_page}
-                >
-                  {t('common.next')}
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            page={page}
+            lastPage={data?.data?.last_page ?? 1}
+            total={data?.data?.total ?? 0}
+            from={data?.data?.from ?? 0}
+            to={data?.data?.to ?? 0}
+            perPage={data?.data?.per_page ?? 15}
+            onPageChange={setPage}
+            className="py-2" />
         </TabsContent>
 
         <TabsContent value="featured">
@@ -178,13 +163,10 @@ export function CategoriesPage() {
         onSuccess={handleFormSuccess}
       />
 
-      <AddFeaturedCategoryDialog
-        open={featuredDialogOpen}
-        onOpenChange={setFeaturedDialogOpen}
-        onSuccess={() => {
-          refetch();
-        }}
-      />
     </div>
   );
 }
+
+
+
+

@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+﻿import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -14,6 +14,10 @@ import {
   Star,
   Megaphone,
   FileText,
+  Image,
+  HelpCircle,
+  Tag,
+  Mail,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -46,6 +50,7 @@ export function useNavGroups(): NavGroup[] {
         { title: t('sidebar.customers'), url: '/customers', icon: Users },
         { title: t('sidebar.inventory'), url: '/inventory', icon: Truck },
         { title: t('sidebar.promotions'), url: '/promotions', icon: Megaphone },
+        { title: t('sidebar.coupons'), url: '/coupons', icon: Tag },
       ],
     },
     {
@@ -60,6 +65,10 @@ export function useNavGroups(): NavGroup[] {
       title: t('sidebar.content'),
       items: [
         { title: t('sidebar.cms'), url: '/cms', icon: FileText },
+        { title: t('sidebar.sliders'), url: '/sliders', icon: Image },
+        { title: t('sidebar.faqs'), url: '/faqs', icon: HelpCircle },
+        { title: t('sidebar.flashSale'), url: '/flash-sale', icon: Megaphone },
+        { title: t('sidebar.contacts'), url: '/contacts', icon: Mail },
       ],
     },
     {
@@ -78,3 +87,6 @@ export function useNavGroups(): NavGroup[] {
     },
   ];
 }
+
+
+
