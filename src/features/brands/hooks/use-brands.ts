@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+﻿import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import {
   fetchBrands,
@@ -6,6 +6,8 @@ import {
   createBrand,
   updateBrand,
   deleteBrand,
+  reorderBrands,
+  searchProducts,
   type FetchBrandsParams,
 } from '../api/brands.api';
 import type { CreateBrandData, UpdateBrandData } from '../types/brand.types';
@@ -76,5 +78,28 @@ export function useDeleteBrand() {
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete brand');
     },
+  });
+}
+
+export function useReorderBrands() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (brandIds: number[]) => reorderBrands(brandIds),
+    onSuccess: (response) => {
+      toast.success(response.message || 'Brands reordered successfully');
+      queryClient.invalidateQueries({ queryKey: ['brands'] });
+    },
+    onError: (error: unknown) => {
+      handleApiError(error, 'Failed to reorder brands');
+    },
+  });
+}
+
+export function useProductSearch(search: string) {
+  return useQuery({
+    queryKey: ['products', 'search', search],
+    queryFn: () => searchProducts(search),
+    enabled: search.length > 0,
   });
 }

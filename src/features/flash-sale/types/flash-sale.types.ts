@@ -1,9 +1,9 @@
-﻿export interface BrandImage {
+export interface FlashSaleImage {
   desktop: string | null;
   mobile: string | null;
 }
 
-export interface BrandProduct {
+export interface FlashSaleProduct {
   id: number;
   name: string;
   slug: string;
@@ -11,18 +11,25 @@ export interface BrandProduct {
   image: { thumbnail: string };
 }
 
-export interface Brand {
+export interface FlashSale {
   id: number;
-  name: string;
+  title: string;
   slug: string;
-  image: BrandImage;
-  details: string;
+  image: FlashSaleImage;
+  description: string;
+  start_date: string;
+  end_date: string;
   status: boolean;
-  products?: BrandProduct[];
+  is_valid: boolean;
+  type: string;
+  discount: string;
+  max_discount_amount: string | null;
+  created_at: string;
+  products?: FlashSaleProduct[];
 }
 
-export interface BrandsListOriginal {
-  data: Brand[];
+export interface FlashSaleListOriginal {
+  data: FlashSale[];
   current_page: number;
   from: number;
   to: number;
@@ -36,18 +43,18 @@ export interface BrandsListOriginal {
   first_page_url: string;
 }
 
-export interface BrandsListResponse {
+export interface FlashSaleListResponse {
   status: number;
   message: string;
   success: boolean;
-  data: BrandsListOriginal;
+  data: FlashSaleListOriginal;
 }
 
-export interface BrandDetailResponse {
+export interface FlashSaleDetailResponse {
   status: number;
   message: string;
   success: boolean;
-  data: Brand;
+  data: FlashSale;
 }
 
 export interface ApiResponse<T> {
@@ -57,18 +64,23 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export interface CreateBrandData {
-  'name[en]': string;
-  'name[ar]': string;
+export interface CreateFlashSaleData {
+  'title[en]': string;
+  'title[ar]': string;
+  'description[en]'?: string;
+  'description[ar]'?: string;
+  start_date: string;
+  end_date: string;
+  type: string;
+  discount: string;
+  max_discount_amount?: string;
+  status: string;
   'image-desktop'?: File;
   'image-mobile'?: File;
-  'details[en]'?: string;
-  'details[ar]'?: string;
-  status: string;
   products?: number[];
 }
 
-export interface UpdateBrandData extends CreateBrandData {
+export interface UpdateFlashSaleData extends CreateFlashSaleData {
   _method: 'PUT';
 }
 

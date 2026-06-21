@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 
 export const brandFormSchema = z.object({
   nameEn: z.string().min(1, 'validation.nameEnRequired'),
@@ -8,6 +8,7 @@ export const brandFormSchema = z.object({
   imageDesktop: z.instanceof(File).optional(),
   imageMobile: z.instanceof(File).optional(),
   status: z.string().default('1'),
+  productIds: z.array(z.number()).optional(),
 });
 
 export type BrandFormValues = z.infer<typeof brandFormSchema>;
@@ -20,6 +21,7 @@ export const brandFormDefaults: BrandFormValues = {
   imageDesktop: undefined,
   imageMobile: undefined,
   status: '1',
+  productIds: [],
 };
 
 export function toApiFormat(values: BrandFormValues) {
@@ -28,8 +30,9 @@ export function toApiFormat(values: BrandFormValues) {
     'name[ar]': values.nameAr,
     'details[en]': values.detailsEn || undefined,
     'details[ar]': values.detailsAr || undefined,
-    image_desktop: values.imageDesktop,
-    image_mobile: values.imageMobile,
+    'image-desktop': values.imageDesktop,
+    'image-mobile': values.imageMobile,
     status: values.status,
+    products: values.productIds && values.productIds.length > 0 ? values.productIds : undefined,
   };
 }
