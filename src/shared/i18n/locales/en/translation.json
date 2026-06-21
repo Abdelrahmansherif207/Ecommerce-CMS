@@ -48,7 +48,8 @@
         "notifications": "Notifications",
         "settings": "Settings",
         "sliders": "Sliders",
-        "flashSale": "Flash Sale"
+        "flashSale": "Flash Sale",
+        "faqs": "FAQs"
     },
     "categories": {
         "title": "Categories",
@@ -116,7 +117,11 @@
         "startDateRequired": "Start date is required",
         "endDateRequired": "End date is required",
         "typeRequired": "Discount type is required",
-        "discountMin": "Discount must be 0 or more"
+        "discountMin": "Discount must be 0 or more",
+        "faqTitleEnRequired": "English title is required (min 3 characters)",
+        "faqTitleArRequired": "Arabic title is required (min 3 characters)",
+        "faqDescriptionEnRequired": "English description is required (min 3 characters)",
+        "faqDescriptionArRequired": "Arabic description is required (min 3 characters)"
     },
     "auth": {
         "welcomeBack": "Welcome back",
@@ -284,5 +289,39 @@
         "mobileImage": "Mobile Image",
         "createFlashSale": "Create Flash Sale",
         "updateFlashSale": "Update Flash Sale"
+    },
+    "faqs": {
+        "pageTitle": "FAQs",
+        "subtitle": "Manage frequently asked questions.",
+        "createFaq": "Create FAQ",
+        "editFaq": "Edit FAQ",
+        "deleteTitle": "Delete FAQ",
+        "deleteConfirm": "Are you sure you want to delete",
+        "deleteWarning": "This action cannot be undone.",
+        "creating": "Creating...",
+        "updating": "Updating...",
+        "deleting": "Deleting...",
+        "active": "Active",
+        "inactive": "Inactive",
+        "sortBy": "Sort By",
+        "sortTitle": "Title",
+        "sortCreatedAt": "Created At",
+        "sortedBy": "Direction",
+        "asc": "Ascending",
+        "desc": "Descending",
+        "global": "Global",
+        "shop": "Shop",
+        "title": "Title",
+        "description": "Description",
+        "type": "Type",
+        "searchPlaceholder": "Search FAQs..."
+    },
+    "faqsForm": {
+        "faqTitleEn": "Title (English)",
+        "faqTitleAr": "Title (Arabic)",
+        "faqDescriptionEn": "Description (English)",
+        "faqDescriptionAr": "Description (Arabic)",
+        "createFaq": "Create FAQ",
+        "updateFaq": "Update FAQ"
     }
 }

@@ -48,7 +48,8 @@
         "notifications": "الإشعارات",
         "settings": "الإعدادات",
         "sliders": "السلايدرات",
-        "flashSale": "العروض الخاطفة"
+        "flashSale": "العروض الخاطفة",
+        "faqs": "الأسئلة الشائعة"
     },
     "categories": {
         "title": "الفئات",
@@ -116,7 +117,11 @@
         "startDateRequired": "تاريخ البداية مطلوب",
         "endDateRequired": "تاريخ النهاية مطلوب",
         "typeRequired": "نوع الخصم مطلوب",
-        "discountMin": "يجب أن يكون الخصم 0 أو أكثر"
+        "discountMin": "يجب أن يكون الخصم 0 أو أكثر",
+        "faqTitleEnRequired": "العنوان بالإنجليزية مطلوب (3 أحرف على الأقل)",
+        "faqTitleArRequired": "العنوان بالعربية مطلوب (3 أحرف على الأقل)",
+        "faqDescriptionEnRequired": "الوصف بالإنجليزية مطلوب (3 أحرف على الأقل)",
+        "faqDescriptionArRequired": "الوصف بالعربية مطلوب (3 أحرف على الأقل)"
     },
     "auth": {
         "welcomeBack": "مرحباً بعودتك",
@@ -284,5 +289,39 @@
         "mobileImage": "صورة الجوال",
         "createFlashSale": "إنشاء عرض خاطف",
         "updateFlashSale": "تحديث العرض الخاطف"
+    },
+    "faqs": {
+        "pageTitle": "الأسئلة الشائعة",
+        "subtitle": "إدارة الأسئلة الشائعة.",
+        "createFaq": "إضافة سؤال شائع",
+        "editFaq": "تعديل السؤال",
+        "deleteTitle": "حذف السؤال",
+        "deleteConfirm": "هل أنت متأكد من حذف",
+        "deleteWarning": "لا يمكن التراجع عن هذا الإجراء.",
+        "creating": "جاري الإنشاء...",
+        "updating": "جاري التحديث...",
+        "deleting": "جاري الحذف...",
+        "active": "نشط",
+        "inactive": "غير نشط",
+        "sortBy": "ترتيب حسب",
+        "sortTitle": "العنوان",
+        "sortCreatedAt": "تاريخ الإنشاء",
+        "sortedBy": "الاتجاه",
+        "asc": "تصاعدي",
+        "desc": "تنازلي",
+        "global": "عام",
+        "shop": "متجر",
+        "title": "العنوان",
+        "description": "الوصف",
+        "type": "النوع",
+        "searchPlaceholder": "البحث في الأسئلة الشائعة..."
+    },
+    "faqsForm": {
+        "faqTitleEn": "العنوان (إنجليزي)",
+        "faqTitleAr": "العنوان (عربي)",
+        "faqDescriptionEn": "الوصف (إنجليزي)",
+        "faqDescriptionAr": "الوصف (عربي)",
+        "createFaq": "إنشاء سؤال شائع",
+        "updateFaq": "تحديث السؤال الشائع"
     }
 }
