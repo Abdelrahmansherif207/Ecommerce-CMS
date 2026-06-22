@@ -81,6 +81,7 @@ export function useNavGroups(): NavGroup[] {
     {
       title: t('sidebar.system'),
       items: [
+        { title: t('sidebar.users'), url: '/users', icon: Users },
         { title: t('sidebar.notifications'), url: '/notifications', icon: Bell },
         { title: t('sidebar.settings'), url: '/settings', icon: Settings },
       ],
