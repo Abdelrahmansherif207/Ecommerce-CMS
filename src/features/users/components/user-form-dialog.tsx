@@ -175,6 +175,19 @@ export function UserFormDialog({
           </div>
 
           <div className="space-y-1.5">
+            <label htmlFor="phoneNumber" className="text-sm font-medium">{t('usersForm.phoneNumber')} *</label>
+            <Input
+              id="phoneNumber"
+              type="tel"
+              placeholder={t('usersForm.phoneNumber')}
+              {...form.register('phoneNumber')}
+            />
+            {getError('phoneNumber') && (
+              <p className="text-xs text-destructive">{getError('phoneNumber')}</p>
+            )}
+          </div>
+
+          <div className="space-y-1.5">
             <label className="text-sm font-medium">{t('usersForm.roles')} *</label>
             <div className="relative">
               <button

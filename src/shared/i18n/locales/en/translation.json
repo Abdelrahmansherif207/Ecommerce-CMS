@@ -133,7 +133,8 @@
         "passwordMin": "Password must be at least 8 characters",
         "passwordConfirmationRequired": "Password confirmation is required",
         "rolesRequired": "At least one role is required",
-        "passwordMismatch": "Passwords do not match"
+        "passwordMismatch": "Passwords do not match",
+        "phoneNumberMin": "Phone number must be at least 8 characters"
     },
     "auth": {
         "welcomeBack": "Welcome back",
@@ -490,6 +491,7 @@
     "email": "Email",
     "password": "Password",
     "passwordConfirmation": "Confirm Password",
+    "phoneNumber": "Phone Number",
     "roles": "Roles",
     "selectRoles": "Select Roles",
     "rolesSelected": "role(s) selected",

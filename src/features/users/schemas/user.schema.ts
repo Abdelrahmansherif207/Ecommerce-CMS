@@ -6,6 +6,7 @@ export const userFormSchema = z
     email: z.string().min(1, 'validation.emailRequired').email('validation.emailInvalid'),
     password: z.string().min(8, 'validation.passwordMin'),
     passwordConfirmation: z.string().min(1, 'validation.passwordConfirmationRequired'),
+    phoneNumber: z.string().min(8, 'validation.phoneNumberMin'),
     roleIds: z.array(z.number()).min(1, 'validation.rolesRequired'),
     isActive: z.string().default('1'),
   })
@@ -21,6 +22,7 @@ export const userFormDefaults: UserFormValues = {
   email: '',
   password: '',
   passwordConfirmation: '',
+  phoneNumber: '',
   roleIds: [],
   isActive: '1',
 };
@@ -31,6 +33,7 @@ export function toApiFormat(values: UserFormValues) {
     email: values.email,
     password: values.password,
     password_confirmation: values.passwordConfirmation,
+    phone_number: values.phoneNumber,
     roles: values.roleIds,
     is_active: values.isActive === '1' ? 1 : 0,
   };

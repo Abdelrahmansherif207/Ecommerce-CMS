@@ -133,7 +133,8 @@
         "passwordMin": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
         "passwordConfirmationRequired": "تأكيد كلمة المرور مطلوب",
         "rolesRequired": "يجب اختيار دور واحد على الأقل",
-        "passwordMismatch": "كلمة المرور غير متطابقة"
+        "passwordMismatch": "كلمة المرور غير متطابقة",
+        "phoneNumberMin": "يجب أن يكون رقم الهاتف 8 أحرف على الأقل"
     },
     "auth": {
         "welcomeBack": "مرحباً بعودتك",
@@ -490,6 +491,7 @@
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
     "passwordConfirmation": "تأكيد كلمة المرور",
+    "phoneNumber": "رقم الهاتف",
     "roles": "الأدوار",
     "selectRoles": "اختيار أدوار",
     "rolesSelected": "دور محدد",

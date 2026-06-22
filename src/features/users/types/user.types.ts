@@ -95,6 +95,7 @@ export interface CreateUserData {
   email: string;
   password: string;
   password_confirmation: string;
+  phone_number: string;
   roles: number[];
   is_active: 0 | 1;
 }
