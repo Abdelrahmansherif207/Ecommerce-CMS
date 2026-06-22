@@ -15,7 +15,8 @@ export interface FetchUsersParams {
   users?: boolean;
   admins?: boolean;
   type?: string;
-  isActive?: boolean;
+  active?: boolean;
+  inActive?: boolean;
   orderBy?: string;
   sort?: string;
   trash?: boolean;
@@ -28,7 +29,8 @@ export async function fetchUsers({
   users,
   admins,
   type,
-  isActive,
+  active,
+  inActive,
   orderBy,
   sort,
   trash,
@@ -41,7 +43,8 @@ export async function fetchUsers({
   if (users !== undefined) params.append('users', 'true');
   if (admins !== undefined) params.append('admins', 'true');
   if (type) params.append('type', type);
-  if (isActive !== undefined) params.append('is_active', isActive ? '1' : '0');
+  if (active !== undefined) params.append('active', 'true');
+  if (inActive !== undefined) params.append('in_active', 'true');
   if (orderBy) params.append('order_by', orderBy);
   if (sort) params.append('sort', sort);
   if (trash !== undefined) params.append('trash', 'true');
