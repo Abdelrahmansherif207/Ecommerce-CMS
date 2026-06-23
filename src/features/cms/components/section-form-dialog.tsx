@@ -123,7 +123,8 @@ export function SectionFormDialog({
   // ─── Type change handler — reset settings ─────────────────────
 
   const handleTypeChange = useCallback(
-    (newType: string) => {
+    (newType: string | null) => {
+      if (!newType) return;
       form.setValue('type', newType);
       setFrontSettings({});
       setBackSettings({});
