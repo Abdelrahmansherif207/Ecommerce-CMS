@@ -62,20 +62,17 @@ export async function createPromotion(payload: CreatePromotionData): Promise<Api
   formData.append('name[ar]', payload['name[ar]']);
   formData.append('type', payload.type);
   formData.append('type_amount', payload.type_amount);
-  formData.append('value', payload.value);
   formData.append('discount', payload.discount);
-  formData.append('minimum_order_amount', payload.minimum_order_amount);
   formData.append('apply_to', payload.apply_to);
   formData.append('start_at', payload.start_at);
   formData.append('end_at', payload.end_at);
   formData.append('status', payload.status);
 
+  if (payload.minimum_order_amount) formData.append('minimum_order_amount', payload.minimum_order_amount);
   if (payload.image_desktop) formData.append('image_desktop', payload.image_desktop);
   if (payload.image_mobile) formData.append('image_mobile', payload.image_mobile);
   if (payload.max_discount_amount) formData.append('max_discount_amount', payload.max_discount_amount);
   if (payload.required_quantity) formData.append('required_quantity', payload.required_quantity);
-  if (payload.required_quantity_type) formData.append('required_quantity_type', payload.required_quantity_type);
-  if (payload.code) formData.append('code', payload.code);
   if (payload.product_ids && payload.product_ids.length > 0) {
     payload.product_ids.forEach((id) => formData.append('product_ids[]', id.toString()));
   }
@@ -106,20 +103,17 @@ export async function updatePromotion(
   formData.append('name[ar]', payload['name[ar]']);
   formData.append('type', payload.type);
   formData.append('type_amount', payload.type_amount);
-  formData.append('value', payload.value);
   formData.append('discount', payload.discount);
-  formData.append('minimum_order_amount', payload.minimum_order_amount);
   formData.append('apply_to', payload.apply_to);
   formData.append('start_at', payload.start_at);
   formData.append('end_at', payload.end_at);
   formData.append('status', payload.status);
 
+  if (payload.minimum_order_amount) formData.append('minimum_order_amount', payload.minimum_order_amount);
   if (payload.image_desktop) formData.append('image_desktop', payload.image_desktop);
   if (payload.image_mobile) formData.append('image_mobile', payload.image_mobile);
   if (payload.max_discount_amount) formData.append('max_discount_amount', payload.max_discount_amount);
   if (payload.required_quantity) formData.append('required_quantity', payload.required_quantity);
-  if (payload.required_quantity_type) formData.append('required_quantity_type', payload.required_quantity_type);
-  if (payload.code) formData.append('code', payload.code);
   if (payload.product_ids && payload.product_ids.length > 0) {
     payload.product_ids.forEach((id) => formData.append('product_ids[]', id.toString()));
   }

@@ -8,13 +8,10 @@ export const promotionFormSchema = z
     imageMobile: z.instanceof(File).optional(),
     type: z.string(),
     typeAmount: z.string(),
-    value: z.string().min(1, 'validation.valueRequired'),
     discount: z.string().min(1, 'validation.discountRequired'),
-    minimumOrderAmount: z.string().min(1, 'validation.minimumOrderAmountRequired'),
+    minimumOrderAmount: z.string().optional(),
     maxDiscountAmount: z.string().optional(),
     requiredQuantity: z.string().optional(),
-    requiredQuantityType: z.string().optional(),
-    code: z.string().optional(),
     applyTo: z.string(),
     productIds: z.array(z.number()).optional(),
     giftProducts: z
@@ -22,7 +19,6 @@ export const promotionFormSchema = z
         z.object({
           product_id: z.number(),
           quantity: z.number(),
-          variant_id: z.number().optional(),
         })
       )
       .optional(),
@@ -31,6 +27,13 @@ export const promotionFormSchema = z
     status: z.string(),
   })
   .superRefine((data, ctx) => {
+    if (data.type === 'price' && (!data.minimumOrderAmount || data.minimumOrderAmount === '')) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['minimumOrderAmount'],
+        message: 'validation.minimumOrderAmountRequired',
+      });
+    }
     if (data.typeAmount === 'percentage' && !data.maxDiscountAmount) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -56,13 +59,10 @@ export const promotionFormDefaults: PromotionFormValues = {
   imageMobile: undefined,
   type: 'price',
   typeAmount: 'fixed_rate',
-  value: '',
   discount: '',
-  minimumOrderAmount: '0',
+  minimumOrderAmount: '',
   maxDiscountAmount: '',
   requiredQuantity: '',
-  requiredQuantityType: '',
-  code: '',
   applyTo: 'all_products',
   productIds: [],
   giftProducts: [],
@@ -77,21 +77,22 @@ export function toApiFormat(values: PromotionFormValues, isUpdate = false) {
     'name[ar]': values.nameAr,
     type: values.type,
     type_amount: values.typeAmount,
-    value: values.value,
     discount: values.discount,
-    minimum_order_amount: values.minimumOrderAmount,
     apply_to: values.applyTo,
     start_at: values.startAt,
     end_at: values.endAt,
     status: values.status,
   };
 
+  if (values.type === 'price') {
+    apiData.minimum_order_amount = values.minimumOrderAmount || '0';
+  }
+  if (values.type === 'quantity') {
+    apiData.required_quantity = values.requiredQuantity || '1';
+  }
   if (!isUpdate || values.imageDesktop) apiData.image_desktop = values.imageDesktop;
   if (!isUpdate || values.imageMobile) apiData.image_mobile = values.imageMobile;
   if (values.maxDiscountAmount) apiData.max_discount_amount = values.maxDiscountAmount;
-  if (values.requiredQuantity) apiData.required_quantity = values.requiredQuantity;
-  if (values.requiredQuantityType) apiData.required_quantity_type = values.requiredQuantityType;
-  if (values.code) apiData.code = values.code;
   if (values.productIds && values.productIds.length > 0) {
     apiData.product_ids = values.productIds;
   }

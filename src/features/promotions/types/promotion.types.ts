@@ -66,13 +66,10 @@ export interface CreatePromotionData {
   image_mobile?: File;
   type: string;
   type_amount: string;
-  value: string;
   discount: string;
-  minimum_order_amount: string;
+  minimum_order_amount?: string;
   max_discount_amount?: string;
   required_quantity?: string;
-  required_quantity_type?: string;
-  code?: string;
   apply_to: string;
   product_ids?: number[];
   gift_products?: GiftProductInput[];
