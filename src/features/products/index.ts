@@ -1,7 +1,20 @@
-// Public API — features/products
-// Export: types, hooks, constants, permissions, routes, pages
-
-// export type { Product, ProductFilter } from './types/product.types';
-// export { useProducts } from './hooks/use-products';
-// export { productRoutes } from './routes/product.routes';
-// export { PRODUCT_PERMISSIONS } from './permissions/product.permissions';
+export { ProductsPage } from './pages/products-page';
+export { CreateProductPage } from './pages/create-product-page';
+export { ProductForm } from './components/product-form';
+export { ProductFormDialog } from './components/product-form-dialog';
+export {
+  useProducts,
+  useProduct,
+  useDeleteProduct,
+  useCreateProduct,
+} from './hooks/use-products';
+export { productRoutes } from './routes/product.routes';
+export { PRODUCT_PERMISSIONS } from './permissions/product.permissions';
+export type {
+  Product,
+  ProductListData,
+  ProductsListResponse,
+  ProductDetailResponse,
+  FetchProductsParams,
+} from './types/product.types';
+export type { CreateProductData } from './api/products.api';
