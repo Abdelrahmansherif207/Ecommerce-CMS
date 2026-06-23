@@ -1,4 +1,5 @@
-import { Search, Bell, LogOut, Settings, User, Languages } from "lucide-react";
+import { useTranslation } from 'react-i18next';
+import { Search, Bell, LogOut, Settings, Languages } from "lucide-react";
 import { SidebarTrigger } from "@/shared/ui/sidebar";
 import { Separator } from "@/shared/ui/separator";
 import { Input } from "@/shared/ui/input";
@@ -15,6 +16,7 @@ import {
 } from "@/shared/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { useLogout } from "@/features/auth/hooks/use-auth";
+import { useAuthStore } from "@/features/auth/store/auth.store";
 import { useLanguage } from "@/shared/hooks/use-language";
 
 export function Header() {
@@ -85,36 +87,41 @@ function NotificationButton() {
 }
 
 function UserMenu() {
+  const { t } = useTranslation();
   const logoutMutation = useLogout();
+  const { user } = useAuthStore();
+
+  const initials = user?.role?.[0]?.slice(0, 2).toUpperCase() || 'AD';
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
+      <DropdownMenuTrigger
+        render={
+          <Button variant="ghost" size="icon-sm" className="rounded-full hover:bg-muted">
+          </Button>
+        }
+      >
         <Avatar className="size-7">
           <AvatarImage src="" alt="User" />
-          <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-            JD
+          <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+            {initials}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuLabel>
           <div className="flex flex-col gap-0.5">
-            <span className="text-sm font-medium">John Doe</span>
+            <span className="text-sm font-medium">{t('sidebar.settings')}</span>
             <span className="text-xs text-muted-foreground">
-              john@example.com
+              {user?.role?.join(', ') || 'Admin'}
             </span>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User className="mr-2 size-4" />
-            Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => window.location.href = '/settings'}>
             <Settings className="mr-2 size-4" />
-            Settings
+            {t('sidebar.settings')}
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -124,7 +131,7 @@ function UserMenu() {
           disabled={logoutMutation.isPending}
         >
           <LogOut className="mr-2 size-4" />
-          {logoutMutation.isPending ? "Signing out..." : "Log out"}
+          {logoutMutation.isPending ? 'Signing out...' : 'Log out'}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

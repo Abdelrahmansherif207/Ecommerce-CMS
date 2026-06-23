@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
@@ -26,11 +26,9 @@ export function SettingsPage() {
 
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [faviconPreview, setFaviconPreview] = useState<string | null>(null);
-  const prevDataRef = useRef(false);
 
   useEffect(() => {
-    if (data?.data && !prevDataRef.current) {
-      prevDataRef.current = true;
+    if (data?.data) {
       const s = data.data;
       form.reset({
         siteNameEn: s.site_name || '',
@@ -50,10 +48,10 @@ export function SettingsPage() {
         youtube: s.youtube || '',
         phone: s.phone || '',
       });
-      if (s.logo) setLogoPreview(s.logo); // eslint-disable-line react-hooks/set-state-in-effect
-      if (s.favicon) setFaviconPreview(s.favicon); // eslint-disable-line react-hooks/set-state-in-effect
+      setLogoPreview(s.logo || null);
+      setFaviconPreview(s.favicon || null);
     }
-  }, [data, form]);
+  }, [data?.data, form]);
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
