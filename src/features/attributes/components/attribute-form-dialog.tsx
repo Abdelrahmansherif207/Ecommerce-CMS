@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import {
   Dialog,
@@ -62,7 +62,7 @@ export function AttributeFormDialog({
     return null;
   };
 
-  const prevOpenRef = { current: false };
+  const prevOpenRef = useRef(false);
   useEffect(() => {
     if (open && !prevOpenRef.current) {
       setServerErrors({});
@@ -74,12 +74,27 @@ export function AttributeFormDialog({
   useEffect(() => {
     if (isEditing && attrDetail?.data) {
       const d = attrDetail.data;
-      form.setValue('nameEn', d.name || '');
-      form.setValue('nameAr', '');
+      let parsedName: Record<string, string> = {};
+      if (d.name && typeof d.name === 'object') {
+        parsedName = d.name as Record<string, string>;
+      } else if (typeof d.name === 'string') {
+        try { parsedName = JSON.parse(d.name); } catch { parsedName = { en: d.name, ar: '' }; }
+      }
+      form.setValue('nameEn', parsedName.en || '');
+      form.setValue('nameAr', parsedName.ar || '');
+
       if (d.values && d.values.length > 0) {
         form.setValue(
           'values',
-          d.values.map((v) => ({ valueEn: v.value, valueAr: '' }))
+          d.values.map((v) => {
+            let parsedValue: Record<string, string> = {};
+            if (v.value && typeof v.value === 'object') {
+              parsedValue = v.value as Record<string, string>;
+            } else if (typeof v.value === 'string') {
+              try { parsedValue = JSON.parse(v.value); } catch { parsedValue = { en: v.value, ar: '' }; }
+            }
+            return { valueEn: parsedValue.en || '', valueAr: parsedValue.ar || '' };
+          })
         );
       }
     }
@@ -122,6 +137,11 @@ export function AttributeFormDialog({
           <DialogDescription />
         </DialogHeader>
 
+        {isDetailLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : (
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
@@ -202,16 +222,15 @@ export function AttributeFormDialog({
             >
               {t('common.cancel')}
             </Button>
-            <Button type="submit" disabled={isPending || isDetailLoading}>
-              {isDetailLoading
-                ? t('common.loading')
-                : isPending
-                  ? (isEditing ? t('attributes.updating') : t('attributes.creating'))
-                  : (isEditing ? t('common.update') : t('common.create'))
+            <Button type="submit" disabled={isPending}>
+              {isPending
+                ? (isEditing ? t('attributes.updating') : t('attributes.creating'))
+                : (isEditing ? t('common.update') : t('common.create'))
               }
             </Button>
           </DialogFooter>
         </form>
+        )}
       </DialogContent>
     </Dialog>
   );

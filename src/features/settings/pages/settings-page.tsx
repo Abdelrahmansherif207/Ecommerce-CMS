@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
@@ -19,41 +19,38 @@ export function SettingsPage() {
   const updateMutation = useUpdateSettings();
   const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
 
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [faviconPreview, setFaviconPreview] = useState<string | null>(null);
+
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(settingsSchema),
     mode: 'onBlur',
+    values: data?.data ? {
+      siteNameEn: data.data.site_name || '',
+      siteNameAr: data.data.site_name || '',
+      siteDescEn: data.data.site_desc || '',
+      siteDescAr: data.data.site_desc || '',
+      metaDescEn: data.data.meta_desc || '',
+      metaDescAr: data.data.meta_desc || '',
+      siteCopyRightEn: data.data.site_copy_right || '',
+      siteCopyRightAr: data.data.site_copy_right || '',
+      siteEmail: data.data.site_email || '',
+      emailSupport: data.data.email_support || '',
+      facebook: data.data.facebook || '',
+      instagram: data.data.instagram || '',
+      linkedin: data.data.linkedin || '',
+      promotionVideoUrl: data.data.promotion_video_url || '',
+      youtube: data.data.youtube || '',
+      phone: data.data.phone || '',
+    } : undefined,
   });
 
-  const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const [faviconPreview, setFaviconPreview] = useState<string | null>(null);
-  const prevDataRef = useRef(false);
-
   useEffect(() => {
-    if (data?.data && !prevDataRef.current) {
-      prevDataRef.current = true;
-      const s = data.data;
-      form.reset({
-        siteNameEn: s.site_name || '',
-        siteNameAr: s.site_name || '',
-        siteDescEn: s.site_desc || '',
-        siteDescAr: s.site_desc || '',
-        metaDescEn: s.meta_desc || '',
-        metaDescAr: s.meta_desc || '',
-        siteCopyRightEn: s.site_copy_right || '',
-        siteCopyRightAr: s.site_copy_right || '',
-        siteEmail: s.site_email || '',
-        emailSupport: s.email_support || '',
-        facebook: s.facebook || '',
-        instagram: s.instagram || '',
-        linkedin: s.linkedin || '',
-        promotionVideoUrl: s.promotion_video_url || '',
-        youtube: s.youtube || '',
-        phone: s.phone || '',
-      });
-      if (s.logo) setLogoPreview(s.logo); // eslint-disable-line react-hooks/set-state-in-effect
-      if (s.favicon) setFaviconPreview(s.favicon); // eslint-disable-line react-hooks/set-state-in-effect
+    if (data?.data) {
+      setLogoPreview(data.data.logo || null);
+      setFaviconPreview(data.data.favicon || null);
     }
-  }, [data, form]);
+  }, [data?.data]);
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
