@@ -49,8 +49,6 @@ export function useNavGroups(): NavGroup[] {
       items: [
         { title: t('sidebar.products'), url: '/products', icon: Package },
         { title: t('sidebar.orders'), url: '/orders', icon: ShoppingCart },
-        { title: t('sidebar.customers'), url: '/customers', icon: Users },
-        { title: t('sidebar.inventory'), url: '/inventory', icon: Truck },
         { title: t('sidebar.promotions'), url: '/promotions', icon: Megaphone },
         { title: t('sidebar.coupons'), url: '/coupons', icon: Tag },
       ],
@@ -85,7 +83,6 @@ export function useNavGroups(): NavGroup[] {
       title: t('sidebar.system'),
       items: [
         { title: t('sidebar.users'), url: '/users', icon: Users },
-        { title: t('sidebar.notifications'), url: '/notifications', icon: Bell },
         { title: t('sidebar.roles'), url: '/roles', icon: ShieldCheck },
         { title: t('sidebar.settings'), url: '/settings', icon: Settings },
       ],
