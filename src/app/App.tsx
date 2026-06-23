@@ -10,6 +10,7 @@ import { FlashSalePage } from "@/features/flash-sale/pages/flash-sale-page";
 import { CouponsPage } from "@/features/coupons/pages/coupons-page";
 import { ContactsPage } from "@/features/contacts/pages/contacts-page";
 import { UsersPage } from "@/features/users/pages/users-page";
+import { PromotionsPage } from "@/features/promotions/pages/promotions-page";
 import { AttributesPage } from "@/features/attributes/pages/attributes-page";
 import { RolesPage } from "@/features/roles/pages/roles-page";
 import { LoginPage } from "@/features/auth/pages/login-page";
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/coupons" element={<CouponsPage />} />
             <Route path="/contacts" element={<ContactsPage />} />
             <Route path="/users" element={<UsersPage />} />
+            <Route path="/promotions" element={<PromotionsPage />} />
             <Route path="/attributes" element={<AttributesPage />} />
             <Route path="/roles" element={<RolesPage />} />
           </Route>
