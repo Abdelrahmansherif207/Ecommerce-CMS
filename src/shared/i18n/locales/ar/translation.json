@@ -661,7 +661,6 @@
     "createPromotion": "إنشاء عرض",
     "updatePromotion": "تحديث العرض"
   },
-<<<<<<< Updated upstream
   "sections": {
     "pageTitle": "أقسام الصفحة الرئيسية",
     "pageDescription": "إدارة وترتيب أقسام الصفحة الرئيسية. اسحب الصفوف لإعادة ترتيب العرض.",
@@ -701,7 +700,7 @@
       "titleEnRequired": "العنوان بالإنجليزية مطلوب",
       "titleArRequired": "العنوان بالعربية مطلوب"
     }
-=======
+  },
   "products": {
     "title": "المنتجات",
     "subtitle": "إدارة كتالوج المنتجات.",
@@ -798,6 +797,5 @@
     "attributeValues": "السمات",
     "searchAttributes": "البحث في السمات...",
     "noAttributes": "لم يتم العثور على سمات"
->>>>>>> Stashed changes
   }
 }

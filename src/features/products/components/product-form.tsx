@@ -18,6 +18,7 @@ import {
   productFormSchema,
   productFormDefaults,
   toApiFormat,
+  type ProductFormInput,
   type ProductFormValues,
 } from '../schemas/product.schema';
 import { useCreateProduct } from '../hooks/use-products';
@@ -113,7 +114,7 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
   const { data: flashSalesData } = useFlashSales({ perPage: 200 });
   const { data: attributesData } = useAttributes({ perPage: 200 });
 
-  const form = useForm<ProductFormValues>({
+  const form = useForm<ProductFormInput, unknown, ProductFormValues>({
     resolver: zodResolver(productFormSchema),
     defaultValues: productFormDefaults,
   });

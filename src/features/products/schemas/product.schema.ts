@@ -56,7 +56,8 @@ export const productFormSchema = z.object({
   }
 });
 
-export type ProductFormValues = z.infer<typeof productFormSchema>;
+export type ProductFormInput = z.input<typeof productFormSchema>;
+export type ProductFormValues = z.output<typeof productFormSchema>;
 export type VariantFormValues = z.infer<typeof variantFormSchema>;
 
 export const productFormDefaults: ProductFormValues = {

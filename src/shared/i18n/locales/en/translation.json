@@ -662,7 +662,6 @@
     "createPromotion": "Create Promotion",
     "updatePromotion": "Update Promotion"
   },
-<<<<<<< Updated upstream
   "sections": {
     "pageTitle": "Homepage Sections",
     "pageDescription": "Manage and reorder homepage sections. Drag rows to rearrange display order.",
@@ -702,7 +701,7 @@
       "titleEnRequired": "English title is required",
       "titleArRequired": "Arabic title is required"
     }
-=======
+  },
   "products": {
     "title": "Products",
     "subtitle": "Manage your product catalog.",
@@ -799,6 +798,5 @@
     "attributeValues": "Attributes",
     "searchAttributes": "Search attributes...",
     "noAttributes": "No attributes found"
->>>>>>> Stashed changes
   }
 }
