@@ -9,6 +9,7 @@ import { FaqsPage } from "@/features/faqs/pages/faqs-page";
 import { FlashSalePage } from "@/features/flash-sale/pages/flash-sale-page";
 import { CouponsPage } from "@/features/coupons/pages/coupons-page";
 import { ContactsPage } from "@/features/contacts/pages/contacts-page";
+import { AttributesPage } from "@/features/attributes/pages/attributes-page";
 import { RolesPage } from "@/features/roles/pages/roles-page";
 import { LoginPage } from "@/features/auth/pages/login-page";
 import { ProtectedRoute } from "@/features/auth/components/protected-route";
@@ -33,6 +34,7 @@ export default function App() {
             <Route path="/flash-sale" element={<FlashSalePage />} />
             <Route path="/coupons" element={<CouponsPage />} />
             <Route path="/contacts" element={<ContactsPage />} />
+            <Route path="/attributes" element={<AttributesPage />} />
             <Route path="/roles" element={<RolesPage />} />
           </Route>
         </Route>

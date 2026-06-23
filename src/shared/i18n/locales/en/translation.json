@@ -53,6 +53,7 @@
         "faqs": "FAQs",
         "coupons": "Coupons",
         "contacts": "Contact Us",
+        "attributes": "Attributes",
         "roles": "Roles & Permissions"
     },
     "categories": {
@@ -126,7 +127,11 @@
         "faqTitleArRequired": "Arabic title is required (min 3 characters)",
         "faqDescriptionEnRequired": "English description is required (min 3 characters)",
         "faqDescriptionArRequired": "Arabic description is required (min 3 characters)",
-        "discountTypeRequired": "Discount type is required"
+        "discountTypeRequired": "Discount type is required",
+        "attributeNameEnRequired": "English name is required (min 2 characters)",
+        "attributeNameArRequired": "Arabic name is required (min 2 characters)",
+        "attributeValueEnRequired": "English value is required (min 2 characters)",
+        "attributeValueArRequired": "Arabic value is required (min 2 characters)"
     },
     "auth": {
         "welcomeBack": "Welcome back",
@@ -390,6 +395,39 @@
         "searchPlaceholder": "Search by email, subject, or message...",
         "readFilter": "Read Status",
         "replayFilter": "Reply Status"
+    },
+    "attributes": {
+        "pageTitle": "Attributes",
+        "subtitle": "Manage product attributes and their values.",
+        "createAttribute": "Create Attribute",
+        "editAttribute": "Edit Attribute",
+        "deleteTitle": "Delete Attribute",
+        "deleteConfirm": "Are you sure you want to delete",
+        "deleteWarning": "This action cannot be undone.",
+        "creating": "Creating...",
+        "updating": "Updating...",
+        "deleting": "Deleting...",
+        "id": "ID",
+        "name": "Name",
+        "slug": "Slug",
+        "values": "Values",
+        "searchPlaceholder": "Search by name...",
+        "sortBy": "Sort By",
+        "sortId": "ID",
+        "sortName": "Name",
+        "sortSlug": "Slug",
+        "sortCreatedAt": "Created At",
+        "sortedBy": "Direction",
+        "asc": "Ascending",
+        "desc": "Descending"
+    },
+    "attributesForm": {
+        "nameEn": "Name (English)",
+        "nameAr": "Name (Arabic)",
+        "values": "Values",
+        "addValue": "Add Value",
+        "valueEnPlaceholder": "Value (English)",
+        "valueArPlaceholder": "Value (Arabic)"
     },
     "couponsForm": {
         "nameEn": "Name (English)",

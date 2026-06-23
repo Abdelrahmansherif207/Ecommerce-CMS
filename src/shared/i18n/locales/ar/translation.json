@@ -53,6 +53,7 @@
         "faqs": "الأسئلة الشائعة",
         "coupons": "الكوبونات",
         "contacts": "اتصل بنا",
+        "attributes": "الخصائص",
         "roles": "الأدوار والصلاحيات"
     },
     "categories": {
@@ -126,7 +127,11 @@
         "faqTitleArRequired": "العنوان بالعربية مطلوب (3 أحرف على الأقل)",
         "faqDescriptionEnRequired": "الوصف بالإنجليزية مطلوب (3 أحرف على الأقل)",
         "faqDescriptionArRequired": "الوصف بالعربية مطلوب (3 أحرف على الأقل)",
-        "discountTypeRequired": "نوع الخصم مطلوب"
+        "discountTypeRequired": "نوع الخصم مطلوب",
+        "attributeNameEnRequired": "الاسم بالإنجليزية مطلوب (حرفين على الأقل)",
+        "attributeNameArRequired": "الاسم بالعربية مطلوب (حرفين على الأقل)",
+        "attributeValueEnRequired": "القيمة بالإنجليزية مطلوبة (حرفين على الأقل)",
+        "attributeValueArRequired": "القيمة بالعربية مطلوبة (حرفين على الأقل)"
     },
     "auth": {
         "welcomeBack": "مرحباً بعودتك",
@@ -390,6 +395,39 @@
         "searchPlaceholder": "البحث بالبريد الإلكتروني أو الموضوع أو الرسالة...",
         "readFilter": "حالة القراءة",
         "replayFilter": "حالة الرد"
+    },
+    "attributes": {
+        "pageTitle": "الخصائص",
+        "subtitle": "إدارة خصائص المنتجات وقيمها.",
+        "createAttribute": "إضافة خاصية",
+        "editAttribute": "تعديل الخاصية",
+        "deleteTitle": "حذف الخاصية",
+        "deleteConfirm": "هل أنت متأكد من حذف",
+        "deleteWarning": "لا يمكن التراجع عن هذا الإجراء.",
+        "creating": "جاري الإنشاء...",
+        "updating": "جاري التحديث...",
+        "deleting": "جاري الحذف...",
+        "id": "المعرف",
+        "name": "الاسم",
+        "slug": "الرابط",
+        "values": "القيم",
+        "searchPlaceholder": "البحث بالاسم...",
+        "sortBy": "ترتيب حسب",
+        "sortId": "المعرف",
+        "sortName": "الاسم",
+        "sortSlug": "الرابط",
+        "sortCreatedAt": "تاريخ الإنشاء",
+        "sortedBy": "الاتجاه",
+        "asc": "تصاعدي",
+        "desc": "تنازلي"
+    },
+    "attributesForm": {
+        "nameEn": "الاسم (إنجليزي)",
+        "nameAr": "الاسم (عربي)",
+        "values": "القيم",
+        "addValue": "إضافة قيمة",
+        "valueEnPlaceholder": "القيمة (إنجليزي)",
+        "valueArPlaceholder": "القيمة (عربي)"
     },
     "couponsForm": {
         "nameEn": "الاسم (إنجليزي)",
