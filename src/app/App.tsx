@@ -1,4 +1,4 @@
-﻿import { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { AdminLayout } from "@/layouts/admin-layout";
 import { ProtectedRoute } from "@/features/auth/components/protected-route";
@@ -19,6 +19,7 @@ const PromotionsPage = lazy(() => import("@/features/promotions/pages/promotions
 const AttributesPage = lazy(() => import("@/features/attributes/pages/attributes-page").then(m => ({ default: m.AttributesPage })));
 const RolesPage = lazy(() => import("@/features/roles/pages/roles-page").then(m => ({ default: m.RolesPage })));
 const LoginPage = lazy(() => import("@/features/auth/pages/login-page").then(m => ({ default: m.LoginPage })));
+const SectionsPage = lazy(() => import("@/features/cms/pages/sections-page").then(m => ({ default: m.SectionsPage })));
 
 function Spinner() {
   return (
@@ -52,6 +53,7 @@ export default function App() {
               <Route path="/promotions" element={<PromotionsPage />} />
               <Route path="/attributes" element={<AttributesPage />} />
               <Route path="/roles" element={<RolesPage />} />
+              <Route path="/cms" element={<SectionsPage />} />
             </Route>
           </Route>
 

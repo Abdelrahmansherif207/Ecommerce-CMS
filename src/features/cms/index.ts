@@ -1,6 +1,16 @@
 // Public API — features/cms
 // Export: types, hooks, constants, permissions, routes, pages
 
-// export type {} from './types/page.types';
-// export { cmsRoutes } from './routes/cms.routes';
-// export { CMS_PERMISSIONS } from './permissions/cms.permissions';
+export type { Section, SectionSetting } from './types/section.types';
+export {
+  useSections,
+  useSection,
+  useSectionTypes,
+  useTypeSettings,
+  useProductTypes,
+  useCreateSection,
+  useUpdateSection,
+  useDeleteSection,
+  useToggleSectionActive,
+  useReorderSections,
+} from './hooks/use-sections';
