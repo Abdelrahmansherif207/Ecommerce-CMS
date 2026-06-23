@@ -54,7 +54,9 @@
         "faqs": "الأسئلة الشائعة",
         "coupons": "الكوبونات",
         "contacts": "اتصل بنا",
-        "users": "المستخدمون"
+        "users": "المستخدمون",
+        "attributes": "الخصائص",
+        "roles": "الأدوار والصلاحيات"
     },
     "categories": {
         "title": "الفئات",
@@ -144,7 +146,11 @@
         "startAtRequired": "تاريخ البداية مطلوب",
         "endAtRequired": "تاريخ النهاية مطلوب",
         "maxDiscountAmountRequired": "الحد الأقصى للخصم مطلوب للخصم النسبي",
-        "productIdsRequired": "يجب اختيار منتج واحد على الأقل للمنتجات المحددة"
+        "productIdsRequired": "يجب اختيار منتج واحد على الأقل للمنتجات المحددة",
+        "attributeNameEnRequired": "الاسم بالإنجليزية مطلوب (حرفين على الأقل)",
+        "attributeNameArRequired": "الاسم بالعربية مطلوب (حرفين على الأقل)",
+        "attributeValueEnRequired": "القيمة بالإنجليزية مطلوبة (حرفين على الأقل)",
+        "attributeValueArRequired": "القيمة بالعربية مطلوبة (حرفين على الأقل)"
     },
     "auth": {
         "welcomeBack": "مرحباً بعودتك",
@@ -409,6 +415,39 @@
         "readFilter": "حالة القراءة",
         "replayFilter": "حالة الرد"
     },
+    "attributes": {
+        "pageTitle": "الخصائص",
+        "subtitle": "إدارة خصائص المنتجات وقيمها.",
+        "createAttribute": "إضافة خاصية",
+        "editAttribute": "تعديل الخاصية",
+        "deleteTitle": "حذف الخاصية",
+        "deleteConfirm": "هل أنت متأكد من حذف",
+        "deleteWarning": "لا يمكن التراجع عن هذا الإجراء.",
+        "creating": "جاري الإنشاء...",
+        "updating": "جاري التحديث...",
+        "deleting": "جاري الحذف...",
+        "id": "المعرف",
+        "name": "الاسم",
+        "slug": "الرابط",
+        "values": "القيم",
+        "searchPlaceholder": "البحث بالاسم...",
+        "sortBy": "ترتيب حسب",
+        "sortId": "المعرف",
+        "sortName": "الاسم",
+        "sortSlug": "الرابط",
+        "sortCreatedAt": "تاريخ الإنشاء",
+        "sortedBy": "الاتجاه",
+        "asc": "تصاعدي",
+        "desc": "تنازلي"
+    },
+    "attributesForm": {
+        "nameEn": "الاسم (إنجليزي)",
+        "nameAr": "الاسم (عربي)",
+        "values": "القيم",
+        "addValue": "إضافة قيمة",
+        "valueEnPlaceholder": "القيمة (إنجليزي)",
+        "valueArPlaceholder": "القيمة (عربي)"
+    },
     "couponsForm": {
         "nameEn": "الاسم (إنجليزي)",
         "nameAr": "الاسم (عربي)",
@@ -430,6 +469,41 @@
         "createCoupon": "إنشاء كوبون",
         "updateCoupon": "تحديث الكوبون"
     },
+  "roles": {
+    "title": "الأدوار والصلاحيات",
+    "subtitle": "إدارة أدوار النظام وصلاحياتها.",
+    "addRole": "إضافة دور",
+    "editRole": "تعديل الدور",
+    "createRole": "إنشاء دور",
+    "editSubtitle": "تحديث تفاصيل الدور والصلاحيات.",
+    "createSubtitle": "إنشاء دور جديد وتعيين الصلاحيات.",
+    "deleteTitle": "حذف الدور",
+    "deleteConfirm": "هل أنت متأكد من حذف",
+    "deleteWarning": " لا يمكن التراجع عن هذا الإجراء.",
+    "creating": "جاري الإنشاء...",
+    "updating": "جاري التحديث...",
+    "deleting": "جاري الحذف...",
+    "searchPlaceholder": "بحث بالاسم...",
+    "searchPermissions": "بحث في الصلاحيات...",
+    "permissionsSelected": "صلاحية محددة",
+    "filterAll": "الكل",
+    "filterSelected": "المحددة",
+    "filterUnselected": "غير المحددة",
+    "displayName": "الاسم المعروض",
+    "id": "المعرف",
+    "name": "اسم النظام",
+    "searchUsers": "ابحث عن مستخدم بالاسم أو البريد الإلكتروني...",
+    "typeToSearch": "اكتب للبحث عن مستخدمين",
+    "assigned": "مُعيّن",
+    "notAssigned": "غير مُعيّن"
+  },
+  "rolesForm": {
+    "nameEn": "الاسم المعروض (بالإنجليزية)",
+    "nameAr": "الاسم المعروض (بالعربية)",
+    "permissions": "الصلاحيات",
+    "createRole": "إنشاء دور",
+    "updateRole": "تحديث الدور"
+  },
   "settings": {
     "subtitle": "إدارة إعدادات التطبيق والتكوين.",
     "general": "الإعدادات العامة",
