@@ -2,7 +2,7 @@
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
-import { cn } from '@/shared/lib/utils';
+
 import { ImagePreview } from '@/shared/components/image-preview';
 import {
   categoryFormSchema,
@@ -30,7 +30,7 @@ import {
   type CategoryFormValues,
 } from '../schemas/category.schema';
 import { useCreateCategory, useUpdateCategory, useCategory, useCategories } from '../hooks/use-categories';
-import { useLanguage } from '@/shared/hooks/use-language';
+
 import type { CategoryListItem } from '../types/category.types';
 import type { ApiErrorResponse } from '@/shared/api';
 
@@ -48,7 +48,6 @@ export function CategoryFormDialog({
   onSuccess,
 }: CategoryFormDialogProps) {
   const { t, i18n } = useTranslation();
-  const { language } = useLanguage();
   const isEditing = !!category;
   const { data: parentCategoriesData } = useCategories({ perPage: 100, parentOnly: true }, open);
   const { data: categoryDetail, isLoading: isDetailLoading } = useCategory(category?.id ?? 0);

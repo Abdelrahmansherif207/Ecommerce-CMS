@@ -96,7 +96,7 @@ export function FlashSalePage() {
           </Button>
         )}
 
-        <Select value={order} onValueChange={(v) => { setOrder(v); setPage(1); }}>
+        <Select value={order} onValueChange={(v) => v && (setOrder(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[150px]">
             <SelectValue placeholder={t("flashSale.sortBy")} />
           </SelectTrigger>
@@ -106,7 +106,7 @@ export function FlashSalePage() {
             <SelectItem value="created_at">{t("flashSale.sortCreatedAt")}</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={sortedBy} onValueChange={(v) => { setSortedBy(v); setPage(1); }}>
+        <Select value={sortedBy} onValueChange={(v) => v && (setSortedBy(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[120px]">
             <SelectValue placeholder={t("flashSale.sortedBy")} />
           </SelectTrigger>

@@ -59,7 +59,7 @@ export function FlashSaleFormDialog({
   const { data: productsData, isLoading: isSearchingProducts } = useProductSearch(productSearch);
 
   const form = useForm<FlashSaleFormValues>({
-    resolver: zodResolver(flashSaleFormSchema),
+    resolver: zodResolver(flashSaleFormSchema) as any,
     defaultValues: flashSaleFormDefaults,
   });
 
@@ -122,7 +122,7 @@ export function FlashSaleFormDialog({
     form.setValue(field, file);
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result as string);
+      reader.onloadend = () => setPreview(reader.result as string | null);
       reader.readAsDataURL(file);
     } else {
       setPreview(null);
@@ -195,7 +195,7 @@ export function FlashSaleFormDialog({
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
+        <form onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-4" noValidate>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
               <label htmlFor="titleEn" className="text-sm font-medium">{t('flashSaleForm.titleEn')} *</label>
@@ -258,7 +258,7 @@ export function FlashSaleFormDialog({
               <label className="text-sm font-medium">{t('flashSaleForm.type')} *</label>
               <Select
                 value={form.watch('type')}
-                onValueChange={(value) => form.setValue('type', value)}
+                onValueChange={(value) => value && form.setValue('type', value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder={t('flashSaleForm.type')} />
@@ -294,7 +294,7 @@ export function FlashSaleFormDialog({
             <label className="text-sm font-medium">{t('flashSaleForm.status')} *</label>
             <Select
               value={form.watch('status')}
-              onValueChange={(value) => form.setValue('status', value)}
+              onValueChange={(value) => value && form.setValue('status', value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder={t('flashSaleForm.status')}>

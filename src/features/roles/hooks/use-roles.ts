@@ -78,9 +78,9 @@ export function useDeleteRole() {
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['roles'] });
       const previous = queryClient.getQueryData<RolesListResponse>(['roles']);
-      queryClient.setQueriesData({ queryKey: ['roles'] }, (old) => {
+      queryClient.setQueriesData({ queryKey: ['roles'] }, (old: any) => {
         if (!old?.data || !Array.isArray(old.data)) return old;
-        return { ...old, data: old.data.filter((r) => r.id !== id) };
+        return { ...old, data: old.data.filter((r: { id: number }) => r.id !== id) };
       });
       return { previous };
     },

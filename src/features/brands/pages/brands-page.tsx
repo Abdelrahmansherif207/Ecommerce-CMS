@@ -99,7 +99,7 @@ export function BrandsPage() {
           </Button>
         )}
 
-        <Select value={activeFilter} onValueChange={(v) => { setActiveFilter(v); setPage(1); }}>
+        <Select value={activeFilter} onValueChange={(v) => v && (setActiveFilter(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[130px]">
             <SelectValue placeholder={t('common.status')} />
           </SelectTrigger>
@@ -109,7 +109,7 @@ export function BrandsPage() {
             <SelectItem value="0">{t('brands.inactive')}</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={order} onValueChange={(v) => { setOrder(v); setPage(1); }}>
+        <Select value={order} onValueChange={(v) => v && (setOrder(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[150px]">
             <SelectValue placeholder={t('brands.sortBy')} />
           </SelectTrigger>
@@ -120,7 +120,7 @@ export function BrandsPage() {
             <SelectItem value="created_at">{t('brands.sortCreatedAt')}</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={sortedBy} onValueChange={(v) => { setSortedBy(v); setPage(1); }}>
+        <Select value={sortedBy} onValueChange={(v) => v && (setSortedBy(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[120px]">
             <SelectValue placeholder={t('brands.sortedBy')} />
           </SelectTrigger>

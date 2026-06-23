@@ -73,7 +73,7 @@ export function SlidersPage() {
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <Select value={activeFilter} onValueChange={(v) => { setActiveFilter(v); setPage(1); }}>
+        <Select value={activeFilter} onValueChange={(v) => v && (setActiveFilter(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[130px]">
             <SelectValue placeholder={t('common.status')} />
           </SelectTrigger>
@@ -83,7 +83,7 @@ export function SlidersPage() {
             <SelectItem value="0">{t('sliders.inactive')}</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={order} onValueChange={(v) => { setOrder(v); setPage(1); }}>
+        <Select value={order} onValueChange={(v) => v && (setOrder(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[150px]">
             <SelectValue placeholder={t('sliders.sortBy')} />
           </SelectTrigger>
@@ -94,7 +94,7 @@ export function SlidersPage() {
             <SelectItem value="status">{t('sliders.sortStatus')}</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={sortedBy} onValueChange={(v) => { setSortedBy(v); setPage(1); }}>
+        <Select value={sortedBy} onValueChange={(v) => v && (setSortedBy(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[120px]">
             <SelectValue placeholder={t('sliders.sortedBy')} />
           </SelectTrigger>

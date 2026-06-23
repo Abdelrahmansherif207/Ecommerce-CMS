@@ -52,13 +52,6 @@ export function BrandsTable({
     reorderMutation.mutate(ids, { onSuccess: onRefresh });
   };
 
-  const handleMoveDown = (index: number) => {
-    if (index === data.length - 1) return;
-    const ids = data.map((s) => s.id);
-    [ids[index], ids[index + 1]] = [ids[index + 1], ids[index]];
-    reorderMutation.mutate(ids, { onSuccess: onRefresh });
-  };
-
   if (isLoading) {
     return <TableSkeleton />;
   }

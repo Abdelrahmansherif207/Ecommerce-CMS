@@ -58,7 +58,7 @@ export function SliderFormDialog({
   const { data: productsData, isLoading: isSearchingProducts } = useProductSearch(productSearch);
 
   const form = useForm<SliderFormValues>({
-    resolver: zodResolver(sliderFormSchema),
+    resolver: zodResolver(sliderFormSchema) as any,
     defaultValues: sliderFormDefaults,
   });
 
@@ -106,7 +106,7 @@ export function SliderFormDialog({
     form.setValue(field, file);
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result as string);
+      reader.onloadend = () => setPreview(reader.result as string | null);
       reader.readAsDataURL(file);
     } else {
       setPreview(null);
@@ -179,7 +179,7 @@ export function SliderFormDialog({
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
+        <form onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-4" noValidate>
           <div className="space-y-1.5">
             <label htmlFor="titleEn" className="text-sm font-medium">{t('slidersForm.titleEn')} *</label>
             <Input
@@ -208,7 +208,7 @@ export function SliderFormDialog({
             <label className="text-sm font-medium">{t('slidersForm.status')} *</label>
             <Select
               value={form.watch('status')}
-              onValueChange={(value) => form.setValue('status', value)}
+              onValueChange={(value) => value && form.setValue('status', value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder={t('slidersForm.status')}>

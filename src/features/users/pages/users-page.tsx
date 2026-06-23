@@ -110,7 +110,7 @@ export function UsersPage() {
 
         {!showTrash && (
           <>
-            <Select value={typeFilter} onValueChange={(v) => { setTypeFilter(v); setPage(1); }}>
+            <Select value={typeFilter} onValueChange={(v) => v && (setTypeFilter(v), setPage(1))}>
               <SelectTrigger className="h-8 w-[140px]">
                 <SelectValue placeholder={t('users.type')} />
               </SelectTrigger>
@@ -121,7 +121,7 @@ export function UsersPage() {
               </SelectContent>
             </Select>
 
-            <Select value={activeFilter} onValueChange={(v) => { setActiveFilter(v); setPage(1); }}>
+            <Select value={activeFilter} onValueChange={(v) => v && (setActiveFilter(v), setPage(1))}>
               <SelectTrigger className="h-8 w-[130px]">
                 <SelectValue placeholder={t('common.status')}>
                   {activeFilter === '1' ? t('users.active') : activeFilter === '0' ? t('users.inactive') : t('common.all')}
@@ -136,7 +136,7 @@ export function UsersPage() {
           </>
         )}
 
-        <Select value={orderBy} onValueChange={(v) => { setOrderBy(v); setPage(1); }}>
+        <Select value={orderBy} onValueChange={(v) => v && (setOrderBy(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[150px]">
             <SelectValue placeholder={t('users.sortBy')} />
           </SelectTrigger>
@@ -146,7 +146,7 @@ export function UsersPage() {
             <SelectItem value="created_at">{t('users.sortCreatedAt')}</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={sort} onValueChange={(v) => { setSort(v); setPage(1); }}>
+        <Select value={sort} onValueChange={(v) => v && (setSort(v), setPage(1))}>
           <SelectTrigger className="h-8 w-[120px]">
             <SelectValue placeholder={t('users.sortedBy')} />
           </SelectTrigger>
