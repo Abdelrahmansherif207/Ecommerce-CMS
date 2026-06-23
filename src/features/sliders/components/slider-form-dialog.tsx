@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { Check, ChevronsUpDown, Search, X } from 'lucide-react';
+import { Check, ChevronsUpDown, Loader2, Search, X } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -174,6 +174,11 @@ export function SliderFormDialog({
           </DialogDescription>
         </DialogHeader>
 
+        {isDetailLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : (
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-1.5">
             <label htmlFor="titleEn" className="text-sm font-medium">{t('slidersForm.titleEn')} *</label>
@@ -310,6 +315,7 @@ export function SliderFormDialog({
             </Button>
           </DialogFooter>
         </form>
+        )}
       </DialogContent>
     </Dialog>
   );

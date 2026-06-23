@@ -19,39 +19,38 @@ export function SettingsPage() {
   const updateMutation = useUpdateSettings();
   const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
 
-  const form = useForm<SettingsFormValues>({
-    resolver: zodResolver(settingsSchema),
-    mode: 'onBlur',
-  });
-
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [faviconPreview, setFaviconPreview] = useState<string | null>(null);
 
+  const form = useForm<SettingsFormValues>({
+    resolver: zodResolver(settingsSchema),
+    mode: 'onBlur',
+    values: data?.data ? {
+      siteNameEn: data.data.site_name || '',
+      siteNameAr: data.data.site_name || '',
+      siteDescEn: data.data.site_desc || '',
+      siteDescAr: data.data.site_desc || '',
+      metaDescEn: data.data.meta_desc || '',
+      metaDescAr: data.data.meta_desc || '',
+      siteCopyRightEn: data.data.site_copy_right || '',
+      siteCopyRightAr: data.data.site_copy_right || '',
+      siteEmail: data.data.site_email || '',
+      emailSupport: data.data.email_support || '',
+      facebook: data.data.facebook || '',
+      instagram: data.data.instagram || '',
+      linkedin: data.data.linkedin || '',
+      promotionVideoUrl: data.data.promotion_video_url || '',
+      youtube: data.data.youtube || '',
+      phone: data.data.phone || '',
+    } : undefined,
+  });
+
   useEffect(() => {
     if (data?.data) {
-      const s = data.data;
-      form.reset({
-        siteNameEn: s.site_name || '',
-        siteNameAr: s.site_name || '',
-        siteDescEn: s.site_desc || '',
-        siteDescAr: s.site_desc || '',
-        metaDescEn: s.meta_desc || '',
-        metaDescAr: s.meta_desc || '',
-        siteCopyRightEn: s.site_copy_right || '',
-        siteCopyRightAr: s.site_copy_right || '',
-        siteEmail: s.site_email || '',
-        emailSupport: s.email_support || '',
-        facebook: s.facebook || '',
-        instagram: s.instagram || '',
-        linkedin: s.linkedin || '',
-        promotionVideoUrl: s.promotion_video_url || '',
-        youtube: s.youtube || '',
-        phone: s.phone || '',
-      });
-      setLogoPreview(s.logo || null);
-      setFaviconPreview(s.favicon || null);
+      setLogoPreview(data.data.logo || null);
+      setFaviconPreview(data.data.favicon || null);
     }
-  }, [data?.data, form]);
+  }, [data?.data]);
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,

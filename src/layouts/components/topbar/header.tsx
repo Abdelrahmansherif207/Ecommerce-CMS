@@ -109,30 +109,30 @@ function UserMenu() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuLabel>
-          <div className="flex flex-col gap-0.5">
-            <span className="text-sm font-medium">{t('sidebar.settings')}</span>
-            <span className="text-xs text-muted-foreground">
-              {user?.role?.join(', ') || 'Admin'}
-            </span>
-          </div>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuLabel>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-sm font-medium">{t('sidebar.settings')}</span>
+              <span className="text-xs text-muted-foreground">
+                {user?.role?.join(', ') || 'Admin'}
+              </span>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => window.location.href = '/settings'}>
             <Settings className="mr-2 size-4" />
             {t('sidebar.settings')}
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={() => logoutMutation.mutate()}
+            disabled={logoutMutation.isPending}
+          >
+            <LogOut className="mr-2 size-4" />
+            {logoutMutation.isPending ? 'Signing out...' : 'Log out'}
+          </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          variant="destructive"
-          onClick={() => logoutMutation.mutate()}
-          disabled={logoutMutation.isPending}
-        >
-          <LogOut className="mr-2 size-4" />
-          {logoutMutation.isPending ? 'Signing out...' : 'Log out'}
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

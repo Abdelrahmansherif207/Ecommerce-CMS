@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -127,6 +128,11 @@ export function FaqFormDialog({
           </DialogDescription>
         </DialogHeader>
 
+        {isDetailLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : (
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-1.5">
             <label htmlFor="faqTitleEn" className="text-sm font-medium">{t('faqsForm.faqTitleEn')} *</label>
@@ -189,6 +195,7 @@ export function FaqFormDialog({
             </Button>
           </DialogFooter>
         </form>
+        )}
       </DialogContent>
     </Dialog>
   );
