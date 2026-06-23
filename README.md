@@ -93,9 +93,24 @@ The app will be available at `http://localhost:5173`.
 ```
 src/
 ├── app/                # App entry point, root component, router
-├── features/           # Feature modules (auth, brands, categories, etc.)
+├── features/           # Feature modules
+│   ├── auth/
+│   ├── brands/
+│   ├── categories/
+│   ├── coupons/
+│   ├── faqs/
+│   ├── flash-sale/
+│   ├── promotions/
+│   ├── roles/
+│   ├── settings/
+│   ├── sliders/
+│   └── users/
 ├── layouts/            # Admin layout, sidebar, header
 ├── shared/             # Shared UI components, i18n, hooks, styles
+│   ├── components/
+│   ├── hooks/
+│   ├── i18n/
+│   └── styles/
 └── widgets/            # Reusable feature widgets
 ```
 
