@@ -64,7 +64,7 @@ export async function fetchUsers(search?: string, limit = 10): Promise<UsersList
   const params = new URLSearchParams();
   if (search) params.append('search', search);
   params.append('limit', limit.toString());
-  const { data } = await axiosClient.get<UsersListResponse>(`/users?${params.toString()}`);
+  const { data } = await axiosClient.get<UsersListResponse>(`/users?admins=true&${params.toString()}`);
   return data;
 }
 
