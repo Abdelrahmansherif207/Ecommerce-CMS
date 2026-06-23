@@ -18,6 +18,7 @@ import {
   HelpCircle,
   Tag,
   Mail,
+  ShieldCheck,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -82,6 +83,7 @@ export function useNavGroups(): NavGroup[] {
       title: t('sidebar.system'),
       items: [
         { title: t('sidebar.notifications'), url: '/notifications', icon: Bell },
+        { title: t('sidebar.roles'), url: '/roles', icon: ShieldCheck },
         { title: t('sidebar.settings'), url: '/settings', icon: Settings },
       ],
     },

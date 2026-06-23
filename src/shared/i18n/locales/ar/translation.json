@@ -52,7 +52,8 @@
         "flashSale": "العروض الخاطفة",
         "faqs": "الأسئلة الشائعة",
         "coupons": "الكوبونات",
-        "contacts": "اتصل بنا"
+        "contacts": "اتصل بنا",
+        "roles": "الأدوار والصلاحيات"
     },
     "categories": {
         "title": "الفئات",
@@ -411,6 +412,41 @@
         "createCoupon": "إنشاء كوبون",
         "updateCoupon": "تحديث الكوبون"
     },
+  "roles": {
+    "title": "الأدوار والصلاحيات",
+    "subtitle": "إدارة أدوار النظام وصلاحياتها.",
+    "addRole": "إضافة دور",
+    "editRole": "تعديل الدور",
+    "createRole": "إنشاء دور",
+    "editSubtitle": "تحديث تفاصيل الدور والصلاحيات.",
+    "createSubtitle": "إنشاء دور جديد وتعيين الصلاحيات.",
+    "deleteTitle": "حذف الدور",
+    "deleteConfirm": "هل أنت متأكد من حذف",
+    "deleteWarning": " لا يمكن التراجع عن هذا الإجراء.",
+    "creating": "جاري الإنشاء...",
+    "updating": "جاري التحديث...",
+    "deleting": "جاري الحذف...",
+    "searchPlaceholder": "بحث بالاسم...",
+    "searchPermissions": "بحث في الصلاحيات...",
+    "permissionsSelected": "صلاحية محددة",
+    "filterAll": "الكل",
+    "filterSelected": "المحددة",
+    "filterUnselected": "غير المحددة",
+    "displayName": "الاسم المعروض",
+    "id": "المعرف",
+    "name": "اسم النظام",
+    "searchUsers": "ابحث عن مستخدم بالاسم أو البريد الإلكتروني...",
+    "typeToSearch": "اكتب للبحث عن مستخدمين",
+    "assigned": "مُعيّن",
+    "notAssigned": "غير مُعيّن"
+  },
+  "rolesForm": {
+    "nameEn": "الاسم المعروض (بالإنجليزية)",
+    "nameAr": "الاسم المعروض (بالعربية)",
+    "permissions": "الصلاحيات",
+    "createRole": "إنشاء دور",
+    "updateRole": "تحديث الدور"
+  },
   "settings": {
     "subtitle": "إدارة إعدادات التطبيق والتكوين.",
     "general": "الإعدادات العامة",

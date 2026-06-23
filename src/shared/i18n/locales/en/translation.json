@@ -52,7 +52,8 @@
         "flashSale": "Flash Sale",
         "faqs": "FAQs",
         "coupons": "Coupons",
-        "contacts": "Contact Us"
+        "contacts": "Contact Us",
+        "roles": "Roles & Permissions"
     },
     "categories": {
         "title": "Categories",
@@ -411,6 +412,42 @@
         "createCoupon": "Create Coupon",
         "updateCoupon": "Update Coupon"
     },
+  "roles": {
+    "title": "Roles & Permissions",
+    "subtitle": "Manage system roles and their permissions.",
+    "addRole": "Add Role",
+    "editRole": "Edit Role",
+    "createRole": "Create Role",
+    "editSubtitle": "Update role details and permissions.",
+    "createSubtitle": "Create a new role and assign permissions.",
+    "deleteTitle": "Delete Role",
+    "deleteConfirm": "Are you sure you want to delete",
+    "deleteWarning": " This action cannot be undone.",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "deleting": "Deleting...",
+    "searchPlaceholder": "Search by name...",
+    "searchPermissions": "Search permissions...",
+    "permissionsSelected": "permissions selected",
+    "filterAll": "All",
+    "filterSelected": "Selected",
+    "filterUnselected": "Unselected",
+    "displayName": "Display Name",
+    "id": "ID",
+    "name": "System Name",
+    "searchUsers": "Search users by name or email...",
+    "typeToSearch": "Type to search users",
+    "assigned": "Assigned",
+    "notAssigned": "Not assigned"
+  },
+  "rolesForm": {
+    "nameEn": "Display Name (English)",
+    "nameAr": "Display Name (Arabic)",
+    "permissions": "Permissions",
+    "createRole": "Create Role",
+    "updateRole": "Update Role",
+    "users": "Users"
+  },
   "settings": {
     "subtitle": "Manage your application settings and configuration.",
     "general": "General Settings",
