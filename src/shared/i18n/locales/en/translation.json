@@ -54,7 +54,9 @@
         "faqs": "FAQs",
         "coupons": "Coupons",
         "contacts": "Contact Us",
-        "users": "Users"
+        "users": "Users",
+        "attributes": "Attributes",
+        "roles": "Roles & Permissions"
     },
     "categories": {
         "title": "Categories",
@@ -134,7 +136,11 @@
         "passwordConfirmationRequired": "Password confirmation is required",
         "rolesRequired": "At least one role is required",
         "passwordMismatch": "Passwords do not match",
-        "phoneNumberMin": "Phone number must be at least 8 characters"
+        "phoneNumberMin": "Phone number must be at least 8 characters",
+        "attributeNameEnRequired": "English name is required (min 2 characters)",
+        "attributeNameArRequired": "Arabic name is required (min 2 characters)",
+        "attributeValueEnRequired": "English value is required (min 2 characters)",
+        "attributeValueArRequired": "Arabic value is required (min 2 characters)"
     },
     "auth": {
         "welcomeBack": "Welcome back",
@@ -399,6 +405,39 @@
         "readFilter": "Read Status",
         "replayFilter": "Reply Status"
     },
+    "attributes": {
+        "pageTitle": "Attributes",
+        "subtitle": "Manage product attributes and their values.",
+        "createAttribute": "Create Attribute",
+        "editAttribute": "Edit Attribute",
+        "deleteTitle": "Delete Attribute",
+        "deleteConfirm": "Are you sure you want to delete",
+        "deleteWarning": "This action cannot be undone.",
+        "creating": "Creating...",
+        "updating": "Updating...",
+        "deleting": "Deleting...",
+        "id": "ID",
+        "name": "Name",
+        "slug": "Slug",
+        "values": "Values",
+        "searchPlaceholder": "Search by name...",
+        "sortBy": "Sort By",
+        "sortId": "ID",
+        "sortName": "Name",
+        "sortSlug": "Slug",
+        "sortCreatedAt": "Created At",
+        "sortedBy": "Direction",
+        "asc": "Ascending",
+        "desc": "Descending"
+    },
+    "attributesForm": {
+        "nameEn": "Name (English)",
+        "nameAr": "Name (Arabic)",
+        "values": "Values",
+        "addValue": "Add Value",
+        "valueEnPlaceholder": "Value (English)",
+        "valueArPlaceholder": "Value (Arabic)"
+    },
     "couponsForm": {
         "nameEn": "Name (English)",
         "nameAr": "Name (Arabic)",
@@ -420,6 +459,42 @@
         "createCoupon": "Create Coupon",
         "updateCoupon": "Update Coupon"
     },
+  "roles": {
+    "title": "Roles & Permissions",
+    "subtitle": "Manage system roles and their permissions.",
+    "addRole": "Add Role",
+    "editRole": "Edit Role",
+    "createRole": "Create Role",
+    "editSubtitle": "Update role details and permissions.",
+    "createSubtitle": "Create a new role and assign permissions.",
+    "deleteTitle": "Delete Role",
+    "deleteConfirm": "Are you sure you want to delete",
+    "deleteWarning": " This action cannot be undone.",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "deleting": "Deleting...",
+    "searchPlaceholder": "Search by name...",
+    "searchPermissions": "Search permissions...",
+    "permissionsSelected": "permissions selected",
+    "filterAll": "All",
+    "filterSelected": "Selected",
+    "filterUnselected": "Unselected",
+    "displayName": "Display Name",
+    "id": "ID",
+    "name": "System Name",
+    "searchUsers": "Search users by name or email...",
+    "typeToSearch": "Type to search users",
+    "assigned": "Assigned",
+    "notAssigned": "Not assigned"
+  },
+  "rolesForm": {
+    "nameEn": "Display Name (English)",
+    "nameAr": "Display Name (Arabic)",
+    "permissions": "Permissions",
+    "createRole": "Create Role",
+    "updateRole": "Update Role",
+    "users": "Users"
+  },
   "settings": {
     "subtitle": "Manage your application settings and configuration.",
     "general": "General Settings",
