@@ -50,7 +50,7 @@ export function UserFormDialog({
   const [rolesOpen, setRolesOpen] = useState(false);
 
   const form = useForm<UserFormValues>({
-    resolver: zodResolver(userFormSchema),
+    resolver: zodResolver(userFormSchema) as any,
     defaultValues: userFormDefaults,
   });
 
@@ -122,7 +122,7 @@ export function UserFormDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
+        <form onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-4" noValidate>
           <div className="space-y-1.5">
             <label htmlFor="name" className="text-sm font-medium">{t('usersForm.name')} *</label>
             <Input
@@ -241,7 +241,7 @@ export function UserFormDialog({
             <label className="text-sm font-medium">{t('usersForm.isActive')} *</label>
             <Select
               value={form.watch('isActive')}
-              onValueChange={(value) => form.setValue('isActive', value)}
+              onValueChange={(value) => value && form.setValue('isActive', value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder={t('usersForm.isActive')}>

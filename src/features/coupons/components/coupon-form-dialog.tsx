@@ -55,7 +55,7 @@ export function CouponFormDialog({
   const [mobilePreview, setMobilePreview] = useState<string | null>(null);
 
   const form = useForm<CouponFormValues>({
-    resolver: zodResolver(couponFormSchema),
+    resolver: zodResolver(couponFormSchema) as any,
     defaultValues: couponFormDefaults,
   });
 
@@ -180,7 +180,7 @@ export function CouponFormDialog({
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
+        <form onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-4" noValidate>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
               <label htmlFor="nameEn" className="text-sm font-medium">{t('couponsForm.nameEn')} *</label>

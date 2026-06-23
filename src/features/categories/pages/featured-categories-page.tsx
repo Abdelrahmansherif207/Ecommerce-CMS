@@ -87,11 +87,11 @@ export function FeaturedCategoriesPage() {
               data?.data?.map((category) => (
                 <TableRow key={category.id}>
                   <TableCell>
-                    <CategoryImageCell image={category.image} alt={getName(category)} />
+                    <CategoryImageCell image={category.image} alt={getName(category as any)} />
                   </TableCell>
                   <TableCell>
                     <div className="min-w-0">
-                      <p className="font-medium truncate">{getName(category)}</p>
+                      <p className="font-medium truncate">{getName(category as any)}</p>
                       <p className="text-xs text-muted-foreground truncate">/{category.slug}</p>
                     </div>
                   </TableCell>
@@ -120,10 +120,10 @@ export function FeaturedCategoriesPage() {
 
       <Pagination
         page={page}
-        lastPage={data?.data?.last_page ?? 1}
-        total={data?.data?.total ?? 0}
-        from={data?.data?.from ?? 0}
-        to={data?.data?.to ?? 0}
+        lastPage={(data as any)?.data?.last_page ?? 1}
+        total={(data as any)?.data?.total ?? 0}
+        from={(data as any)?.data?.from ?? 0}
+        to={(data as any)?.data?.to ?? 0}
         perPage={15}
         onPageChange={setPage}
         className="py-2" />
@@ -140,7 +140,13 @@ export function AddFeaturedCategoryDialog({
   onOpenChange: (open: boolean) => void;
   onSuccess: () => void;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const getName = (cat: Record<string, unknown>) => {
+    const n = cat.name;
+    if (typeof n === 'string') return n;
+    if (n && typeof n === 'object') return (n as Record<string, string>)[i18n.language] ?? (n as Record<string, string>).en ?? '';
+    return '';
+  };
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const { data, isLoading } = useCategories({ perPage: 50, search: search || undefined });
@@ -186,12 +192,12 @@ export function AddFeaturedCategoryDialog({
                   <Skeleton key={i} className="h-10 w-full" />
                 ))}
               </div>
-            ) : (data?.data?.length ?? 0) === 0 ? (
+            ) : (data?.data?.data?.length ?? 0) === 0 ? (
               <p className="text-center text-sm text-muted-foreground py-4">
                 {t('common.noData')}
               </p>
             ) : (
-              data?.data?.map((category) => (
+              data?.data?.data?.map((category) => (
                 <div
                   key={category.id}
                   className={`flex items-center gap-3 rounded-md p-2 cursor-pointer transition-colors ${
@@ -201,7 +207,7 @@ export function AddFeaturedCategoryDialog({
                   }`}
                   onClick={() => setSelectedId(category.id)}
                 >
-                  <CategoryImageCell image={category.image} alt={getName(category)} />
+                  <CategoryImageCell image={category.image} alt={getName(category as any)} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{category.name}</p>
                     <p className="text-xs text-muted-foreground">

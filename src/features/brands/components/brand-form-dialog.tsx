@@ -31,7 +31,7 @@ import {
 } from '../schemas/brand.schema';
 import { useCreateBrand, useUpdateBrand, useBrand, useProductSearch } from '../hooks/use-brands';
 import type { Brand } from '../types/brand.types';
-import type { ApiErrorResponse } from '@/shared/api';
+
 
 interface BrandFormDialogProps {
   brand?: Brand | null;
@@ -59,7 +59,7 @@ export function BrandFormDialog({
   const { data: productsData, isLoading: isSearchingProducts } = useProductSearch(productSearch);
 
   const form = useForm<BrandFormValues>({
-    resolver: zodResolver(brandFormSchema),
+    resolver: zodResolver(brandFormSchema) as any,
     defaultValues: brandFormDefaults,
   });
 
@@ -81,7 +81,7 @@ export function BrandFormDialog({
   useEffect(() => {
     if (isEditing && brand && brandDetail?.data) {
       const d = brandDetail.data;
-      let parsedName = {};
+      let parsedName: Record<string, string> = {};
       try {
         parsedName = typeof d.name === 'string' ? JSON.parse(d.name) : d.name;
       } catch {
@@ -139,7 +139,7 @@ export function BrandFormDialog({
 
     const commonOptions = {
       onError: (error: unknown) => {
-        const apiError = error;
+        const apiError = error as { status?: number; errors?: Record<string, string[]> };
         if (apiError?.status === 422 && apiError.errors) {
           setServerErrors(apiError.errors);
         }
@@ -160,7 +160,7 @@ export function BrandFormDialog({
   const errors = form.formState.errors;
 
   const getError = (field: string): string | undefined => {
-    const clientErr = errors[field]?.message;
+    const clientErr = (errors as Record<string, { message?: string }>)[field]?.message;
     const serverErr = serverErrors[field]?.[0] || serverErrors['name.en']?.[0] || serverErrors['name.ar']?.[0];
     const errMsg = clientErr || serverErr;
     if (!errMsg) return undefined;
@@ -182,7 +182,7 @@ export function BrandFormDialog({
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
+        <form onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-4" noValidate>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
               <label htmlFor="nameEn" className="text-sm font-medium">{t('brandsForm.nameEn')} *</label>
@@ -224,7 +224,7 @@ export function BrandFormDialog({
             <label className="text-sm font-medium">{t('brandsForm.status')} *</label>
             <Select
               value={form.watch('status')}
-              onValueChange={(value) => form.setValue('status', value)}
+              onValueChange={(value) => value && form.setValue('status', value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder={t('brandsForm.status')}>

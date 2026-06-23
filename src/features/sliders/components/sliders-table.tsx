@@ -56,7 +56,6 @@ interface SlidersTableProps {
 
 function SortableRow({
   slider,
-  index,
   onEdit,
   onChangeStatus,
   onDelete,

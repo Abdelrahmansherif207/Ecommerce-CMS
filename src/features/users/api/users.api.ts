@@ -5,7 +5,6 @@ import type {
   ApiActionResponse,
   RolesResponse,
   CreateUserData,
-  User,
 } from '../types/user.types';
 
 export interface FetchUsersParams {

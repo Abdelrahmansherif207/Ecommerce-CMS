@@ -35,6 +35,6 @@ export function toApiFormat(values: UserFormValues) {
     password_confirmation: values.passwordConfirmation,
     phone_number: values.phoneNumber,
     roles: values.roleIds,
-    is_active: values.isActive === '1' ? 1 : 0,
+    is_active: (values.isActive === '1' ? 1 : 0) as 0 | 1,
   };
 }

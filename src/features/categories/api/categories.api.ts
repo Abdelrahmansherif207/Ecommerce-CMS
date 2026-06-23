@@ -52,7 +52,7 @@ export async function fetchFeaturedCategories({
   params.append('page', page.toString());
   params.append('per_page', perPage.toString());
 
-  const { data } = await axiosClient.get<CategoriesListResponse>(`/featured-categories?${params.toString()}`);
+  const { data } = await axiosClient.get<FeaturedCategoriesResponse>(`/featured-categories?${params.toString()}`);
   return data;
 }
 
