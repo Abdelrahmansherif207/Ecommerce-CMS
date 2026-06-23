@@ -1,6 +1,6 @@
-# Ecommerce CMS
+# Meem Market CMS
 
-A full-featured admin dashboard for managing an e-commerce platform. Built with React 19, TypeScript 6, and Vite 8.
+Admin dashboard for managing the [Meem Market](https://meem.market) e-commerce platform. Handles products, orders, promotions, coupons, categories, brands, content, users, roles, and settings for the Meem Market retail chain ([meem-market.com](https://meem-market.com)).
 
 ## Features
 
@@ -22,23 +22,28 @@ A full-featured admin dashboard for managing an e-commerce platform. Built with 
 - **Responsive Design** — Mobile-friendly with collapsible sidebar
 - **Dark Mode** — Theme toggle with system preference detection
 
-## Tech Stack
+## Stack
 
 | Layer | Technology |
 |---|---|
 | Framework | React 19 |
 | Language | TypeScript 6 |
 | Build Tool | Vite 8 |
-| Styling | Tailwind CSS 4 + shadcn/ui |
+| Styling | Tailwind CSS 4 + shadcn/ui (Radix UI primitives) |
 | Routing | react-router v7 (BrowserRouter) |
 | Data Fetching | @tanstack/react-query 5 |
 | State Management | Zustand 5 |
 | Forms | react-hook-form + Zod 4 |
 | HTTP Client | Axios |
 | Internationalization | i18next + react-i18next |
+| Drag & Drop | @dnd-kit (core, sortable, utilities) |
 | Notifications | Sonner |
 | Icons | Lucide React |
-| Drag & Drop | @dnd-kit |
+| Date Utilities | date-fns |
+| CSS Utilities | class-variance-authority, clsx, tailwind-merge, tw-animate-css |
+| Font | Geist (variable) by Vercel |
+| React Compiler | Enabled via babel-plugin-react-compiler |
+| Code Quality | ESLint + typescript-eslint |
 | Package Manager | pnpm |
 
 ## Prerequisites
@@ -74,7 +79,7 @@ pnpm dev
 
 The app will be available at `http://localhost:5173`.
 
-## Available Scripts
+## Scripts
 
 | Script | Description |
 |---|---|
@@ -88,7 +93,7 @@ The app will be available at `http://localhost:5173`.
 ```
 src/
 ├── app/                # App entry point, root component, router
-├── features/           # Feature modules (auth, brands, categories, etc.)
+├── features/           # Feature modules
 │   ├── auth/
 │   ├── brands/
 │   ├── categories/
@@ -109,31 +114,6 @@ src/
 └── widgets/            # Reusable feature widgets
 ```
 
-## Deployment
-
-### Netlify (Recommended)
-
-1. Push the repository to GitHub
-2. Log in to [Netlify](https://app.netlify.com)
-3. Click **Add new site** → **Import an existing project**
-4. Connect your Git provider and select the repository
-5. Netlify will auto-detect the build settings from `netlify.toml`:
-
-   | Setting | Value |
-   |---|---|
-   | Build command | `npm run build` |
-   | Publish directory | `dist` |
-
-6. Add the required environment variable:
-
-   | Key | Value |
-   |---|---|
-   | `VITE_API_BASE_URL` | Your API base URL (e.g. `https://api.example.com/api/v1`) |
-
-7. Click **Deploy**
-
-The `netlify.toml` configuration includes an SPA redirect rule so all routes (`/dashboard`, `/login`, etc.) serve `index.html` instead of returning 404 errors.
-
 ## Environment Variables
 
 | Variable | Required | Description |
@@ -142,4 +122,4 @@ The `netlify.toml` configuration includes an SPA redirect rule so all routes (`/
 
 ## License
 
-MIT
+All Rights Reserved — Meem Market (ميم المتميزة للتجارة)
