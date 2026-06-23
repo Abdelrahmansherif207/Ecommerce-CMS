@@ -9,8 +9,8 @@ export const sectionFormSchema = z.object({
   titleAr: z.string().min(1, 'sections.validation.titleArRequired').max(50),
   isActive: z.boolean().default(true),
   titleVisible: z.boolean().default(true),
-  frontSettings: z.record(z.unknown()).optional(),
-  backSettings: z.record(z.unknown()).optional(),
+  frontSettings: z.record(z.string(), z.unknown()).optional(),
+  backSettings: z.record(z.string(), z.unknown()).optional(),
   productType: z.string().nullable().optional(),
 });
 
