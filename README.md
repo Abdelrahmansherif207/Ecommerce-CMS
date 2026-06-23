@@ -1,75 +1,110 @@
-# React + TypeScript + Vite
+# Meem Market CMS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Admin dashboard for managing the [Meem Market](https://meem.market) e-commerce platform. Handles products, orders, promotions, coupons, categories, brands, content, users, roles, and settings for the Meem Market retail chain ([meem-market.com](https://meem-market.com)).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Authentication** — Login/logout with JWT, protected routes, guest redirects
+- **Dashboard** — Overview analytics and quick actions
+- **Category Management** — CRUD with tree structure, ordering, featured categories
+- **Brand Management** — CRUD with image uploads and drag-and-drop reordering
+- **Slider Management** — Banner slides with desktop/mobile images and product linking
+- **FAQ Management** — Frequently asked questions with sorting
+- **Flash Sales** — Time-limited promotions with product selection
+- **Coupon Management** — Discount codes with configurable limits and date ranges
+- **Promotion Management** — Price discounts, quantity promotions, and gift-with-purchase
+- **Attribute Management** — Product attributes and variations
+- **Role & Permission Management** — RBAC with granular permission assignment
+- **User Management** — Admin user CRUD with role assignment
+- **Contact Messages** — Inbox for customer inquiries
+- **Settings** — Application configuration
+- **Internationalization** — Full English/Arabic (RTL) support
+- **Responsive Design** — Mobile-friendly with collapsible sidebar
+- **Dark Mode** — Theme toggle with system preference detection
 
-## React Compiler
+## Stack
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+| Layer | Technology |
+|---|---|
+| Framework | React 19 |
+| Language | TypeScript 6 |
+| Build Tool | Vite 8 |
+| Styling | Tailwind CSS 4 + shadcn/ui (Radix UI primitives) |
+| Routing | react-router v7 (BrowserRouter) |
+| Data Fetching | @tanstack/react-query 5 |
+| State Management | Zustand 5 |
+| Forms | react-hook-form + Zod 4 |
+| HTTP Client | Axios |
+| Internationalization | i18next + react-i18next |
+| Drag & Drop | @dnd-kit (core, sortable, utilities) |
+| Notifications | Sonner |
+| Icons | Lucide React |
+| Date Utilities | date-fns |
+| CSS Utilities | class-variance-authority, clsx, tailwind-merge, tw-animate-css |
+| Font | Geist (variable) by Vercel |
+| React Compiler | Enabled via babel-plugin-react-compiler |
+| Code Quality | ESLint + typescript-eslint |
+| Package Manager | pnpm |
 
-Note: This will impact Vite dev & build performances.
+## Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js 20 or higher
+- pnpm (recommended) or npm
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+# Clone the repository
+git clone <repo-url>
+cd ecommerce-cms
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Install dependencies
+pnpm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Set up environment variables
+cp .env.example .env
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Edit `.env` and set your API base URL:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_BASE_URL=https://your-api-domain.com/api/v1
 ```
+
+Start the development server:
+
+```bash
+pnpm dev
+```
+
+The app will be available at `http://localhost:5173`.
+
+## Scripts
+
+| Script | Description |
+|---|---|
+| `pnpm dev` | Start development server with HMR |
+| `pnpm build` | Type-check and build for production |
+| `pnpm preview` | Preview the production build locally |
+| `pnpm lint` | Run ESLint across the codebase |
+
+## Project Structure
+
+```
+src/
+├── app/                # App entry point, root component, router
+├── features/           # Feature modules (auth, brands, categories, etc.)
+├── layouts/            # Admin layout, sidebar, header
+├── shared/             # Shared UI components, i18n, hooks, styles
+└── widgets/            # Reusable feature widgets
+```
+
+## Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `VITE_API_BASE_URL` | Yes | Base URL of the backend API |
+
+## License
+
+All Rights Reserved — Meem Market (ميم المتميزة للتجارة)
