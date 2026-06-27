@@ -23,7 +23,7 @@ import {
 import { Skeleton } from '@/shared/ui/skeleton';
 import { CategoryImageCell } from '../components/category-image-cell';
 import { CategoryLevelBadge } from '../components/category-level-badge';
-import { useFeaturedCategories, useRemoveFromFeatured, useCategories, useAddToFeatured } from '../hooks/use-categories';
+import { useFeaturedCategories, useToggleFeatured, useCategories } from '../hooks/use-categories';
 
 export function FeaturedCategoriesPage() {
   const { t, i18n } = useTranslation();
@@ -35,10 +35,10 @@ export function FeaturedCategoriesPage() {
     if (n && typeof n === 'object') return (n as Record<string, string>)[i18n.language] ?? (n as Record<string, string>).en ?? '';
     return '';
   };
-  const removeMutation = useRemoveFromFeatured();
+  const toggleMutation = useToggleFeatured();
 
   const handleRemove = (id: number) => {
-    removeMutation.mutate(id, {
+    toggleMutation.mutate(id, {
       onSuccess: () => refetch(),
     });
   };
@@ -74,7 +74,7 @@ export function FeaturedCategoriesPage() {
                   <TableCell><Skeleton className="h-8 w-8" /></TableCell>
                 </TableRow>
               ))
-            ) : (data?.data?.length ?? 0) === 0 ? (
+            ) : (data?.data?.data?.length ?? 0) === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="h-24 text-center">
                   <div className="flex flex-col items-center gap-2">
@@ -84,7 +84,7 @@ export function FeaturedCategoriesPage() {
                 </TableCell>
               </TableRow>
             ) : (
-              data?.data?.map((category) => (
+              data?.data?.data?.map((category) => (
                 <TableRow key={category.id}>
                   <TableCell>
                     <CategoryImageCell image={category.image} alt={getName(category as any)} />
@@ -106,7 +106,7 @@ export function FeaturedCategoriesPage() {
                       variant="ghost"
                       size="icon-sm"
                       onClick={() => handleRemove(category.id)}
-                      disabled={removeMutation.isPending}
+                      disabled={toggleMutation.isPending}
                     >
                       <StarOff className="h-4 w-4 text-destructive" />
                     </Button>
@@ -120,10 +120,10 @@ export function FeaturedCategoriesPage() {
 
       <Pagination
         page={page}
-        lastPage={(data as any)?.data?.last_page ?? 1}
-        total={(data as any)?.data?.total ?? 0}
-        from={(data as any)?.data?.from ?? 0}
-        to={(data as any)?.data?.to ?? 0}
+        lastPage={data?.data?.last_page ?? 1}
+        total={data?.data?.total ?? 0}
+        from={data?.data?.from ?? 0}
+        to={data?.data?.to ?? 0}
         perPage={15}
         onPageChange={setPage}
         className="py-2" />
@@ -150,11 +150,11 @@ export function AddFeaturedCategoryDialog({
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const { data, isLoading } = useCategories({ perPage: 50, search: search || undefined });
-  const addMutation = useAddToFeatured();
+  const toggleMutation = useToggleFeatured();
 
   const handleAdd = () => {
     if (!selectedId) return;
-    addMutation.mutate(selectedId, {
+    toggleMutation.mutate(selectedId, {
       onSuccess: () => {
         onSuccess();
         onOpenChange(false);
@@ -229,9 +229,9 @@ export function AddFeaturedCategoryDialog({
           </Button>
           <Button
             onClick={handleAdd}
-            disabled={!selectedId || addMutation.isPending}
+            disabled={!selectedId || toggleMutation.isPending}
           >
-            {addMutation.isPending ? t('common.loading') : t('categories.addToFeatured')}
+            {toggleMutation.isPending ? t('common.loading') : t('categories.addToFeatured')}
           </Button>
         </DialogFooter>
       </DialogContent>

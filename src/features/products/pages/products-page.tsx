@@ -37,6 +37,10 @@ export function ProductsPage() {
     setDetailTarget(product);
   };
 
+  const handleNavigateDetail = (product: Product) => {
+    navigate(productRoutes.detail(product.id));
+  };
+
   const handleClearFilters = () => {
     setSearch('');
     setStatusFilter('all');
@@ -106,6 +110,7 @@ export function ProductsPage() {
         data={data?.data?.data || []}
         isLoading={isLoading}
         onView={handleView}
+        onNavigateDetail={handleNavigateDetail}
         onRefresh={refetch}
       />
 

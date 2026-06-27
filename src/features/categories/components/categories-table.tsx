@@ -3,6 +3,7 @@ import {
   MoreHorizontal,
   Pencil,
   Star,
+  Package,
   Trash2,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -31,16 +32,20 @@ interface CategoriesTableProps {
   data: CategoryListItem[];
   isLoading: boolean;
   onEdit: (category: CategoryListItem) => void;
-  onAddToFeatured?: (category: CategoryListItem) => void;
+  onViewProducts?: (category: CategoryListItem) => void;
+  onToggleFeatured?: (category: CategoryListItem) => void;
   onRefresh: () => void;
+  parentMap?: Map<number, string>;
 }
 
 export function CategoriesTable({
   data,
   isLoading,
   onEdit,
-  onAddToFeatured,
+  onViewProducts,
+  onToggleFeatured,
   onRefresh,
+  parentMap,
 }: CategoriesTableProps) {
   const { t } = useTranslation();
   const [deleteTarget, setDeleteTarget] = useState<CategoryListItem | null>(null);
@@ -92,7 +97,9 @@ export function CategoriesTable({
                   </TableCell>
                   <TableCell>
                     <span className="text-sm text-muted-foreground">
-                      {category.parent_id ? `ID: ${category.parent_id}` : 'â€”'}
+                      {category.parent_id
+                        ? parentMap?.get(category.parent_id) ?? `ID: ${category.parent_id}`
+                        : '\u2014'}
                     </span>
                   </TableCell>
                   <TableCell className="text-end">
@@ -108,12 +115,18 @@ export function CategoriesTable({
                           <Pencil className="me-2 h-4 w-4" />
                           {t('common.edit')}
                         </DropdownMenuItem>
-                         {onAddToFeatured && (
-                           <DropdownMenuItem onClick={() => onAddToFeatured(category)}>
-                             <Star className="me-2 h-4 w-4" />
-                             {t('categories.addToFeatured')}
-                           </DropdownMenuItem>
-                         )}
+                        {onViewProducts && (
+                          <DropdownMenuItem onClick={() => onViewProducts(category)}>
+                            <Package className="me-2 h-4 w-4" />
+                            {t('categories.products')}
+                          </DropdownMenuItem>
+                        )}
+                        {onToggleFeatured && (
+                          <DropdownMenuItem onClick={() => onToggleFeatured(category)}>
+                            <Star className="me-2 h-4 w-4" />
+                            {t('categories.addToFeatured')}
+                          </DropdownMenuItem>
+                        )}
                         <DropdownMenuItem
                           className="text-destructive"
                           onClick={() => setDeleteTarget(category)}

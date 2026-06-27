@@ -25,14 +25,16 @@ export const categoryFormDefaults: CategoryFormValues = {
 };
 
 export function toApiFormat(values: CategoryFormValues) {
+  const details: Record<string, string> = {};
+  if (values.detailsEn) details.en = values.detailsEn;
+  if (values.detailsAr) details.ar = values.detailsAr;
+
   return {
     'name[en]': values.nameEn,
     'name[ar]': values.nameAr,
-    'details[en]': values.detailsEn || undefined,
-    'details[ar]': values.detailsAr || undefined,
-    image_desktop: values.imageDesktop,
-    image_mobile: values.imageMobile,
+    details: Object.keys(details).length > 0 ? JSON.stringify(details) : undefined,
+    'image-desktop': values.imageDesktop,
+    'image-mobile': values.imageMobile,
     parent_id: values.parentId,
-    'shops_id[]': values.shopIds || [],
   };
 }
