@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, Upload, Download } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
 import { Pagination } from '@/shared/components/pagination';
@@ -15,6 +15,8 @@ import {
 import { useProducts } from '../hooks/use-products';
 import { ProductsTable } from '../components/products-table';
 import { ProductDetailDialog } from '../components/product-detail-dialog';
+import { ProductImportDialog } from '../components/product-import-dialog';
+import { ProductExportDialog } from '../components/product-export-dialog';
 import { productRoutes } from '../routes/product.routes';
 import type { Product } from '../types/product.types';
 
@@ -25,6 +27,8 @@ export function ProductsPage() {
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [detailTarget, setDetailTarget] = useState<Product | null>(null);
+  const [importOpen, setImportOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
 
   const { data, isLoading, refetch } = useProducts({
     page,
@@ -60,10 +64,20 @@ export function ProductsPage() {
             {t('products.subtitle')}
           </p>
         </div>
-        <Button onClick={() => navigate(productRoutes.create)}>
-          <Plus className="mr-2 h-4 w-4" />
-          {t('products.addProduct')}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => setImportOpen(true)}>
+            <Upload className="mr-2 h-4 w-4" />
+            {t('products.importBtn')}
+          </Button>
+          <Button variant="outline" onClick={() => setExportOpen(true)}>
+            <Download className="mr-2 h-4 w-4" />
+            {t('products.exportBtn')}
+          </Button>
+          <Button onClick={() => navigate(productRoutes.create)}>
+            <Plus className="mr-2 h-4 w-4" />
+            {t('products.addProduct')}
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -134,6 +148,16 @@ export function ProductsPage() {
           }}
         />
       )}
+
+      <ProductImportDialog
+        open={importOpen}
+        onOpenChange={setImportOpen}
+      />
+
+      <ProductExportDialog
+        open={exportOpen}
+        onOpenChange={setExportOpen}
+      />
 
     </div>
   );

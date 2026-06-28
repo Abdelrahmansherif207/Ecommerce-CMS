@@ -5,6 +5,8 @@ import {
   fetchProductById,
   deleteProduct,
   createProduct,
+  importProducts,
+  exportProducts,
   type CreateProductData,
 } from '../api/products.api';
 import type { FetchProductsParams } from '../types/product.types';
@@ -58,6 +60,41 @@ export function useCreateProduct() {
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to create product');
+    },
+  });
+}
+
+export function useImportProducts() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (file: File) => importProducts(file),
+    onSuccess: (response) => {
+      toast.success(response.message || 'Products imported successfully');
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+    },
+    onError: (error: unknown) => {
+      handleApiError(error, 'Failed to import products');
+    },
+  });
+}
+
+export function useExportProducts() {
+  return useMutation({
+    mutationFn: () => exportProducts(),
+    onSuccess: (blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `products_export_${new Date().toISOString().split('T')[0]}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+      toast.success('Products exported successfully');
+    },
+    onError: (error: unknown) => {
+      handleApiError(error, 'Failed to export products');
     },
   });
 }

@@ -6,6 +6,8 @@ import type {
   FetchProductsParams,
   ApiResponse,
   Product,
+  ImportProductsResponse,
+  ExportProductsResponse,
 } from '../types/product.types';
 
 export interface CreateVariantData {
@@ -167,5 +169,19 @@ export async function createProduct(payload: CreateProductData): Promise<ApiResp
   }
 
   const { data } = await axiosClient.post<ApiResponse<Product>>('/products', formData);
+  return data;
+}
+
+export async function importProducts(file: File): Promise<ImportProductsResponse> {
+  const formData = new FormData();
+  formData.append('file', file);
+  const { data } = await axiosClient.post<ImportProductsResponse>('/products/import', formData);
+  return data;
+}
+
+export async function exportProducts(): Promise<ExportProductsResponse> {
+  const { data } = await axiosClient.get<ExportProductsResponse>('/products/export', {
+    responseType: 'blob',
+  });
   return data;
 }

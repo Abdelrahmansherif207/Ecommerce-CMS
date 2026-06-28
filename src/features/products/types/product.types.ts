@@ -138,6 +138,8 @@ export interface ProductListData {
 export type ProductsListResponse = ApiResponse<ProductListData>;
 export type ProductDetailResponse = ApiResponse<Product>;
 export type DeleteProductResponse = ApiResponse<null>;
+export type ImportProductsResponse = ApiResponse<null>;
+export type ExportProductsResponse = Blob;
 
 export interface FetchProductsParams {
   page?: number;
