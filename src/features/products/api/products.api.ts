@@ -57,27 +57,23 @@ export async function fetchProducts({
   limit = 15,
   search,
   status,
-  type,
-  category,
-  brand,
-  price_min,
-  price_max,
-  order_price,
-  order,
+  order_by,
+  sort,
+  date_range,
+  with: withRelations,
+  flash_sale_builder,
 }: FetchProductsParams = {}): Promise<ProductsListResponse> {
   const params = new URLSearchParams();
   params.append('page', page.toString());
   params.append('limit', limit.toString());
 
   if (search) params.append('search', search);
-  if (status) params.append('status', status);
-  if (type) params.append('type', type);
-  if (category) params.append('category', category);
-  if (brand) params.append('brand', brand);
-  if (price_min !== undefined) params.append('price_min', price_min.toString());
-  if (price_max !== undefined) params.append('price_max', price_max.toString());
-  if (order_price) params.append('order_price', order_price);
-  if (order) params.append('order', order);
+  if (status !== undefined) params.append('status', status);
+  if (order_by) params.append('order_by', order_by);
+  if (sort) params.append('sort', sort);
+  if (date_range) params.append('date_range', date_range);
+  if (withRelations) params.append('with', withRelations);
+  if (flash_sale_builder) params.append('flash_sale_builder', flash_sale_builder);
 
   const { data } = await axiosClient.get<ProductsListResponse>('/products?' + params.toString());
   return data;
