@@ -12,9 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
-import { useCategories, useAddToFeatured } from '../hooks/use-categories';
+import { useCategories, useToggleFeatured } from '../hooks/use-categories';
 import { CategoriesTable } from '../components/categories-table';
 import { CategoryFormDialog } from '../components/category-form-dialog';
+import { CategoryProductsDialog } from '../components/category-products-dialog';
 import { FeaturedCategoriesPage } from './featured-categories-page';
 import type { CategoryListItem } from '../types/category.types';
 
@@ -26,6 +27,7 @@ export function CategoriesPage() {
   const [level, setLevel] = useState<string>('all');
   const [formOpen, setFormOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<CategoryListItem | null>(null);
+  const [viewTarget, setViewTarget] = useState<CategoryListItem | null>(null);
 
   const { data, isLoading, refetch } = useCategories({
     page,
@@ -39,6 +41,10 @@ export function CategoriesPage() {
     setFormOpen(true);
   };
 
+  const handleViewProducts = (category: CategoryListItem) => {
+    setViewTarget(category);
+  };
+
   const handleCreate = () => {
     setEditingCategory(null);
     setFormOpen(true);
@@ -50,9 +56,9 @@ export function CategoriesPage() {
     refetch();
   };
 
-  const addToFeaturedMutation = useAddToFeatured();
-  const handleAddToFeatured = (category: CategoryListItem) => {
-    addToFeaturedMutation.mutate(category.id, {
+  const toggleFeaturedMutation = useToggleFeatured();
+  const handleToggleFeatured = (category: CategoryListItem) => {
+    toggleFeaturedMutation.mutate(category.id, {
       onSuccess: () => refetch(),
     });
   };
@@ -136,8 +142,12 @@ export function CategoriesPage() {
             data={data?.data?.data || []}
             isLoading={isLoading}
             onEdit={handleEdit}
-            onAddToFeatured={handleAddToFeatured}
+            onViewProducts={handleViewProducts}
+            onToggleFeatured={handleToggleFeatured}
             onRefresh={refetch}
+            parentMap={new Map(
+              (data?.data?.data ?? []).map((c) => [c.id, c.name])
+            )}
           />
 
           <Pagination
@@ -162,6 +172,15 @@ export function CategoriesPage() {
         onOpenChange={setFormOpen}
         onSuccess={handleFormSuccess}
       />
+
+      {viewTarget && (
+        <CategoryProductsDialog
+          categoryId={viewTarget.id}
+          categoryName={viewTarget.name}
+          open={!!viewTarget}
+          onOpenChange={(open) => { if (!open) setViewTarget(null); }}
+        />
+      )}
 
     </div>
   );

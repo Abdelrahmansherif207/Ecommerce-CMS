@@ -4,6 +4,40 @@ export interface CategoryBrief {
   slug: string;
 }
 
+export interface BrandBrief {
+  id: number;
+  name: string;
+  slug: string;
+  image: { desktop: string | null; mobile: string | null } | null;
+  details: string;
+  status: boolean;
+}
+
+export interface BannerBrief {
+  id: number;
+  title: string;
+  description: string;
+  image: { desktop: string | null; mobile: string | null };
+  status: boolean;
+}
+
+export interface SliderBrief {
+  id: number;
+  title: { en: string; ar: string };
+  slug: string;
+  status: boolean;
+  order: number;
+  image: { desktop: string | null; mobile: string | null };
+}
+
+export interface ReviewBrief {
+  id: number;
+  rating: number;
+  comment: string;
+  images: string[];
+  is_approved: boolean;
+}
+
 export interface FlashSaleBrief {
   id: number;
   title: string;
@@ -68,6 +102,11 @@ export interface Product {
   categories: CategoryBrief[];
   flash_sales: FlashSaleBrief[];
   variants: ProductVariant[];
+  brands?: BrandBrief[];
+  banners?: BannerBrief[];
+  sliders?: SliderBrief[];
+  reviews?: ReviewBrief[];
+  related_products?: Product[];
 }
 
 export interface PaginationLinks {

@@ -21,6 +21,7 @@ const RolesPage = lazy(() => import("@/features/roles/pages/roles-page").then(m 
 const LoginPage = lazy(() => import("@/features/auth/pages/login-page").then(m => ({ default: m.LoginPage })));
 const ProductsPage = lazy(() => import("@/features/products/pages/products-page").then(m => ({ default: m.ProductsPage })));
 const CreateProductPage = lazy(() => import("@/features/products/pages/create-product-page").then(m => ({ default: m.CreateProductPage })));
+const ProductDetailPage = lazy(() => import("@/features/products/pages/product-detail-page").then(m => ({ default: m.ProductDetailPage })));
 const SectionsPage = lazy(() => import("@/features/cms/pages/sections-page").then(m => ({ default: m.SectionsPage })));
 
 function Spinner() {
@@ -46,6 +47,7 @@ export default function App() {
               <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/products/create" element={<CreateProductPage />} />
+              <Route path="/products/:id" element={<ProductDetailPage />} />
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/brands" element={<BrandsPage />} />
               <Route path="/sliders" element={<SlidersPage />} />

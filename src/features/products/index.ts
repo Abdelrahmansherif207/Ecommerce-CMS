@@ -1,4 +1,5 @@
 export { ProductsPage } from './pages/products-page';
+export { ProductDetailPage } from './pages/product-detail-page';
 export { CreateProductPage } from './pages/create-product-page';
 export { ProductForm } from './components/product-form';
 export { ProductFormDialog } from './components/product-form-dialog';

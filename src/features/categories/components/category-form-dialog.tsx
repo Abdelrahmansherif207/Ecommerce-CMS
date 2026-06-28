@@ -213,14 +213,24 @@ export function CategoryFormDialog({
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <label htmlFor="imageDesktop" className="text-sm font-medium">{t('categoriesForm.desktopImage')}</label>
+              <label htmlFor="imageDesktop" className="text-sm font-medium">
+                {t('categoriesForm.desktopImage')} {!isEditing && <span className="text-destructive">*</span>}
+              </label>
               <Input id="imageDesktop" type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'imageDesktop', setDesktopPreview)} />
               {desktopPreview && <ImagePreview src={desktopPreview} alt="Desktop preview" thumbnailClassName="h-16 rounded border object-cover mt-1" />}
+              {serverErrors['image-desktop']?.[0] && (
+                <p className="text-xs text-destructive">{serverErrors['image-desktop'][0]}</p>
+              )}
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="imageMobile" className="text-sm font-medium">{t('categoriesForm.mobileImage')}</label>
+              <label htmlFor="imageMobile" className="text-sm font-medium">
+                {t('categoriesForm.mobileImage')} {!isEditing && <span className="text-destructive">*</span>}
+              </label>
               <Input id="imageMobile" type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'imageMobile', setMobilePreview)} />
               {mobilePreview && <ImagePreview src={mobilePreview} alt="Mobile preview" thumbnailClassName="h-16 rounded border object-cover mt-1" />}
+              {serverErrors['image-mobile']?.[0] && (
+                <p className="text-xs text-destructive">{serverErrors['image-mobile'][0]}</p>
+              )}
             </div>
           </div>
 

@@ -3,9 +3,7 @@ import { toast } from 'sonner';
 import {
   fetchCategories,
   fetchCategoryById,
-  fetchFeaturedCategories,
-  addToFeatured,
-  removeFromFeatured,
+  toggleFeatured,
   createCategory,
   updateCategory,
   deleteCategory,
@@ -40,36 +38,21 @@ export function useCategory(id: number) {
 export function useFeaturedCategories(page: number = 1, perPage: number = 15) {
   return useQuery({
     queryKey: ['categories', 'featured', { page, perPage }],
-    queryFn: () => fetchFeaturedCategories({ page, perPage }),
+    queryFn: () => fetchCategories({ featureCategory: true, page, perPage }),
   });
 }
 
-export function useAddToFeatured() {
+export function useToggleFeatured() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (categoryId: number) => addToFeatured(categoryId),
+    mutationFn: (categoryId: number) => toggleFeatured(categoryId),
     onSuccess: (response) => {
-      toast.success(response.message || 'Added to featured');
+      toast.success(response.message || 'Category feature toggled successfully');
       queryClient.invalidateQueries({ queryKey: ['categories'] });
     },
     onError: (error: unknown) => {
-      handleApiError(error, 'Failed to add to featured');
-    },
-  });
-}
-
-export function useRemoveFromFeatured() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (categoryId: number) => removeFromFeatured(categoryId),
-    onSuccess: (response) => {
-      toast.success(response.message || 'Removed from featured');
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
-    },
-    onError: (error: unknown) => {
-      handleApiError(error, 'Failed to remove from featured');
+      handleApiError(error, 'Failed to toggle category feature');
     },
   });
 }

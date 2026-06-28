@@ -6,7 +6,6 @@ import type {
   CreateCategoryData,
   UpdateCategoryData,
   ApiResponse,
-  FeaturedCategoriesResponse,
 } from '../types/category.types';
 
 export interface FetchCategoriesParams {
@@ -16,6 +15,7 @@ export interface FetchCategoriesParams {
   level?: number | null;
   parentId?: number | null;
   parentOnly?: boolean;
+  featureCategory?: boolean;
 }
 
 export async function fetchCategories({
@@ -25,6 +25,7 @@ export async function fetchCategories({
   level,
   parentId,
   parentOnly,
+  featureCategory,
 }: FetchCategoriesParams = {}): Promise<CategoriesListResponse> {
   const params = new URLSearchParams();
   params.append('page', page.toString());
@@ -34,6 +35,7 @@ export async function fetchCategories({
   if (level !== undefined && level !== null) params.append('level', level.toString());
   if (parentId !== undefined && parentId !== null) params.append('parent_id', parentId.toString());
   if (parentOnly) params.append('parent', 'true');
+  if (featureCategory) params.append('feature-category', 'true');
 
   const { data } = await axiosClient.get<CategoriesListResponse>(`/categories?${params.toString()}`);
   return data;
@@ -44,25 +46,8 @@ export async function fetchCategoryById(id: number): Promise<CategoryDetailRespo
   return data;
 }
 
-export async function fetchFeaturedCategories({
-  page = 1,
-  perPage = 15,
-}: { page?: number; perPage?: number } = {}): Promise<FeaturedCategoriesResponse> {
-  const params = new URLSearchParams();
-  params.append('page', page.toString());
-  params.append('per_page', perPage.toString());
-
-  const { data } = await axiosClient.get<FeaturedCategoriesResponse>(`/featured-categories?${params.toString()}`);
-  return data;
-}
-
-export async function addToFeatured(categoryId: number): Promise<ApiResponse<null>> {
-  const { data } = await axiosClient.post<ApiResponse<null>>(`/featured-categories/${categoryId}`);
-  return data;
-}
-
-export async function removeFromFeatured(categoryId: number): Promise<ApiResponse<null>> {
-  const { data } = await axiosClient.delete<ApiResponse<null>>(`/featured-categories/${categoryId}`);
+export async function toggleFeatured(categoryId: number): Promise<ApiResponse<null>> {
+  const { data } = await axiosClient.put<ApiResponse<null>>('/categories/feature', { id: categoryId });
   return data;
 }
 
@@ -72,10 +57,9 @@ export async function createCategory(payload: CreateCategoryData): Promise<ApiRe
   formData.append('name[en]', payload['name[en]']);
   formData.append('name[ar]', payload['name[ar]']);
 
-  if (payload['details[en]']) formData.append('details[en]', payload['details[en]']);
-  if (payload['details[ar]']) formData.append('details[ar]', payload['details[ar]']);
-  if (payload.image_desktop) formData.append('image_desktop', payload.image_desktop);
-  if (payload.image_mobile) formData.append('image_mobile', payload.image_mobile);
+  if (payload.details) formData.append('details', payload.details);
+  if (payload['image-desktop']) formData.append('image-desktop', payload['image-desktop']);
+  if (payload['image-mobile']) formData.append('image-mobile', payload['image-mobile']);
   if (payload.parent_id !== undefined && payload.parent_id !== null) {
     formData.append('parent_id', payload.parent_id.toString());
   }
@@ -96,10 +80,9 @@ export async function updateCategory(
   formData.append('name[en]', payload['name[en]']);
   formData.append('name[ar]', payload['name[ar]']);
 
-  if (payload['details[en]']) formData.append('details[en]', payload['details[en]']);
-  if (payload['details[ar]']) formData.append('details[ar]', payload['details[ar]']);
-  if (payload.image_desktop) formData.append('image_desktop', payload.image_desktop);
-  if (payload.image_mobile) formData.append('image_mobile', payload.image_mobile);
+  if (payload.details) formData.append('details', payload.details);
+  if (payload['image-desktop']) formData.append('image-desktop', payload['image-desktop']);
+  if (payload['image-mobile']) formData.append('image-mobile', payload['image-mobile']);
   if (payload.parent_id !== undefined && payload.parent_id !== null) {
     formData.append('parent_id', payload.parent_id.toString());
   }

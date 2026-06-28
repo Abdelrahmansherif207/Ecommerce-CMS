@@ -98,8 +98,10 @@
         "updated": "Category updated successfully",
         "deleted": "Category deleted successfully",
         "addedToFeatured": "Added to featured",
-        "removedFromFeatured": "Removed from featured"
-    },
+        "removedFromFeatured": "Removed from featured",
+        "productsCount": "{{count}} product(s) found",
+        "noProducts": "No products assigned to this category"
+  },
     "categoriesForm": {
         "nameEn": "Name (English)",
         "nameAr": "Name (Arabic)",
@@ -734,7 +736,28 @@
     "deleteConfirm": "Are you sure you want to delete",
     "deleteWarning": " This action cannot be undone.",
     "deleting": "Deleting...",
-    "addProduct": "Add Product"
+    "addProduct": "Add Product",
+    "viewDetails": "View Details",
+    "off": "off",
+    "ends": "Ends",
+    "flashSale": "Flash Sale",
+    "flashSalePrice": "Flash Sale Price",
+    "reviews": "Reviews",
+    "brand": "Brand",
+    "createdAt": "Created At",
+    "relatedProducts": "Related Products",
+    "banners": "Banners",
+    "sliders": "Sliders",
+    "approved": "Approved",
+    "fastShipping": "Fast Shipping",
+    "type": "Type",
+    "regularPrice": "Regular Price",
+    "discountValid": "Discount Valid",
+    "discountInfo": "Discount & Pricing",
+    "discountType": "Discount Type",
+    "discountAmount": "Discount Amount",
+    "startDate": "Start Date",
+    "endDate": "End Date"
   },
   "productsForm": {
     "createProduct": "Create Product",

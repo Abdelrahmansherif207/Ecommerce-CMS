@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MoreHorizontal, Eye, Trash2, Copy, Check, Tag, Zap } from 'lucide-react';
+import { MoreHorizontal, Eye, ExternalLink, Trash2, Copy, Check, Tag, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
@@ -28,10 +28,11 @@ interface ProductsTableProps {
   data: Product[];
   isLoading: boolean;
   onView: (product: Product) => void;
+  onNavigateDetail: (product: Product) => void;
   onRefresh: () => void;
 }
 
-export function ProductsTable({ data, isLoading, onView, onRefresh }: ProductsTableProps) {
+export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onRefresh }: ProductsTableProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
@@ -67,14 +68,15 @@ export function ProductsTable({ data, isLoading, onView, onRefresh }: ProductsTa
       <>
         <div className="space-y-3">
           {data.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              copiedSlugId={copiedSlugId}
-              onCopySlug={handleCopySlug}
-              onView={onView}
-              onDelete={setDeleteTarget}
-            />
+              <ProductCard
+                  key={product.id}
+                  product={product}
+                  copiedSlugId={copiedSlugId}
+                  onCopySlug={handleCopySlug}
+                  onView={onView}
+                  onNavigateDetail={onNavigateDetail}
+                  onDelete={setDeleteTarget}
+                />
           ))}
         </div>
         {deleteTarget && (
@@ -199,6 +201,10 @@ export function ProductsTable({ data, isLoading, onView, onRefresh }: ProductsTa
                         <Eye className="me-2 h-4 w-4" />
                         {t('common.view')}
                       </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onNavigateDetail(product)}>
+                        <ExternalLink className="me-2 h-4 w-4" />
+                        {t('products.viewDetails')}
+                      </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-destructive"
                         onClick={() => setDeleteTarget(product)}
@@ -235,10 +241,11 @@ interface ProductCardProps {
   copiedSlugId: number | null;
   onCopySlug: (slug: string, id: number) => void;
   onView: (product: Product) => void;
+  onNavigateDetail: (product: Product) => void;
   onDelete: (product: Product) => void;
 }
 
-function ProductCard({ product, copiedSlugId, onCopySlug, onView, onDelete }: ProductCardProps) {
+function ProductCard({ product, copiedSlugId, onCopySlug, onView, onNavigateDetail, onDelete }: ProductCardProps) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -266,6 +273,10 @@ function ProductCard({ product, copiedSlugId, onCopySlug, onView, onDelete }: Pr
                 <DropdownMenuItem onClick={() => { onView(product); setMenuOpen(false); }}>
                   <Eye className="me-2 h-4 w-4" />
                   {t('common.view')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { onNavigateDetail(product); setMenuOpen(false); }}>
+                  <ExternalLink className="me-2 h-4 w-4" />
+                  {t('products.viewDetails')}
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-destructive" onClick={() => { onDelete(product); setMenuOpen(false); }}>
                   <Trash2 className="me-2 h-4 w-4" />

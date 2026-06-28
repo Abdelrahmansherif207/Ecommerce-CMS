@@ -12,11 +12,21 @@ export interface Category {
   image: CategoryImage;
   products_count: number;
   details?: string;
+  is_featured?: boolean;
+}
+
+export interface CategoryProduct {
+  id: number;
+  name: string;
+  slug: string;
+  status: number;
+  image: { thumbnail?: string } | null;
 }
 
 export interface CategoryDetail extends Category {
   parent: Pick<Category, 'id' | 'name' | 'slug'> | null;
   children: Pick<Category, 'id' | 'name' | 'slug'>[];
+  products?: CategoryProduct[];
 }
 
 export interface CategoryListItem {
@@ -28,6 +38,7 @@ export interface CategoryListItem {
   image: CategoryImage;
   products_count: number;
   details?: string;
+  is_featured?: boolean;
 }
 
 export interface PaginatedResponse<T> {
@@ -53,17 +64,14 @@ export interface ApiResponse<T> {
 }
 
 export type CategoriesListResponse = ApiResponse<PaginatedResponse<CategoryListItem>>;
-export type FeaturedCategoriesResponse = ApiResponse<CategoryListItem[]>;
 export type CategoryDetailResponse = ApiResponse<CategoryDetail>;
 
 export interface CreateCategoryData {
   'name[en]': string;
   'name[ar]': string;
-  'details[en]'?: string;
-  'details[ar]'?: string;
-  image_desktop?: File;
-  image_mobile?: File;
-  'shops_id[]'?: number[];
+  details?: string;
+  'image-desktop'?: File;
+  'image-mobile'?: File;
   parent_id?: number | null;
 }
 
