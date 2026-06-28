@@ -757,7 +757,22 @@
     "discountType": "Discount Type",
     "discountAmount": "Discount Amount",
     "startDate": "Start Date",
-    "endDate": "End Date"
+    "endDate": "End Date",
+    "importTitle": "Import Products",
+    "importSubtitle": "Upload an Excel file to bulk import products.",
+    "importBtn": "Import",
+    "importing": "Importing...",
+    "importSuccess": "Products imported successfully",
+    "importError": "Failed to import products",
+    "selectFile": "Click to select or drag and drop a file",
+    "dragDropHint": "Drag and drop your Excel file here",
+    "supportedFormats": "Supports .xlsx and .xls files",
+    "downloadSample": "Download sample template",
+    "exportDialogTitle": "Export Products",
+    "exportDialogDesc": "Download all products as an Excel file?",
+    "exportBtn": "Export",
+    "exportSuccess": "Products exported successfully",
+    "exportError": "Failed to export products"
   },
   "productsForm": {
     "createProduct": "Create Product",

@@ -756,7 +756,22 @@
     "discountType": "نوع الخصم",
     "discountAmount": "قيمة الخصم",
     "startDate": "تاريخ البداية",
-    "endDate": "تاريخ النهاية"
+    "endDate": "تاريخ النهاية",
+    "importTitle": "استيراد المنتجات",
+    "importSubtitle": "قم بتحميل ملف Excel لاستيراد المنتجات بالجملة.",
+    "importBtn": "استيراد",
+    "importing": "جارٍ الاستيراد...",
+    "importSuccess": "تم استيراد المنتجات بنجاح",
+    "importError": "فشل استيراد المنتجات",
+    "selectFile": "انقر للاختيار أو اسحب وأفلت ملفًا",
+    "dragDropHint": "اسحب وأفلت ملف Excel هنا",
+    "supportedFormats": "يدعم ملفات .xlsx و .xls",
+    "downloadSample": "تنزيل نموذج القالب",
+    "exportDialogTitle": "تصدير المنتجات",
+    "exportDialogDesc": "هل تريد تنزيل جميع المنتجات كملف Excel؟",
+    "exportBtn": "تصدير",
+    "exportSuccess": "تم تصدير المنتجات بنجاح",
+    "exportError": "فشل تصدير المنتجات"
   },
   "productsForm": {
     "createProduct": "إنشاء منتج",
