@@ -22,7 +22,6 @@ import { useProduct } from '../hooks/use-products';
 import { ProductDeleteDialog } from '../components/product-delete-dialog';
 import { productRoutes } from '../routes/product.routes';
 import { useLanguage } from '@/shared/hooks/use-language';
-import type { Product } from '../types/product.types';
 
 function getLocalizedValue(value: string, language: string): string {
   try {
