@@ -2,7 +2,6 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { AdminLayout } from "@/layouts/admin-layout";
 import { ProtectedRoute } from "@/features/auth/components/protected-route";
-import { GuestRoute } from "@/features/auth/components/guest-route";
 import { Loader2 } from "lucide-react";
 
 const DashboardPage = lazy(() => import("@/features/dashboard/pages/dashboard-page").then(m => ({ default: m.DashboardPage })));
@@ -19,6 +18,9 @@ const PromotionsPage = lazy(() => import("@/features/promotions/pages/promotions
 const AttributesPage = lazy(() => import("@/features/attributes/pages/attributes-page").then(m => ({ default: m.AttributesPage })));
 const RolesPage = lazy(() => import("@/features/roles/pages/roles-page").then(m => ({ default: m.RolesPage })));
 const LoginPage = lazy(() => import("@/features/auth/pages/login-page").then(m => ({ default: m.LoginPage })));
+const ForgotPasswordPage = lazy(() => import("@/features/auth/pages/forgot-password-page").then(m => ({ default: m.ForgotPasswordPage })));
+const ResetPasswordPage = lazy(() => import("@/features/auth/pages/reset-password-page").then(m => ({ default: m.ResetPasswordPage })));
+const ChangePasswordPage = lazy(() => import("@/features/auth/pages/change-password-page").then(m => ({ default: m.ChangePasswordPage })));
 const ProductsPage = lazy(() => import("@/features/products/pages/products-page").then(m => ({ default: m.ProductsPage })));
 const CreateProductPage = lazy(() => import("@/features/products/pages/create-product-page").then(m => ({ default: m.CreateProductPage })));
 const ProductDetailPage = lazy(() => import("@/features/products/pages/product-detail-page").then(m => ({ default: m.ProductDetailPage })));
@@ -37,12 +39,13 @@ export default function App() {
     <BrowserRouter>
       <Suspense fallback={<Spinner />}>
         <Routes>
-          <Route element={<GuestRoute />}>
-            <Route path="/login" element={<LoginPage />} />
-          </Route>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
 
           <Route element={<ProtectedRoute />}>
             <Route element={<AdminLayout />}>
+              <Route path="/change-password" element={<ChangePasswordPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/settings" element={<SettingsPage />} />

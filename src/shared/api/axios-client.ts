@@ -47,6 +47,7 @@ axiosClient.interceptors.response.use(
       if (status === 401) {
         localStorage.removeItem(STORAGE_KEYS.TOKEN);
         localStorage.removeItem('auth-storage');
+        window.location.href = '/login';
       }
 
       const apiError: ApiErrorResponse = {

@@ -25,3 +25,52 @@ export interface User {
   permissions: string[];
   email_verified: boolean;
 }
+
+export interface ForgotPasswordData {
+  email: string;
+}
+
+export interface ForgotPasswordResponse {
+  status: number;
+  message: string;
+  success: boolean;
+}
+
+export interface ResetPasswordData {
+  email: string;
+  otp: string;
+  password: string;
+  password_confirmation: string;
+}
+
+export interface ResetPasswordResponse {
+  status: number;
+  message: string;
+  success: boolean;
+}
+
+export interface ChangePasswordData {
+  oldPassword: string;
+  newPassword: string;
+  newPassword_confirmation: string;
+}
+
+export interface ChangePasswordResponse {
+  status: number;
+  message: string;
+  success: boolean;
+}
+
+export interface SendOtpData {
+  email: string;
+}
+
+export interface SendOtpResponse {
+  status: number;
+  message: string;
+  success: boolean;
+  data: {
+    otp: string;
+    id: string;
+  };
+}
