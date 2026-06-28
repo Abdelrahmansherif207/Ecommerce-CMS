@@ -144,13 +144,11 @@ export type ExportProductsResponse = Blob;
 export interface FetchProductsParams {
   page?: number;
   limit?: number;
+  with?: string;
+  order_by?: string;
+  sort?: 'asc' | 'desc';
   search?: string;
+  date_range?: string;
+  flash_sale_builder?: string;
   status?: string;
-  type?: string;
-  category?: string;
-  brand?: string;
-  price_min?: number;
-  price_max?: number;
-  order_price?: string;
-  order?: string;
 }

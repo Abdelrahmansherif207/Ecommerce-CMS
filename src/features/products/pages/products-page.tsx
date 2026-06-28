@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Plus, Search, Upload, Download } from 'lucide-react';
+import { Plus, Search, Upload, Download, ArrowUp, ArrowDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
 import { Pagination } from '@/shared/components/pagination';
@@ -26,15 +26,24 @@ export function ProductsPage() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [orderBy, setOrderBy] = useState<string>('');
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
   const [detailTarget, setDetailTarget] = useState<Product | null>(null);
   const [importOpen, setImportOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
+
+  const dateRange = dateFrom && dateTo ? `${dateFrom}//${dateTo}` : undefined;
 
   const { data, isLoading, refetch } = useProducts({
     page,
     limit: 15,
     search: search || undefined,
     status: statusFilter === 'all' ? undefined : statusFilter,
+    order_by: orderBy || undefined,
+    sort: (orderBy ? sortDir : undefined) as 'asc' | 'desc' | undefined,
+    date_range: dateRange,
   });
 
   const handleView = (product: Product) => {
@@ -45,13 +54,21 @@ export function ProductsPage() {
     navigate(productRoutes.detail(product.id));
   };
 
+  const toggleSortDir = () => {
+    setSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+  };
+
   const handleClearFilters = () => {
     setSearch('');
     setStatusFilter('all');
+    setOrderBy('');
+    setSortDir('desc');
+    setDateFrom('');
+    setDateTo('');
     setPage(1);
   };
 
-  const hasActiveFilters = search || statusFilter !== 'all';
+  const hasActiveFilters = search || statusFilter !== 'all' || orderBy || dateRange;
 
   return (
     <div className="space-y-6">
@@ -80,8 +97,8 @@ export function ProductsPage() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <div className="relative flex-1 max-w-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder={t('products.searchPlaceholder')}
@@ -94,30 +111,78 @@ export function ProductsPage() {
           />
         </div>
 
+        <Select
+          value={statusFilter}
+          onValueChange={(value) => {
+            setStatusFilter(value ?? 'all');
+            setPage(1);
+          }}
+        >
+          <SelectTrigger className="w-[140px]">
+            <SelectValue placeholder={t('products.allStatuses')} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t('products.allStatuses')}</SelectItem>
+            <SelectItem value="1">{t('products.active')}</SelectItem>
+            <SelectItem value="0">{t('products.inactive')}</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select
+          value={orderBy}
+          onValueChange={(value) => {
+            setOrderBy(value ?? '');
+            setPage(1);
+          }}
+        >
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder={t('products.sortBy')} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">{t('products.sortByDefault')}</SelectItem>
+            <SelectItem value="name">{t('products.name')}</SelectItem>
+            <SelectItem value="price">{t('products.price')}</SelectItem>
+            <SelectItem value="created_at">{t('products.date')}</SelectItem>
+            <SelectItem value="stock_quantity">{t('products.stock')}</SelectItem>
+            <SelectItem value="status">{t('products.status')}</SelectItem>
+          </SelectContent>
+        </Select>
+
+        {orderBy && (
+          <Button variant="outline" size="icon-sm" onClick={toggleSortDir} title={sortDir === 'asc' ? t('products.sortAsc') : t('products.sortDesc')}>
+            {sortDir === 'asc' ? <ArrowUp className="h-4 w-4" /> : <ArrowDown className="h-4 w-4" />}
+          </Button>
+        )}
+
         <div className="flex items-center gap-2">
-          <Select
-            value={statusFilter}
-            onValueChange={(value) => {
-              setStatusFilter(value ?? 'all');
+          <Input
+            type="date"
+            value={dateFrom}
+            onChange={(e) => {
+              setDateFrom(e.target.value);
               setPage(1);
             }}
-          >
-            <SelectTrigger className="w-[160px]">
-              <SelectValue placeholder={t('products.allStatuses')} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">{t('products.allStatuses')}</SelectItem>
-              <SelectItem value="1">{t('products.active')}</SelectItem>
-              <SelectItem value="0">{t('products.inactive')}</SelectItem>
-            </SelectContent>
-          </Select>
-
-          {hasActiveFilters && (
-            <Button variant="ghost" size="sm" onClick={handleClearFilters}>
-              {t('common.clear')}
-            </Button>
-          )}
+            className="w-[150px]"
+            placeholder={t('products.dateFrom')}
+          />
+          <span className="text-muted-foreground text-sm">{t('common.to')}</span>
+          <Input
+            type="date"
+            value={dateTo}
+            onChange={(e) => {
+              setDateTo(e.target.value);
+              setPage(1);
+            }}
+            className="w-[150px]"
+            placeholder={t('products.dateTo')}
+          />
         </div>
+
+        {hasActiveFilters && (
+          <Button variant="ghost" size="sm" onClick={handleClearFilters}>
+            {t('common.clear')}
+          </Button>
+        )}
       </div>
 
       <ProductsTable
