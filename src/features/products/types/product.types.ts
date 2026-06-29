@@ -138,17 +138,50 @@ export interface ProductListData {
 export type ProductsListResponse = ApiResponse<ProductListData>;
 export type ProductDetailResponse = ApiResponse<Product>;
 export type DeleteProductResponse = ApiResponse<null>;
-export type ImportProductsResponse = ApiResponse<null>;
 export type ExportProductsResponse = Blob;
+
+export interface ImportStartData {
+  import_id: number;
+  status: string;
+}
+
+export interface ImportStatusData {
+  id: number;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  total_rows: number;
+  processed_rows: number;
+  success_rows: number;
+  failed_rows: number;
+  progress: number;
+  errors: string[];
+}
+
+export type ImportProductsResponse = ApiResponse<ImportStartData>;
+export type ImportStatusResponse = ApiResponse<ImportStatusData>;
+
+export interface DeleteAllProductsData {
+  deleted_count: number;
+}
+
+export type DeleteAllProductsResponse = ApiResponse<DeleteAllProductsData>;
+
+export interface BulkDeleteResponseData {
+  deleted_ids: number[];
+}
+
+export type BulkDeleteProductsResponse = ApiResponse<BulkDeleteResponseData>;
 
 export interface FetchProductsParams {
   page?: number;
   limit?: number;
   with?: string;
-  order_by?: string;
-  sort?: 'asc' | 'desc';
+  orderBy?: string;
+  orderDir?: 'asc' | 'desc';
   search?: string;
   date_range?: string;
-  flash_sale_builder?: string;
   status?: string;
+  category?: string;
+  banner?: string;
+  flash_sale?: string;
+  slider?: string;
 }

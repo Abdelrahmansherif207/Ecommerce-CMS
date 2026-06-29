@@ -7,7 +7,10 @@ import type {
   ApiResponse,
   Product,
   ImportProductsResponse,
+  ImportStatusResponse,
   ExportProductsResponse,
+  DeleteAllProductsResponse,
+  BulkDeleteProductsResponse,
 } from '../types/product.types';
 
 export interface CreateVariantData {
@@ -57,11 +60,14 @@ export async function fetchProducts({
   limit = 15,
   search,
   status,
-  order_by,
-  sort,
+  orderBy,
+  orderDir,
   date_range,
   with: withRelations,
-  flash_sale_builder,
+  category,
+  banner,
+  flash_sale,
+  slider,
 }: FetchProductsParams = {}): Promise<ProductsListResponse> {
   const params = new URLSearchParams();
   params.append('page', page.toString());
@@ -69,11 +75,14 @@ export async function fetchProducts({
 
   if (search) params.append('search', search);
   if (status !== undefined) params.append('status', status);
-  if (order_by) params.append('order_by', order_by);
-  if (sort) params.append('sort', sort);
+  if (orderBy) params.append('orderBy', orderBy);
+  if (orderDir) params.append('orderDir', orderDir);
   if (date_range) params.append('date_range', date_range);
   if (withRelations) params.append('with', withRelations);
-  if (flash_sale_builder) params.append('flash_sale_builder', flash_sale_builder);
+  if (category) params.append('category', category);
+  if (banner) params.append('banner', banner);
+  if (flash_sale) params.append('flash_sale', flash_sale);
+  if (slider) params.append('slider', slider);
 
   const { data } = await axiosClient.get<ProductsListResponse>('/products?' + params.toString());
   return data;
@@ -91,6 +100,16 @@ export async function deleteProduct(id: number): Promise<DeleteProductResponse> 
 
 export async function searchProducts(search: string): Promise<ProductsListResponse> {
   return fetchProducts({ search, limit: 20 });
+}
+
+export async function deleteAllProducts(): Promise<DeleteAllProductsResponse> {
+  const { data } = await axiosClient.delete<DeleteAllProductsResponse>('/products/all');
+  return data;
+}
+
+export async function bulkDeleteProducts(ids: number[]): Promise<BulkDeleteProductsResponse> {
+  const { data } = await axiosClient.post<BulkDeleteProductsResponse>('/products/bulk-delete', { ids });
+  return data;
 }
 
 export async function createProduct(payload: CreateProductData): Promise<ApiResponse<Product>> {
@@ -172,6 +191,18 @@ export async function importProducts(file: File): Promise<ImportProductsResponse
   const formData = new FormData();
   formData.append('file', file);
   const { data } = await axiosClient.post<ImportProductsResponse>('/products/import', formData);
+  return data;
+}
+
+export async function getImportStatus(importId: number): Promise<ImportStatusResponse> {
+  const { data } = await axiosClient.get<ImportStatusResponse>('/products/import/' + importId);
+  return data;
+}
+
+export async function downloadImportErrors(importId: number): Promise<Blob> {
+  const { data } = await axiosClient.get<Blob>('/products/import/' + importId + '/download-errors', {
+    responseType: 'blob',
+  });
   return data;
 }
 
