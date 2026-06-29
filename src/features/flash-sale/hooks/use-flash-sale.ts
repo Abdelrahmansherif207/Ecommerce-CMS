@@ -20,10 +20,11 @@ function handleApiError(error: unknown, fallbackMessage: string): ApiErrorRespon
   return apiError;
 }
 
-export function useFlashSales(params: FetchFlashSalesParams = {}) {
+export function useFlashSales(params: FetchFlashSalesParams = {}, enabled?: boolean) {
   return useQuery({
     queryKey: ['flash-sales', params],
     queryFn: () => fetchFlashSales(params),
+    enabled,
   });
 }
 

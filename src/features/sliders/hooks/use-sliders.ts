@@ -21,10 +21,11 @@ function handleApiError(error: unknown, fallbackMessage: string): ApiErrorRespon
   return apiError;
 }
 
-export function useSliders(params: FetchSlidersParams = {}) {
+export function useSliders(params: FetchSlidersParams = {}, enabled?: boolean) {
   return useQuery({
     queryKey: ['sliders', params],
     queryFn: () => fetchSliders(params),
+    enabled,
   });
 }
 
