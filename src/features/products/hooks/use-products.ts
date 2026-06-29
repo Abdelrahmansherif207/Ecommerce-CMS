@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import {
@@ -6,11 +7,17 @@ import {
   deleteProduct,
   createProduct,
   importProducts,
+  getImportStatus,
+  downloadImportErrors,
+  deleteAllProducts,
+  bulkDeleteProducts,
   exportProducts,
   type CreateProductData,
 } from '../api/products.api';
 import type { FetchProductsParams } from '../types/product.types';
 import type { ApiErrorResponse } from '@/shared/api';
+
+export type ImportPhase = 'idle' | 'uploading' | 'polling' | 'completed' | 'failed' | 'timeout';
 
 function handleApiError(error: unknown, fallbackMessage: string): ApiErrorResponse {
   const apiError = error as ApiErrorResponse;
@@ -64,17 +71,116 @@ export function useCreateProduct() {
   });
 }
 
-export function useImportProducts() {
+export function useProductsImport() {
   const queryClient = useQueryClient();
+  const [importId, setImportId] = useState<number | null>(null);
+  const [phase, setPhase] = useState<ImportPhase>('idle');
 
-  return useMutation({
+  const uploadMutation = useMutation({
     mutationFn: (file: File) => importProducts(file),
     onSuccess: (response) => {
-      toast.success(response.message || 'Products imported successfully');
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      if (response.data?.import_id) {
+        setImportId(response.data.import_id);
+        setPhase('polling');
+      }
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to import products');
+      setPhase('idle');
+    },
+  });
+
+  const statusQuery = useQuery({
+    queryKey: ['import-status', importId],
+    queryFn: () => getImportStatus(importId!),
+    enabled: phase === 'polling',
+    refetchInterval: (query) => {
+      const status = query.state.data?.data?.status;
+      if (status === 'completed' || status === 'failed') return false;
+      return 1000;
+    },
+  });
+
+  useEffect(() => {
+    const data = statusQuery.data?.data;
+    if (!data) return;
+    if (data.status === 'completed') {
+      setPhase('completed');
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+    } else if (data.status === 'failed') {
+      setPhase('failed');
+    }
+  }, [statusQuery.data, queryClient]);
+
+  useEffect(() => {
+    if (phase !== 'polling') return;
+    const timer = setTimeout(() => {
+      setPhase('timeout');
+    }, 180_000);
+    return () => clearTimeout(timer);
+  }, [phase]);
+
+  const downloadErrors = useCallback(async () => {
+    if (!importId) return;
+    try {
+      const blob = await downloadImportErrors(importId);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `import_errors_${importId}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch {
+      toast.success('No errors found');
+    }
+  }, [importId]);
+
+  const reset = useCallback(() => {
+    setImportId(null);
+    setPhase('idle');
+    uploadMutation.reset();
+  }, [uploadMutation]);
+
+  return {
+    upload: uploadMutation.mutate,
+    isUploading: uploadMutation.isPending,
+    uploadError: uploadMutation.error,
+    phase,
+    importId,
+    status: statusQuery.data?.data ?? null,
+    downloadErrors,
+    reset,
+  };
+}
+
+export function useDeleteAllProducts() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => deleteAllProducts(),
+    onSuccess: (response) => {
+      toast.success(response.message || 'All products deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+    },
+    onError: (error: unknown) => {
+      handleApiError(error, 'Failed to delete all products');
+    },
+  });
+}
+
+export function useBulkDeleteProducts() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (ids: number[]) => bulkDeleteProducts(ids),
+    onSuccess: (response) => {
+      toast.success(response.message || 'Products deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+    },
+    onError: (error: unknown) => {
+      handleApiError(error, 'Failed to delete products');
     },
   });
 }
