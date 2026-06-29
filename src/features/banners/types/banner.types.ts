@@ -14,6 +14,7 @@ export interface BannerProduct {
 export interface Banner {
   id: number;
   title: string;
+  slug?: string;
   description: string;
   image: BannerImage;
   status: boolean;

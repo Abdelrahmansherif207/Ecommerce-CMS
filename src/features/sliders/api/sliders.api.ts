@@ -12,6 +12,7 @@ import type {
 export interface FetchSlidersParams {
   page?: number;
   perPage?: number;
+  search?: string;
   active?: boolean;
   order?: string;
   sortedBy?: string;
@@ -20,6 +21,7 @@ export interface FetchSlidersParams {
 export async function fetchSliders({
   page = 1,
   perPage = 15,
+  search,
   active,
   order,
   sortedBy,
@@ -28,6 +30,7 @@ export async function fetchSliders({
   params.append('page', page.toString());
   params.append('limit', perPage.toString());
 
+  if (search) params.append('search', search);
   if (active !== undefined) params.append('active', active ? '1' : '0');
   if (order) params.append('order', order);
   if (sortedBy) params.append('sortedBy', sortedBy);

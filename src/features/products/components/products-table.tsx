@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { MoreHorizontal, Eye, ExternalLink, Trash2, Copy, Check, Tag, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -30,13 +30,38 @@ interface ProductsTableProps {
   onView: (product: Product) => void;
   onNavigateDetail: (product: Product) => void;
   onRefresh: () => void;
+  selectedIds: number[];
+  onSelectionChange: (ids: number[]) => void;
 }
 
-export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onRefresh }: ProductsTableProps) {
+export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onRefresh, selectedIds, onSelectionChange }: ProductsTableProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
   const [copiedSlugId, setCopiedSlugId] = useState<number | null>(null);
+
+  const allSelected = data.length > 0 && data.every((p) => selectedIds.includes(p.id));
+  const someSelected = data.some((p) => selectedIds.includes(p.id));
+
+  const toggleSelect = useCallback((id: number) => {
+    onSelectionChange(
+      selectedIds.includes(id)
+        ? selectedIds.filter((i) => i !== id)
+        : [...selectedIds, id]
+    );
+  }, [selectedIds, onSelectionChange]);
+
+  const toggleSelectAll = useCallback(() => {
+    if (allSelected) {
+      onSelectionChange(selectedIds.filter((id) => !data.some((p) => p.id === id)));
+    } else {
+      const newIds = [...selectedIds];
+      data.forEach((p) => {
+        if (!newIds.includes(p.id)) newIds.push(p.id);
+      });
+      onSelectionChange(newIds);
+    }
+  }, [allSelected, selectedIds, data, onSelectionChange]);
 
   const handleCopySlug = async (slug: string, id: number) => {
     try {
@@ -76,6 +101,8 @@ export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onRef
                   onView={onView}
                   onNavigateDetail={onNavigateDetail}
                   onDelete={setDeleteTarget}
+                  selected={selectedIds.includes(product.id)}
+                  onToggleSelect={toggleSelect}
                 />
           ))}
         </div>
@@ -98,6 +125,15 @@ export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onRef
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-10">
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  ref={(el) => { if (el) el.indeterminate = someSelected && !allSelected; }}
+                  onChange={toggleSelectAll}
+                  className="size-4 cursor-pointer"
+                />
+              </TableHead>
               <TableHead className="w-12">{t('products.image')}</TableHead>
               <TableHead>{t('products.name')}</TableHead>
               <TableHead className="hidden lg:table-cell">{t('products.slug')}</TableHead>
@@ -113,7 +149,15 @@ export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onRef
           </TableHeader>
           <TableBody>
             {data.map((product) => (
-              <TableRow key={product.id}>
+              <TableRow key={product.id} aria-selected={selectedIds.includes(product.id)} data-selected={selectedIds.includes(product.id) || undefined}>
+                <TableCell>
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(product.id)}
+                    onChange={() => toggleSelect(product.id)}
+                    className="size-4 cursor-pointer"
+                  />
+                </TableCell>
                 <TableCell>
                   {product.images && product.images.length > 0 ? (
                     <img
@@ -243,15 +287,23 @@ interface ProductCardProps {
   onView: (product: Product) => void;
   onNavigateDetail: (product: Product) => void;
   onDelete: (product: Product) => void;
+  selected: boolean;
+  onToggleSelect: (id: number) => void;
 }
 
-function ProductCard({ product, copiedSlugId, onCopySlug, onView, onNavigateDetail, onDelete }: ProductCardProps) {
+function ProductCard({ product, copiedSlugId, onCopySlug, onView, onNavigateDetail, onDelete, selected, onToggleSelect }: ProductCardProps) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="rounded-lg border bg-card p-3 space-y-2">
+    <div className={`rounded-lg border bg-card p-3 space-y-2 ${selected ? 'ring-2 ring-primary' : ''}`}>
       <div className="flex items-start gap-3">
+        <input
+          type="checkbox"
+          checked={selected}
+          onChange={() => onToggleSelect(product.id)}
+          className="mt-1 size-4 cursor-pointer shrink-0"
+        />
         {product.images && product.images.length > 0 ? (
           <img
             src={product.images[0]}
