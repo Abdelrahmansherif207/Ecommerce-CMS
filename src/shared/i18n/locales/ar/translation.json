@@ -200,6 +200,21 @@
         "profile": "الملف الشخصي",
         "settings": "الإعدادات"
     },
+    "profile": {
+        "title": "الملف الشخصي",
+        "subtitle": "إدارة إعدادات حسابك والصلاحيات.",
+        "profileInfo": "معلومات الملف",
+        "permissions": "الصلاحيات",
+        "changePassword": "تغيير كلمة المرور",
+        "active": "نشط",
+        "inactive": "غير نشط",
+        "emailVerified": "البريد الإلكتروني موثق",
+        "notVerified": "غير موثق",
+        "totalPermissions": "إجمالي الصلاحيات",
+        "searchPermissions": "بحث في الصلاحيات...",
+        "noPermissions": "لم يتم العثور على صلاحيات",
+        "loadError": "فشل تحميل الملف الشخصي"
+    },
     "brands": {
         "inactive": "غير نشط",
         "searchPlaceholder": "بحث بالاسم أو الرابط...",

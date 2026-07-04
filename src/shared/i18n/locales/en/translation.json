@@ -200,6 +200,21 @@
         "profile": "Profile",
         "settings": "Settings"
     },
+    "profile": {
+        "title": "Profile",
+        "subtitle": "Manage your account settings and permissions.",
+        "profileInfo": "Profile Info",
+        "permissions": "Permissions",
+        "changePassword": "Change Password",
+        "active": "Active",
+        "inactive": "Inactive",
+        "emailVerified": "Email Verified",
+        "notVerified": "Not Verified",
+        "totalPermissions": "Total Permissions",
+        "searchPermissions": "Search permissions...",
+        "noPermissions": "No permissions found",
+        "loadError": "Failed to load profile"
+    },
     "brands": {
         "inactive": "Inactive",
         "searchPlaceholder": "Search by name or slug...",
