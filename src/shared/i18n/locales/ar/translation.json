@@ -27,7 +27,8 @@
         "page": "صفحة",
         "perPage": "لكل صفحة",
         "close": "إغلاق",
-        "view": "عرض"
+        "view": "عرض",
+        "deleting": "جاري الحذف..."
     },
     "sidebar": {
         "overview": "نظرة عامة",
@@ -58,6 +59,38 @@
         "users": "المستخدمون",
         "attributes": "الخصائص",
         "roles": "الأدوار والصلاحيات"
+    },
+    "orders": {
+        "title": "الطلبات",
+        "subtitle": "إدارة وتتبع طلبات العملاء.",
+        "searchPlaceholder": "بحث بالاسم أو البريد الإلكتروني أو الهاتف...",
+        "allStatuses": "جميع الحالات",
+        "allPaymentStatuses": "جميع المدفوعات",
+        "allShippingMethods": "جميع الشحن",
+        "orderNumber": "رقم الطلب",
+        "customer": "العميل",
+        "status": "الحالة",
+        "paymentStatus": "الدفع",
+        "shippingMethod": "الشحن",
+        "date": "التاريخ",
+        "orderItems": "عناصر الطلب",
+        "transactions": "المعاملات",
+        "invoice": "الفاتورة",
+        "paymentMethod": "طريقة الدفع",
+        "customerInfo": "معلومات العميل",
+        "shippingAddress": "عنوان الشحن",
+        "priceSummary": "ملخص السعر",
+        "subtotal": "المجموع الفرعي",
+        "shipping": "الشحن",
+        "discount": "الخصم",
+        "total": "الإجمالي",
+        "product": "المنتج",
+        "sku": "الكود",
+        "quantity": "الكمية",
+        "unitPrice": "سعر الوحدة",
+        "notes": "ملاحظات",
+        "deleteTitle": "حذف الطلب",
+        "deleteDescription": "هل أنت متأكد من حذف الطلب {{orderNumber}}؟ لا يمكن التراجع عن هذا الإجراء."
     },
     "categories": {
         "title": "الفئات",

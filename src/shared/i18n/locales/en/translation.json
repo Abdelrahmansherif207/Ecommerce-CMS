@@ -27,7 +27,8 @@
         "page": "Page",
         "perPage": "per page",
         "close": "Close",
-        "view": "View"
+        "view": "View",
+        "deleting": "Deleting..."
     },
     "sidebar": {
         "overview": "Overview",
@@ -58,6 +59,38 @@
         "users": "Users",
         "attributes": "Attributes",
         "roles": "Roles & Permissions"
+    },
+    "orders": {
+        "title": "Orders",
+        "subtitle": "Manage and track customer orders.",
+        "searchPlaceholder": "Search by name, email or phone...",
+        "allStatuses": "All Statuses",
+        "allPaymentStatuses": "All Payments",
+        "allShippingMethods": "All Shipping",
+        "orderNumber": "Order #",
+        "customer": "Customer",
+        "status": "Status",
+        "paymentStatus": "Payment",
+        "shippingMethod": "Shipping",
+        "date": "Date",
+        "orderItems": "Order Items",
+        "transactions": "Transactions",
+        "invoice": "Invoice",
+        "paymentMethod": "Payment Method",
+        "customerInfo": "Customer Info",
+        "shippingAddress": "Shipping Address",
+        "priceSummary": "Price Summary",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "discount": "Discount",
+        "total": "Total",
+        "product": "Product",
+        "sku": "SKU",
+        "quantity": "Qty",
+        "unitPrice": "Unit Price",
+        "notes": "Notes",
+        "deleteTitle": "Delete Order",
+        "deleteDescription": "Are you sure you want to delete order {{orderNumber}}? This action cannot be undone."
     },
     "categories": {
         "title": "Categories",
