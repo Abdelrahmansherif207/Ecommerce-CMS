@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, Bell, LogOut, Settings, Languages, UserRound, X } from "lucide-react";
+import { Search, Bell, LogOut, Settings, UserRound, X } from "lucide-react";
 import { SidebarTrigger } from "@/shared/ui/sidebar";
 import { Separator } from "@/shared/ui/separator";
 import { Input } from "@/shared/ui/input";
@@ -26,8 +26,7 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <header className="relative flex h-14 shrink-0 items-center gap-2 px-4 transition-[width,height] ease-linear">
-      {/* Brand / Logo — always visible in the full-width header */}
+    <header className="fixed top-0 z-20 flex h-14 w-full items-center gap-2 bg-background px-4">
       <div className="flex items-center gap-2 min-w-fit me-4">
         <img src="/meem.svg" alt="Meem Logo" className="h-8 w-auto shrink-0 object-contain md:h-10" />
       </div>
@@ -72,8 +71,12 @@ function LanguageSwitcher() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
-        <Languages className="size-4" />
+      <DropdownMenuTrigger
+        render={
+          <Button variant="outline" size="sm" className="h-8 min-w-12 px-2 font-medium text-xs" />
+        }
+      >
+        <span>{language === 'ar' ? 'AR' : 'EN'}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-32">
         <DropdownMenuItem

@@ -12,8 +12,10 @@ export function AdminLayout() {
         className="flex-col bg-sidebar"
         style={{ '--layout-header-height': '3.5rem' } as React.CSSProperties}
       >
-        {/* Full-width header — spans sidebar + content columns */}
         <Header />
+
+        {/* Spacer for fixed header */}
+        <div className="h-14 shrink-0" />
 
         {/* Row: sidebar on the left, content on the right */}
         <div className="flex flex-1 overflow-hidden">
