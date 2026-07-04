@@ -41,6 +41,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { Skeleton } from '@/shared/ui/skeleton';
+import { useIsMobile } from '@/shared/hooks/use-mobile';
 import { SliderImageCell } from './slider-image-cell';
 import { SliderStatusBadge } from './slider-status-badge';
 import { SliderDeleteDialog } from './slider-delete-dialog';
@@ -159,6 +160,7 @@ export function SlidersTable({
   onRefresh,
 }: SlidersTableProps) {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [deleteTarget, setDeleteTarget] = useState<Slider | null>(null);
   const changeStatusMutation = useChangeSliderStatus();
   const reorderMutation = useReorderSliders();
@@ -187,8 +189,57 @@ export function SlidersTable({
     reorderMutation.mutate(ids, { onSuccess: onRefresh });
   };
 
+  const handleMoveUp = (index: number) => {
+    if (index === 0) return;
+    const ids = data.map((s) => s.id);
+    [ids[index - 1], ids[index]] = [ids[index], ids[index - 1]];
+    reorderMutation.mutate(ids, { onSuccess: onRefresh });
+  };
+
   if (isLoading) {
-    return <TableSkeleton />;
+    return isMobile ? <MobileCardSkeleton /> : <TableSkeleton />;
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="rounded-lg border">
+        <div className="flex h-24 items-center justify-center">
+          <p className="text-muted-foreground">{t('common.noData')}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <>
+        <div className="space-y-3">
+          {data.map((slider, index) => (
+            <SliderCard
+              key={slider.id}
+              slider={slider}
+              index={index}
+              onMoveUp={handleMoveUp}
+              onEdit={onEdit}
+              onToggleStatus={handleToggleStatus}
+              onDelete={setDeleteTarget}
+              isPendingStatus={changeStatusMutation.isPending}
+            />
+          ))}
+        </div>
+        {deleteTarget && (
+          <SliderDeleteDialog
+            sliderId={deleteTarget.id}
+            sliderTitle={deleteTarget.title}
+            open={!!deleteTarget}
+            onOpenChange={(open) => {
+              if (!open) setDeleteTarget(null);
+            }}
+            onDeleted={onRefresh}
+          />
+        )}
+      </>
+    );
   }
 
   return (
@@ -255,6 +306,65 @@ export function SlidersTable({
   );
 }
 
+function SliderCard({ slider, index, onMoveUp, onEdit, onToggleStatus, onDelete, isPendingStatus }: { slider: Slider; index: number; onMoveUp: (index: number) => void; onEdit: (slider: Slider) => void; onToggleStatus: (slider: Slider) => void; onDelete: (slider: Slider) => void; isPendingStatus: boolean }) {
+  const { t } = useTranslation();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <div className="rounded-lg border bg-card p-3 space-y-2">
+      <div className="flex items-start gap-3">
+        <button
+          type="button"
+          className="mt-1 cursor-pointer text-muted-foreground hover:text-foreground disabled:opacity-30 shrink-0"
+          onClick={() => onMoveUp(index)}
+          disabled={index === 0}
+        >
+          <GripVertical className="h-4 w-4" />
+        </button>
+        <SliderImageCell image={slider.image} alt={slider.title} />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2">
+            <div className="min-w-0">
+              <p className="font-medium truncate">{slider.title}</p>
+              <p className="text-xs text-muted-foreground truncate">/{slider.slug}</p>
+            </div>
+            <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+              <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
+                <MoreHorizontal className="h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => { onEdit(slider); setMenuOpen(false); }}>
+                  <Pencil className="me-2 h-4 w-4" />
+                  {t('common.edit')}
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive" onClick={() => { onDelete(slider); setMenuOpen(false); }}>
+                  <Trash2 className="me-2 h-4 w-4" />
+                  {t('common.delete')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-xs text-muted-foreground">#{slider.order}</span>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => onToggleStatus(slider)}
+            disabled={isPendingStatus}
+            title={slider.status ? t('sliders.deactivate') : t('sliders.activate')}
+          >
+            {slider.status ? <Power className="h-4 w-4 text-green-600" /> : <PowerOff className="h-4 w-4 text-muted-foreground" />}
+          </Button>
+          <SliderStatusBadge status={slider.status} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function TableSkeleton() {
   return (
     <div className="rounded-lg border">
@@ -285,6 +395,32 @@ function TableSkeleton() {
           ))}
         </TableBody>
       </Table>
+    </div>
+  );
+}
+
+function MobileCardSkeleton() {
+  return (
+    <div className="space-y-3">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className="rounded-lg border bg-card p-3 space-y-3">
+          <div className="flex items-start gap-3">
+            <Skeleton className="h-4 w-4 shrink-0" />
+            <Skeleton className="h-10 w-10 rounded-lg shrink-0" />
+            <div className="flex-1 space-y-1.5">
+              <Skeleton className="h-4 w-2/3" />
+              <Skeleton className="h-3 w-1/3" />
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-3 w-8" />
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-8 w-8 rounded-md" />
+              <Skeleton className="h-5 w-16" />
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

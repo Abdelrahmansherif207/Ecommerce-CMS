@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { Skeleton } from '@/shared/ui/skeleton';
+import { useIsMobile } from '@/shared/hooks/use-mobile';
 import { BrandImageCell } from './brand-image-cell';
 import { BrandStatusBadge } from './brand-status-badge';
 import { BrandDeleteDialog } from './brand-delete-dialog';
@@ -42,6 +43,7 @@ export function BrandsTable({
   onRefresh,
 }: BrandsTableProps) {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [deleteTarget, setDeleteTarget] = useState<Brand | null>(null);
   const reorderMutation = useReorderBrands();
 
@@ -53,7 +55,47 @@ export function BrandsTable({
   };
 
   if (isLoading) {
-    return <TableSkeleton />;
+    return isMobile ? <MobileCardSkeleton /> : <TableSkeleton />;
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="rounded-lg border">
+        <div className="flex h-24 items-center justify-center">
+          <p className="text-muted-foreground">{t('common.noData')}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <>
+        <div className="space-y-3">
+          {data.map((brand, index) => (
+            <BrandCard
+              key={brand.id}
+              brand={brand}
+              index={index}
+              onMoveUp={handleMoveUp}
+              onEdit={onEdit}
+              onDelete={setDeleteTarget}
+            />
+          ))}
+        </div>
+        {deleteTarget && (
+          <BrandDeleteDialog
+            brandId={deleteTarget.id}
+            brandName={deleteTarget.name}
+            open={!!deleteTarget}
+            onOpenChange={(open) => {
+              if (!open) setDeleteTarget(null);
+            }}
+            onDeleted={onRefresh}
+          />
+        )}
+      </>
+    );
   }
 
   return (
@@ -71,69 +113,61 @@ export function BrandsTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6} className="h-24 text-center">
-                  {t('common.noData')}
+            {data.map((brand, index) => (
+              <TableRow key={brand.id}>
+                <TableCell className="p-1">
+                  <div className="flex flex-col items-center gap-0.5">
+                    <button
+                      type="button"
+                      className="cursor-pointer text-muted-foreground hover:text-foreground disabled:opacity-30"
+                      onClick={() => handleMoveUp(index)}
+                      disabled={index === 0}
+                    >
+                      <GripVertical className="h-3.5 w-3.5 rotate-0" />
+                    </button>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <BrandImageCell image={brand.image} alt={brand.name} />
+                </TableCell>
+                <TableCell>
+                  <div className="min-w-0">
+                    <p className="font-medium truncate">{brand.name}</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      /{brand.slug}
+                    </p>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm text-muted-foreground line-clamp-2">
+                    {brand.details || '—'}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <BrandStatusBadge status={brand.status} />
+                </TableCell>
+                <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
+                      <MoreHorizontal className="h-4 w-4" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => onEdit(brand)}>
+                        <Pencil className="me-2 h-4 w-4" />
+                        {t('common.edit')}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="text-destructive"
+                        onClick={() => setDeleteTarget(brand)}
+                      >
+                        <Trash2 className="me-2 h-4 w-4" />
+                        {t('common.delete')}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
-            ) : (
-              data.map((brand, index) => (
-                <TableRow key={brand.id}>
-                  <TableCell className="p-1">
-                    <div className="flex flex-col items-center gap-0.5">
-                      <button
-                        type="button"
-                        className="cursor-pointer text-muted-foreground hover:text-foreground disabled:opacity-30"
-                        onClick={() => handleMoveUp(index)}
-                        disabled={index === 0}
-                      >
-                        <GripVertical className="h-3.5 w-3.5 rotate-0" />
-                      </button>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <BrandImageCell image={brand.image} alt={brand.name} />
-                  </TableCell>
-                  <TableCell>
-                    <div className="min-w-0">
-                      <p className="font-medium truncate">{brand.name}</p>
-                      <p className="text-xs text-muted-foreground truncate">
-                        /{brand.slug}
-                      </p>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-sm text-muted-foreground line-clamp-2">
-                      {brand.details || '—'}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <BrandStatusBadge status={brand.status} />
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
-                        <MoreHorizontal className="h-4 w-4" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => onEdit(brand)}>
-                          <Pencil className="me-2 h-4 w-4" />
-                          {t('common.edit')}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className="text-destructive"
-                          onClick={() => setDeleteTarget(brand)}
-                        >
-                          <Trash2 className="me-2 h-4 w-4" />
-                          {t('common.delete')}
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
+            ))}
           </TableBody>
         </Table>
       </div>
@@ -150,6 +184,54 @@ export function BrandsTable({
         />
       )}
     </>
+  );
+}
+
+function BrandCard({ brand, index, onMoveUp, onEdit, onDelete }: { brand: Brand; index: number; onMoveUp: (index: number) => void; onEdit: (brand: Brand) => void; onDelete: (brand: Brand) => void }) {
+  const { t } = useTranslation();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <div className="rounded-lg border bg-card p-3 space-y-2">
+      <div className="flex items-start gap-3">
+        <button
+          type="button"
+          className="mt-1 cursor-pointer text-muted-foreground hover:text-foreground disabled:opacity-30 shrink-0"
+          onClick={() => onMoveUp(index)}
+          disabled={index === 0}
+        >
+          <GripVertical className="h-4 w-4" />
+        </button>
+        <BrandImageCell image={brand.image} alt={brand.name} />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2">
+            <div className="min-w-0">
+              <p className="font-medium truncate">{brand.name}</p>
+              <p className="text-xs text-muted-foreground truncate">/{brand.slug}</p>
+            </div>
+            <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+              <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
+                <MoreHorizontal className="h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => { onEdit(brand); setMenuOpen(false); }}>
+                  <Pencil className="me-2 h-4 w-4" />
+                  {t('common.edit')}
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive" onClick={() => { onDelete(brand); setMenuOpen(false); }}>
+                  <Trash2 className="me-2 h-4 w-4" />
+                  {t('common.delete')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      </div>
+      <p className="text-xs text-muted-foreground line-clamp-2">{brand.details || '—'}</p>
+      <div className="flex items-center justify-end">
+        <BrandStatusBadge status={brand.status} />
+      </div>
+    </div>
   );
 }
 
@@ -191,6 +273,29 @@ function TableSkeleton() {
           ))}
         </TableBody>
       </Table>
+    </div>
+  );
+}
+
+function MobileCardSkeleton() {
+  return (
+    <div className="space-y-3">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className="rounded-lg border bg-card p-3 space-y-3">
+          <div className="flex items-start gap-3">
+            <Skeleton className="h-4 w-4 shrink-0" />
+            <Skeleton className="h-10 w-10 rounded-lg shrink-0" />
+            <div className="flex-1 space-y-1.5">
+              <Skeleton className="h-4 w-2/3" />
+              <Skeleton className="h-3 w-1/3" />
+            </div>
+          </div>
+          <Skeleton className="h-3 w-full" />
+          <div className="flex items-center justify-end">
+            <Skeleton className="h-5 w-16" />
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
