@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router';
+import { queryKeys } from '@/shared/lib/query-keys';
 import {
   fetchOrders,
   fetchOrderById,
@@ -17,16 +18,18 @@ function handleApiError(error: unknown, fallbackMessage: string) {
 
 export function useOrders(params: FetchOrdersParams = {}) {
   return useQuery({
-    queryKey: ['orders', params],
+    queryKey: queryKeys.orders.list(params),
     queryFn: () => fetchOrders(params),
+    staleTime: 60 * 1000,
   });
 }
 
 export function useOrder(id: number) {
   return useQuery({
-    queryKey: ['orders', id],
+    queryKey: queryKeys.orders.detail(id),
     queryFn: () => fetchOrderById(id),
     enabled: !!id,
+    staleTime: 60 * 1000,
   });
 }
 
@@ -38,7 +41,7 @@ export function useDeleteOrder() {
     mutationFn: (id: number) => deleteOrder(id),
     onSuccess: (response) => {
       toast.success(response.message || 'Order deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.orders.lists() });
       navigate(orderRoutes.list);
     },
     onError: (error: unknown) => {

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { queryKeys } from '@/shared/lib/query-keys';
 import {
   fetchContacts,
   fetchContactById,
@@ -20,16 +21,18 @@ function handleApiError(error: unknown, fallbackMessage: string): ApiErrorRespon
 
 export function useContacts(params: FetchContactsParams = {}) {
   return useQuery({
-    queryKey: ['contacts', params],
+    queryKey: queryKeys.contacts.list(params),
     queryFn: () => fetchContacts(params),
+    staleTime: 60 * 1000,
   });
 }
 
 export function useContact(id: number | null) {
   return useQuery({
-    queryKey: ['contacts', id],
+    queryKey: queryKeys.contacts.detail(id!),
     queryFn: () => fetchContactById(id!),
     enabled: !!id,
+    staleTime: 60 * 1000,
   });
 }
 
@@ -41,7 +44,7 @@ export function useSendReply() {
       sendReply(id, { subject, message }),
     onSuccess: (response) => {
       toast.success(response.message || 'Reply sent successfully');
-      queryClient.invalidateQueries({ queryKey: ['contacts'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.contacts.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to send reply');
@@ -56,7 +59,7 @@ export function useDeleteContact() {
     mutationFn: (id: number) => deleteContact(id),
     onSuccess: (response) => {
       toast.success(response.message || 'Contact deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['contacts'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.contacts.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete contact');
@@ -71,7 +74,7 @@ export function useDeleteAllContacts() {
     mutationFn: () => deleteAllContacts(),
     onSuccess: (response) => {
       toast.success(response.message || 'All contacts deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['contacts'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.contacts.all });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete all contacts');
@@ -86,7 +89,7 @@ export function useDeleteAllReadContacts() {
     mutationFn: () => deleteAllReadContacts(),
     onSuccess: (response) => {
       toast.success(response.message || 'All read contacts deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['contacts'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.contacts.all });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete read contacts');
