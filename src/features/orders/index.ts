@@ -1,7 +1,12 @@
-// Public API — features/orders
-// Export: types, hooks, constants, permissions, routes, pages
-
-// export type {} from './types/order.types';
-// export { useOrders } from './hooks/use-orders';
-// export { orderRoutes } from './routes/order.routes';
-// export { ORDER_PERMISSIONS } from './permissions/order.permissions';
+export { OrdersPage } from './pages/orders-page';
+export { OrderDetailPage } from './pages/order-detail-page';
+export { useOrders, useOrder, useDeleteOrder } from './hooks/use-orders';
+export { orderRoutes } from './routes/order.routes';
+export type {
+  OrderListItem,
+  OrderDetail,
+  OrderItem,
+  Transaction,
+  OrdersListResponse,
+  OrderDetailResponse,
+} from './types/order.types';
