@@ -940,5 +940,171 @@
     "attributeValues": "Attributes",
     "searchAttributes": "Search attributes...",
     "noAttributes": "No attributes found"
+  },
+  "dashboard": {
+    "pageTitle": "Dashboard",
+    "pageDescription": "Welcome back. Here's an overview of your store.",
+    "errors": {
+      "failedToLoad": "Failed to load data. Please try again.",
+      "noData": "No data available"
+    },
+    "kpis": {
+      "totalRevenue": "Total Revenue",
+      "todaysRevenue": "Today's Revenue",
+      "orders": "Orders",
+      "customers": "Customers",
+      "products": "Products",
+      "refunds": "Refunds",
+      "newCustomers": "New Customers"
+    },
+    "revenue": {
+      "title": "Revenue Analytics",
+      "total": "Total Revenue",
+      "today": "Today",
+      "monthlyRevenue": "Monthly Revenue"
+    },
+    "orderStats": {
+      "title": "Order Status",
+      "today": "Today",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "pending": "Pending",
+      "processing": "Processing",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded",
+      "failed": "Failed",
+      "localFacility": "Local Facility",
+      "outForDelivery": "Out for Delivery"
+    },
+    "recentOrders": {
+      "title": "Recent Orders",
+      "orderId": "Order ID",
+      "customer": "Customer",
+      "status": "Status",
+      "total": "Total",
+      "products": "Products",
+      "items": "items",
+      "date": "Date"
+    },
+    "topProducts": {
+      "title": "Top Selling Products",
+      "product": "Product",
+      "price": "Price",
+      "sold": "Sold"
+    },
+    "categoryStats": {
+      "title": "Category Statistics",
+      "productDistribution": "Product Distribution",
+      "salesDistribution": "Sales Distribution"
+    },
+    "lowStock": {
+      "title": "Low Stock Alerts",
+      "remaining": "remaining"
+    },
+    "sales": {
+      "title": "Sales Analytics",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "last7days": "Last 7 Days",
+      "last30days": "Last 30 Days",
+      "averageOrderValue": "Avg. Order Value",
+      "revenueComparison": "Revenue Comparison",
+      "todayVsYesterday": "Today vs Yesterday",
+      "thisMonthVsLastMonth": "This Month vs Last Month",
+      "thisYearVsLastYear": "This Year vs Last Year",
+      "change": "Change",
+      "revenueByPaymentMethod": "Revenue by Payment Method",
+      "method": "Method",
+      "revenue": "Revenue"
+    },
+    "customers": {
+      "title": "Customer Analytics",
+      "newVsReturning": "New vs Returning",
+      "newCustomers": "New",
+      "returningCustomers": "Returning",
+      "growth": "Customer Growth",
+      "topCustomers": "Top Customers",
+      "byOrders": "By Orders",
+      "byRevenue": "By Revenue",
+      "lifetimeValue": "Customer Lifetime Value",
+      "activeCustomers": "Active Customers",
+      "last7days": "Last 7 Days",
+      "last30days": "Last 30 Days",
+      "last90days": "Last 90 Days",
+      "orders": "Orders",
+      "revenue": "Revenue",
+      "lifetimeValueShort": "LTV"
+    },
+    "products": {
+      "title": "Product Analytics",
+      "bestSelling": "Best Selling",
+      "worstSelling": "Worst Selling",
+      "neverSold": "Never Sold",
+      "outOfStock": "Out of Stock",
+      "inventoryValue": "Inventory Value",
+      "product": "Product",
+      "price": "Price",
+      "sold": "Sold",
+      "quantity": "Qty"
+    },
+    "orders": {
+      "title": "Order Analytics",
+      "timeline": "Order Timeline",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "successRate": "Order Success Rate",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded",
+      "total": "Total Orders",
+      "refundRate": "Refund Rate",
+      "orders": "Orders",
+      "revenue": "Revenue"
+    },
+    "categories": {
+      "title": "Category Analytics",
+      "productDistribution": "Product Distribution",
+      "highestRevenue": "Highest Revenue",
+      "lowestRevenue": "Lowest Revenue",
+      "growth": "Category Growth",
+      "category": "Category",
+      "products": "Products",
+      "revenue": "Revenue",
+      "currentMonth": "Current Month",
+      "previousMonth": "Previous Month",
+      "change": "Change %"
+    },
+    "coupons": {
+      "title": "Coupon Analytics",
+      "totalUsage": "Total Usage",
+      "topCoupons": "Top Coupons",
+      "code": "Code",
+      "name": "Name",
+      "usageCount": "Usage Count",
+      "revenueByCoupon": "Revenue by Coupon",
+      "totalDiscount": "Total Discount"
+    },
+    "cart": {
+      "title": "Cart Analytics",
+      "abandonmentRate": "Abandonment Rate",
+      "avgCartValue": "Avg. Cart Value",
+      "mostAdded": "Most Added Products",
+      "checkoutDropoff": "Checkout Drop-off",
+      "product": "Product",
+      "price": "Price",
+      "timesAdded": "Times Added"
+    },
+    "finance": {
+      "title": "Finance Analytics",
+      "grossRevenue": "Gross Revenue",
+      "netRevenue": "Net Revenue",
+      "refundAmount": "Refund Amount",
+      "totalDiscount": "Total Discount",
+      "shippingRevenue": "Shipping Revenue",
+      "revenueBreakdown": "Revenue Breakdown"
+    }
   }
 }

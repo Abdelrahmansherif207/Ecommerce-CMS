@@ -14,7 +14,7 @@ import {
   fetchProductTypes,
   searchEntities,
 } from '../api/sections.api';
-import type { CreateSectionPayload, UpdateSectionPayload } from '../types/section.types';
+import type { CreateSectionPayload, UpdateSectionPayload, SectionsListResponse } from '../types/section.types';
 import type { ApiErrorResponse } from '@/shared/api';
 
 function handleApiError(error: unknown, fallbackMessage: string): ApiErrorResponse {
@@ -136,11 +136,12 @@ export function useToggleSectionActive() {
       const queries = queryClient.getQueriesData({ queryKey: queryKeys.sections.lists() });
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
-      queryClient.setQueriesData({ queryKey: queryKeys.sections.lists() }, (old: any) => {
-        if (!old?.data) return old;
+      queryClient.setQueriesData({ queryKey: queryKeys.sections.lists() }, (old: unknown) => {
+        const sectionsData = old as SectionsListResponse | undefined;
+        if (!sectionsData?.data) return old;
         return {
-          ...old,
-          data: old.data.map((item: any) =>
+          ...sectionsData,
+          data: sectionsData.data.map((item) =>
             item.id === id ? { ...item, is_active: !item.is_active } : item
           ),
         };
@@ -176,15 +177,16 @@ export function useReorderSections() {
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
       queries.forEach(([queryKey, data]) => {
-        if (!data?.data) return;
-        const itemMap = new Map(data.data.map((item: any) => [item.id, item]));
+        const sectionsData = data as SectionsListResponse | undefined;
+        if (!sectionsData?.data) return;
+        const itemMap = new Map(sectionsData.data.map((item) => [item.id, item]));
         const reordered = sectionIds
           .map((id) => itemMap.get(id))
           .filter(Boolean);
 
-        if (reordered.length === data.data.length) {
+        if (reordered.length === sectionsData.data.length) {
           queryClient.setQueryData(queryKey, {
-            ...data,
+            ...sectionsData,
             data: reordered,
           });
         }

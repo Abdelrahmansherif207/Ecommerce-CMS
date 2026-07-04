@@ -939,5 +939,171 @@
     "attributeValues": "السمات",
     "searchAttributes": "البحث في السمات...",
     "noAttributes": "لم يتم العثور على سمات"
+  },
+  "dashboard": {
+    "pageTitle": "لوحة التحكم",
+    "pageDescription": "مرحباً بعودتك. إليك نظرة عامة على متجرك.",
+    "errors": {
+      "failedToLoad": "فشل تحميل البيانات. يرجى المحاولة مرة أخرى.",
+      "noData": "لا توجد بيانات متاحة"
+    },
+    "kpis": {
+      "totalRevenue": "إجمالي الإيرادات",
+      "todaysRevenue": "إيرادات اليوم",
+      "orders": "الطلبات",
+      "customers": "العملاء",
+      "products": "المنتجات",
+      "refunds": "المبالغ المستردة",
+      "newCustomers": "عملاء جدد"
+    },
+    "revenue": {
+      "title": "تحليل الإيرادات",
+      "total": "إجمالي الإيرادات",
+      "today": "اليوم",
+      "monthlyRevenue": "الإيرادات الشهرية"
+    },
+    "orderStats": {
+      "title": "حالة الطلبات",
+      "today": "اليوم",
+      "weekly": "أسبوعي",
+      "monthly": "شهري",
+      "yearly": "سنوي",
+      "pending": "قيد الانتظار",
+      "processing": "قيد المعالجة",
+      "completed": "مكتمل",
+      "cancelled": "ملغي",
+      "refunded": "مسترجع",
+      "failed": "فشل",
+      "localFacility": "محلي",
+      "outForDelivery": "قيد التوصيل"
+    },
+    "recentOrders": {
+      "title": "آخر الطلبات",
+      "orderId": "رقم الطلب",
+      "customer": "العميل",
+      "status": "الحالة",
+      "total": "الإجمالي",
+      "products": "المنتجات",
+      "items": "عناصر",
+      "date": "التاريخ"
+    },
+    "topProducts": {
+      "title": "المنتجات الأكثر مبيعاً",
+      "product": "المنتج",
+      "price": "السعر",
+      "sold": "المباع"
+    },
+    "categoryStats": {
+      "title": "إحصائيات التصنيفات",
+      "productDistribution": "توزيع المنتجات",
+      "salesDistribution": "توزيع المبيعات"
+    },
+    "lowStock": {
+      "title": "تنبيهات المخزون المنخفض",
+      "remaining": "متبقي"
+    },
+    "sales": {
+      "title": "تحليل المبيعات",
+      "today": "اليوم",
+      "yesterday": "الأمس",
+      "last7days": "آخر 7 أيام",
+      "last30days": "آخر 30 يوم",
+      "averageOrderValue": "متوسط قيمة الطلب",
+      "revenueComparison": "مقارنة الإيرادات",
+      "todayVsYesterday": "اليوم مقارنة بالأمس",
+      "thisMonthVsLastMonth": "هذا الشهر مقارنة بالشهر الماضي",
+      "thisYearVsLastYear": "هذه السنة مقارنة بالسنة الماضية",
+      "change": "التغيير",
+      "revenueByPaymentMethod": "الإيرادات حسب طريقة الدفع",
+      "method": "الطريقة",
+      "revenue": "الإيرادات"
+    },
+    "customers": {
+      "title": "تحليل العملاء",
+      "newVsReturning": "جدد مقابل عائدين",
+      "newCustomers": "جدد",
+      "returningCustomers": "عائدين",
+      "growth": "نمو العملاء",
+      "topCustomers": "أفضل العملاء",
+      "byOrders": "حسب الطلبات",
+      "byRevenue": "حسب الإيرادات",
+      "lifetimeValue": "القيمة الدائمة للعميل",
+      "activeCustomers": "العملاء النشطون",
+      "last7days": "آخر 7 أيام",
+      "last30days": "آخر 30 يوم",
+      "last90days": "آخر 90 يوم",
+      "orders": "الطلبات",
+      "revenue": "الإيرادات",
+      "lifetimeValueShort": "القيمة الدائمة"
+    },
+    "products": {
+      "title": "تحليل المنتجات",
+      "bestSelling": "الأكثر مبيعاً",
+      "worstSelling": "الأقل مبيعاً",
+      "neverSold": "لم يتم بيعه",
+      "outOfStock": "نفذ من المخزون",
+      "inventoryValue": "قيمة المخزون",
+      "product": "المنتج",
+      "price": "السعر",
+      "sold": "المباع",
+      "quantity": "الكمية"
+    },
+    "orders": {
+      "title": "تحليل الطلبات",
+      "timeline": "الخط الزمني للطلبات",
+      "daily": "يومي",
+      "weekly": "أسبوعي",
+      "monthly": "شهري",
+      "successRate": "معدل نجاح الطلبات",
+      "completed": "مكتمل",
+      "cancelled": "ملغي",
+      "refunded": "مسترجع",
+      "total": "إجمالي الطلبات",
+      "refundRate": "معدل الاسترجاع",
+      "orders": "الطلبات",
+      "revenue": "الإيرادات"
+    },
+    "categories": {
+      "title": "تحليل التصنيفات",
+      "productDistribution": "توزيع المنتجات",
+      "highestRevenue": "أعلى إيرادات",
+      "lowestRevenue": "أقل إيرادات",
+      "growth": "نمو التصنيفات",
+      "category": "التصنيف",
+      "products": "المنتجات",
+      "revenue": "الإيرادات",
+      "currentMonth": "الشهر الحالي",
+      "previousMonth": "الشهر الماضي",
+      "change": "نسبة التغيير"
+    },
+    "coupons": {
+      "title": "تحليل الكوبونات",
+      "totalUsage": "إجمالي الاستخدام",
+      "topCoupons": "أفضل الكوبونات",
+      "code": "الكود",
+      "name": "الاسم",
+      "usageCount": "عدد الاستخدامات",
+      "revenueByCoupon": "الإيرادات حسب الكوبون",
+      "totalDiscount": "إجمالي الخصم"
+    },
+    "cart": {
+      "title": "تحليل سلة التسوق",
+      "abandonmentRate": "معدل التخلي",
+      "avgCartValue": "متوسط قيمة السلة",
+      "mostAdded": "المنتجات الأكثر إضافة",
+      "checkoutDropoff": "معدل الانقطاع عن الدفع",
+      "product": "المنتج",
+      "price": "السعر",
+      "timesAdded": "عدد الإضافات"
+    },
+    "finance": {
+      "title": "تحليل المالية",
+      "grossRevenue": "إجمالي الإيرادات",
+      "netRevenue": "صافي الإيرادات",
+      "refundAmount": "قيمة المستردات",
+      "totalDiscount": "إجمالي الخصم",
+      "shippingRevenue": "إيرادات الشحن",
+      "revenueBreakdown": "تفصيل الإيرادات"
+    }
   }
 }
