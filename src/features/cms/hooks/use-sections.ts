@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { queryKeys } from '@/shared/lib/query-keys';
 import {
   fetchSections,
   fetchSectionById,
@@ -27,48 +28,52 @@ function handleApiError(error: unknown, fallbackMessage: string): ApiErrorRespon
 
 export function useSections() {
   return useQuery({
-    queryKey: ['sections'],
+    queryKey: queryKeys.sections.all,
     queryFn: fetchSections,
+    staleTime: 10 * 60 * 1000,
   });
 }
 
 export function useSection(id: number) {
   return useQuery({
-    queryKey: ['sections', id],
+    queryKey: queryKeys.sections.detail(id),
     queryFn: () => fetchSectionById(id),
     enabled: !!id,
+    staleTime: 10 * 60 * 1000,
   });
 }
 
 export function useSectionTypes() {
   return useQuery({
-    queryKey: ['section-types'],
+    queryKey: queryKeys.sections.sectionTypes(),
     queryFn: fetchSectionTypes,
-    staleTime: 5 * 60 * 1000, // types rarely change
+    staleTime: 15 * 60 * 1000,
   });
 }
 
 export function useTypeSettings(typeName: string) {
   return useQuery({
-    queryKey: ['section-types', typeName, 'settings'],
+    queryKey: queryKeys.sections.typeSettings(typeName),
     queryFn: () => fetchTypeSettings(typeName),
     enabled: !!typeName,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
 export function useProductTypes() {
   return useQuery({
-    queryKey: ['product-types'],
+    queryKey: queryKeys.sections.productTypes(),
     queryFn: fetchProductTypes,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 15 * 60 * 1000,
   });
 }
 
 export function useEntitySearch(endpoint: string, search: string) {
   return useQuery({
-    queryKey: [endpoint, 'search', search],
+    queryKey: queryKeys.sections.entitySearch(endpoint, search),
     queryFn: () => searchEntities(endpoint, search),
     enabled: !!endpoint,
+    staleTime: 0,
   });
 }
 
@@ -81,7 +86,7 @@ export function useCreateSection() {
     mutationFn: (data: CreateSectionPayload) => createSection(data),
     onSuccess: (response) => {
       toast.success(response.message || 'Section created successfully');
-      queryClient.invalidateQueries({ queryKey: ['sections'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.sections.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to create section');
@@ -95,9 +100,10 @@ export function useUpdateSection() {
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: UpdateSectionPayload }) =>
       updateSection(id, data),
-    onSuccess: (response) => {
+    onSuccess: (response, { id }) => {
       toast.success(response.message || 'Section updated successfully');
-      queryClient.invalidateQueries({ queryKey: ['sections'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.sections.lists() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.sections.detail(id) });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to update section');
@@ -112,7 +118,7 @@ export function useDeleteSection() {
     mutationFn: (id: number) => deleteSection(id),
     onSuccess: (response) => {
       toast.success(response.message || 'Section deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['sections'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.sections.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete section');
@@ -125,12 +131,36 @@ export function useToggleSectionActive() {
 
   return useMutation({
     mutationFn: (id: number) => toggleSectionActive(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.sections.lists() });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.sections.lists() });
+      const previousData = queries.map(([key, data]) => ({ key, data }));
+
+      queryClient.setQueriesData({ queryKey: queryKeys.sections.lists() }, (old: any) => {
+        if (!old?.data) return old;
+        return {
+          ...old,
+          data: old.data.map((item: any) =>
+            item.id === id ? { ...item, is_active: !item.is_active } : item
+          ),
+        };
+      });
+
+      return { previousData };
+    },
     onSuccess: (response) => {
       toast.success(response.message || 'Section status updated');
-      queryClient.invalidateQueries({ queryKey: ['sections'] });
     },
-    onError: (error: unknown) => {
+    onError: (error, _id, context) => {
+      if (context?.previousData) {
+        context.previousData.forEach(({ key, data }) => {
+          if (data) queryClient.setQueryData(key, data);
+        });
+      }
       handleApiError(error, 'Failed to toggle section status');
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.sections.lists() });
     },
   });
 }
@@ -140,12 +170,41 @@ export function useReorderSections() {
 
   return useMutation({
     mutationFn: (sectionIds: number[]) => reorderSections(sectionIds),
+    onMutate: async (sectionIds) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.sections.lists() });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.sections.lists() });
+      const previousData = queries.map(([key, data]) => ({ key, data }));
+
+      queries.forEach(([queryKey, data]) => {
+        if (!data?.data) return;
+        const itemMap = new Map(data.data.map((item: any) => [item.id, item]));
+        const reordered = sectionIds
+          .map((id) => itemMap.get(id))
+          .filter(Boolean);
+
+        if (reordered.length === data.data.length) {
+          queryClient.setQueryData(queryKey, {
+            ...data,
+            data: reordered,
+          });
+        }
+      });
+
+      return { previousData };
+    },
     onSuccess: (response) => {
       toast.success(response.message || 'Sections reordered successfully');
-      queryClient.invalidateQueries({ queryKey: ['sections'] });
     },
-    onError: (error: unknown) => {
+    onError: (error, _variables, context) => {
+      if (context?.previousData) {
+        context.previousData.forEach(({ key, data }) => {
+          if (data) queryClient.setQueryData(key, data);
+        });
+      }
       handleApiError(error, 'Failed to reorder sections');
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.sections.lists() });
     },
   });
 }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Plus, Search, Upload, Download, ArrowUp, ArrowDown, Trash2, Filter, ChevronsUpDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { queryKeys } from '@/shared/lib/query-keys';
 import { Button } from '@/shared/ui/button';
 import { Pagination } from '@/shared/components/pagination';
 import { Input } from '@/shared/ui/input';
@@ -158,7 +159,7 @@ export function ProductsPage() {
   const [sliderSearch, setSliderSearch] = useState('');
 
   const catInf = useInfiniteQuery({
-    queryKey: ['categories', 'filter', catSearch],
+    queryKey: queryKeys.categories.filter(catSearch),
     queryFn: ({ pageParam }) => fetchCategories({ page: pageParam, perPage: 50, search: catSearch || undefined }),
     getNextPageParam: (lastPage) => {
       if (!lastPage?.data) return undefined;
@@ -170,7 +171,7 @@ export function ProductsPage() {
   const catItems = (catInf.data?.pages ?? []).flatMap(p => (p.data?.data ?? []).map(c => ({ id: c.id, label: c.name, slug: c.slug })));
 
   const bannerInf = useInfiniteQuery({
-    queryKey: ['banners', 'filter', bannerSearch],
+    queryKey: queryKeys.banners.filter(bannerSearch),
     queryFn: ({ pageParam }) => fetchBanners({ page: pageParam, perPage: 50, search: bannerSearch || undefined }),
     getNextPageParam: (lastPage) => {
       if (!lastPage?.data) return undefined;
@@ -182,7 +183,7 @@ export function ProductsPage() {
   const bannerItems = (bannerInf.data?.pages ?? []).flatMap(p => (p.data?.data ?? []).map(b => ({ id: b.id, label: b.title, slug: b.slug ?? b.id.toString() })));
 
   const fsInf = useInfiniteQuery({
-    queryKey: ['flash-sales', 'filter', fsSearch],
+    queryKey: queryKeys.flashSales.filter(fsSearch),
     queryFn: ({ pageParam }) => fetchFlashSales({ page: pageParam, perPage: 50, search: fsSearch || undefined }),
     getNextPageParam: (lastPage) => {
       if (!lastPage?.data) return undefined;
@@ -194,7 +195,7 @@ export function ProductsPage() {
   const fsItems = (fsInf.data?.pages ?? []).flatMap(p => (p.data?.data ?? []).map(fs => ({ id: fs.id, label: fs.title, slug: fs.slug })));
 
   const sliderInf = useInfiniteQuery({
-    queryKey: ['sliders', 'filter', sliderSearch],
+    queryKey: queryKeys.sliders.filter(sliderSearch),
     queryFn: ({ pageParam }) => fetchSliders({ page: pageParam, perPage: 50, search: sliderSearch || undefined }),
     getNextPageParam: (lastPage) => {
       if (!lastPage?.data) return undefined;

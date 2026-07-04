@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { queryKeys } from '@/shared/lib/query-keys';
 import {
   fetchAttributes,
   fetchAttributeById,
@@ -20,16 +21,18 @@ function handleApiError(error: unknown, fallbackMessage: string): ApiErrorRespon
 
 export function useAttributes(params: FetchAttributesParams = {}) {
   return useQuery({
-    queryKey: ['attributes', params],
+    queryKey: queryKeys.attributes.list(params),
     queryFn: () => fetchAttributes(params),
+    staleTime: 5 * 60 * 1000,
   });
 }
 
 export function useAttribute(id: number | null) {
   return useQuery({
-    queryKey: ['attributes', id],
+    queryKey: queryKeys.attributes.detail(id!),
     queryFn: () => fetchAttributeById(id!),
     enabled: !!id,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -40,7 +43,7 @@ export function useCreateAttribute() {
     mutationFn: (data: CreateAttributePayload) => createAttribute(data),
     onSuccess: (response) => {
       toast.success(response.message || 'Attribute created successfully');
-      queryClient.invalidateQueries({ queryKey: ['attributes'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.attributes.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to create attribute');
@@ -54,9 +57,10 @@ export function useUpdateAttribute() {
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: UpdateAttributePayload }) =>
       updateAttribute(id, data),
-    onSuccess: (response) => {
+    onSuccess: (response, { id }) => {
       toast.success(response.message || 'Attribute updated successfully');
-      queryClient.invalidateQueries({ queryKey: ['attributes'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.attributes.lists() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.attributes.detail(id) });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to update attribute');
@@ -71,7 +75,7 @@ export function useDeleteAttribute() {
     mutationFn: (id: number) => deleteAttribute(id),
     onSuccess: (response) => {
       toast.success(response.message || 'Attribute deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['attributes'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.attributes.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete attribute');

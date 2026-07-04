@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { queryKeys } from '@/shared/lib/query-keys';
 import {
   fetchRoles,
   fetchRole,
@@ -26,16 +27,18 @@ function handleApiError(error: unknown, fallbackMessage: string): ApiErrorRespon
 
 export function useRoles(params: FetchRolesParams = {}) {
   return useQuery({
-    queryKey: ['roles', params],
+    queryKey: queryKeys.roles.list(params),
     queryFn: () => fetchRoles(params),
+    staleTime: 10 * 60 * 1000,
   });
 }
 
 export function useRole(id: number) {
   return useQuery({
-    queryKey: ['roles', id],
+    queryKey: queryKeys.roles.detail(id),
     queryFn: () => fetchRole(id),
     enabled: !!id,
+    staleTime: 10 * 60 * 1000,
   });
 }
 
@@ -46,7 +49,7 @@ export function useCreateRole() {
     mutationFn: (data: CreateRoleData) => createRole(data),
     onSuccess: (response) => {
       toast.success(response.message || 'Role created successfully');
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.roles.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to create role');
@@ -60,9 +63,10 @@ export function useUpdateRole() {
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: UpdateRoleData }) =>
       updateRole(id, data),
-    onSuccess: (response) => {
+    onSuccess: (response, { id }) => {
       toast.success(response.message || 'Role updated successfully');
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.roles.lists() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.roles.detail(id) });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to update role');
@@ -76,34 +80,37 @@ export function useDeleteRole() {
   return useMutation({
     mutationFn: (id: number) => deleteRole(id),
     onMutate: async (id) => {
-      await queryClient.cancelQueries({ queryKey: ['roles'] });
-      const previous = queryClient.getQueryData<RolesListResponse>(['roles']);
-      queryClient.setQueriesData({ queryKey: ['roles'] }, (old: any) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.roles.lists() });
+      const queries = queryClient.getQueriesData<RolesListResponse>({ queryKey: queryKeys.roles.lists() });
+      const previousData = queries.map(([key, data]) => ({ key, data }));
+      queryClient.setQueriesData({ queryKey: queryKeys.roles.lists() }, (old: any) => {
         if (!old?.data || !Array.isArray(old.data)) return old;
         return { ...old, data: old.data.filter((r: { id: number }) => r.id !== id) };
       });
-      return { previous };
+      return { previousData };
     },
     onSuccess: (response) => {
       toast.success(response.message || 'Role deleted successfully');
     },
     onError: (error: unknown, _id, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(['roles'], context.previous);
+      if (context?.previousData) {
+        context.previousData.forEach(({ key, data }) => {
+          if (data) queryClient.setQueryData(key, data);
+        });
       }
       handleApiError(error, 'Failed to delete role');
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.roles.lists() });
     },
   });
 }
 
 export function usePermissions() {
   return useQuery({
-    queryKey: ['permissions'],
+    queryKey: queryKeys.roles.permissions(),
     queryFn: () => fetchPermissions(200),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 15 * 60 * 1000,
   });
 }
 
@@ -113,9 +120,10 @@ export function useAssignPermissions() {
   return useMutation({
     mutationFn: ({ roleId, permissionIds }: { roleId: number; permissionIds: number[] }) =>
       assignPermissions(roleId, { permissions: permissionIds.map(String) }),
-    onSuccess: (response) => {
+    onSuccess: (response, { roleId }) => {
       toast.success(response.message || 'Permissions assigned successfully');
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.roles.lists() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.roles.detail(roleId) });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to assign permissions');
@@ -125,7 +133,7 @@ export function useAssignPermissions() {
 
 export function useUsers(search: string) {
   return useQuery({
-    queryKey: ['users', 'search', search],
+    queryKey: queryKeys.users.search(search),
     queryFn: () => fetchUsers(search || undefined, 10),
     staleTime: 30 * 1000,
   });
@@ -133,7 +141,7 @@ export function useUsers(search: string) {
 
 export function useUserWithRoles(id: number) {
   return useQuery({
-    queryKey: ['users', id],
+    queryKey: queryKeys.users.detail(id),
     queryFn: () => fetchUserById(id),
     enabled: !!id,
     staleTime: 30 * 1000,
@@ -148,7 +156,7 @@ export function useAssignUserRoles() {
       assignUserRoles(userId, { role_ids: roleIds.map(String) }),
     onSuccess: (response) => {
       toast.success(response.message || 'Role assigned successfully');
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.users.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to assign role');
@@ -164,7 +172,7 @@ export function useRemoveUserRoles() {
       removeUserRoles(userId, { role_ids: roleIds.map(String) }),
     onSuccess: (response) => {
       toast.success(response.message || 'Role removed successfully');
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.users.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to remove role');

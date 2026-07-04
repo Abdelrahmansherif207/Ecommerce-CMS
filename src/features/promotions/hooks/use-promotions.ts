@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { queryKeys } from '@/shared/lib/query-keys';
 import {
   fetchPromotions,
   fetchPromotionById,
@@ -21,16 +22,18 @@ function handleApiError(error: unknown, fallbackMessage: string): ApiErrorRespon
 
 export function usePromotions(params: FetchPromotionsParams = {}) {
   return useQuery({
-    queryKey: ['promotions', params],
+    queryKey: queryKeys.promotions.list(params),
     queryFn: () => fetchPromotions(params),
+    staleTime: 3 * 60 * 1000,
   });
 }
 
 export function usePromotion(id: number) {
   return useQuery({
-    queryKey: ['promotions', id],
+    queryKey: queryKeys.promotions.detail(id),
     queryFn: () => fetchPromotionById(id),
     enabled: !!id,
+    staleTime: 3 * 60 * 1000,
   });
 }
 
@@ -41,7 +44,7 @@ export function useCreatePromotion() {
     mutationFn: (data: CreatePromotionData) => createPromotion(data),
     onSuccess: (response) => {
       toast.success(response.message || 'Promotion created successfully');
-      queryClient.invalidateQueries({ queryKey: ['promotions'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.promotions.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to create promotion');
@@ -55,9 +58,10 @@ export function useUpdatePromotion() {
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: UpdatePromotionData }) =>
       updatePromotion(id, data),
-    onSuccess: (response) => {
+    onSuccess: (response, { id }) => {
       toast.success(response.message || 'Promotion updated successfully');
-      queryClient.invalidateQueries({ queryKey: ['promotions'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.promotions.lists() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.promotions.detail(id) });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to update promotion');
@@ -72,7 +76,7 @@ export function useDeletePromotion() {
     mutationFn: (id: number) => deletePromotion(id),
     onSuccess: (response) => {
       toast.success(response.message || 'Promotion deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['promotions'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.promotions.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete promotion');
@@ -82,8 +86,9 @@ export function useDeletePromotion() {
 
 export function useProductSearch(search: string) {
   return useQuery({
-    queryKey: ['products', 'search', search],
+    queryKey: queryKeys.promotions.productSearch(search),
     queryFn: () => searchProducts(search),
     enabled: search.length > 0,
+    staleTime: 0,
   });
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { queryKeys } from '@/shared/lib/query-keys';
 import {
   fetchProducts,
   fetchProductById,
@@ -28,16 +29,18 @@ function handleApiError(error: unknown, fallbackMessage: string): ApiErrorRespon
 
 export function useProducts(params: FetchProductsParams = {}) {
   return useQuery({
-    queryKey: ['products', params],
+    queryKey: queryKeys.products.list(params),
     queryFn: () => fetchProducts(params),
+    staleTime: 3 * 60 * 1000,
   });
 }
 
 export function useProduct(id: number) {
   return useQuery({
-    queryKey: ['products', id],
+    queryKey: queryKeys.products.detail(id),
     queryFn: () => fetchProductById(id),
     enabled: !!id,
+    staleTime: 3 * 60 * 1000,
   });
 }
 
@@ -48,7 +51,7 @@ export function useDeleteProduct() {
     mutationFn: (id: number) => deleteProduct(id),
     onSuccess: (response) => {
       toast.success(response.message || 'Product deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete product');
@@ -63,7 +66,7 @@ export function useCreateProduct() {
     mutationFn: (data: CreateProductData) => createProduct(data),
     onSuccess: (response) => {
       toast.success(response.message || 'Product created successfully');
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.lists() });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to create product');
@@ -91,7 +94,7 @@ export function useProductsImport() {
   });
 
   const statusQuery = useQuery({
-    queryKey: ['import-status', importId],
+    queryKey: queryKeys.products.importStatus(importId!),
     queryFn: () => getImportStatus(importId!),
     enabled: phase === 'polling',
     refetchInterval: (query) => {
@@ -106,7 +109,7 @@ export function useProductsImport() {
     if (!data) return;
     if (data.status === 'completed') {
       setPhase('completed');
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
     } else if (data.status === 'failed') {
       setPhase('failed');
     }
@@ -162,7 +165,7 @@ export function useDeleteAllProducts() {
     mutationFn: () => deleteAllProducts(),
     onSuccess: (response) => {
       toast.success(response.message || 'All products deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete all products');
@@ -177,7 +180,7 @@ export function useBulkDeleteProducts() {
     mutationFn: (ids: number[]) => bulkDeleteProducts(ids),
     onSuccess: (response) => {
       toast.success(response.message || 'Products deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to delete products');
