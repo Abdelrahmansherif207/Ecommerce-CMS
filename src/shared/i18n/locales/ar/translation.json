@@ -213,6 +213,8 @@
         "totalPermissions": "إجمالي الصلاحيات",
         "searchPermissions": "بحث في الصلاحيات...",
         "noPermissions": "لم يتم العثور على صلاحيات",
+        "showAll": "عرض جميع الصلاحيات ({{count}})",
+        "showLess": "عرض أقل",
         "loadError": "فشل تحميل الملف الشخصي"
     },
     "brands": {

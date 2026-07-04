@@ -213,6 +213,8 @@
         "totalPermissions": "Total Permissions",
         "searchPermissions": "Search permissions...",
         "noPermissions": "No permissions found",
+        "showAll": "Show all {{count}} permissions",
+        "showLess": "Show less",
         "loadError": "Failed to load profile"
     },
     "brands": {
