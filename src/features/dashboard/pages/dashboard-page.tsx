@@ -1,114 +1,134 @@
+import { useTranslation } from 'react-i18next';
+import {
+  useDashboardOverview,
+  useRevenue,
+  useOrderStats,
+  useRecentOrders,
+  useTopProducts,
+  useCategoryStats,
+  useLowStock,
+  useSales,
+  useDashboardCustomers,
+  useDashboardProducts,
+  useDashboardOrders,
+  useDashboardCategories,
+  useDashboardCoupons,
+  useDashboardCart,
+  useDashboardFinance,
+} from '../hooks/use-dashboard';
+import { KpiCards } from '../components/kpi-cards';
+import { RevenueChart } from '../components/revenue-chart';
+import { OrderStatsChart } from '../components/order-stats-chart';
+import { CategoryCharts } from '../components/category-charts';
+import { RecentOrdersTable } from '../components/recent-orders-table';
+import { TopProductsTable } from '../components/top-products-table';
+import { LowStockAlerts } from '../components/low-stock-alerts';
+import { SalesAnalytics } from '../components/sales-analytics';
+import { CustomerAnalytics } from '../components/customer-analytics';
+import { ProductAnalytics } from '../components/product-analytics';
+import { OrderAnalytics } from '../components/order-analytics';
+import { CategoryAnalytics } from '../components/category-analytics';
+import { CouponAnalytics } from '../components/coupon-analytics';
+import { CartAnalytics } from '../components/cart-analytics';
+import { FinanceAnalytics } from '../components/finance-analytics';
+import { PageSkeleton } from '../components/page-skeleton';
+
 export function DashboardPage() {
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          Dashboard
-        </h1>
-        <p className="text-muted-foreground">
-          Welcome back. Here's an overview of your store.
-        </p>
-      </div>
+  const { t } = useTranslation();
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Revenue" value="$48,290" change="+12.5%" />
-        <StatCard title="Orders" value="1,248" change="+8.2%" />
-        <StatCard title="Customers" value="3,420" change="+5.1%" />
-        <StatCard title="Products" value="286" change="+2.3%" />
-      </div>
+  const overview = useDashboardOverview();
+  const revenue = useRevenue();
+  const orderStats = useOrderStats();
+  const recentOrders = useRecentOrders(10);
+  const topProducts = useTopProducts(10);
+  const categoryStats = useCategoryStats();
+  const lowStock = useLowStock(10);
+  const sales = useSales();
+  const customers = useDashboardCustomers();
+  const products = useDashboardProducts();
+  const orders = useDashboardOrders();
+  const categories = useDashboardCategories();
+  const coupons = useDashboardCoupons();
+  const cart = useDashboardCart();
+  const finance = useDashboardFinance();
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-xl border border-border bg-card p-6">
-          <h3 className="mb-4 text-sm font-semibold text-foreground">
-            Recent Orders
-          </h3>
-          <div className="space-y-3">
-            {[
-              { id: '#1234', customer: 'Alice Johnson', total: '$129.99', status: 'Delivered' },
-              { id: '#1233', customer: 'Bob Smith', total: '$89.50', status: 'Shipped' },
-              { id: '#1232', customer: 'Carol White', total: '$245.00', status: 'Processing' },
-              { id: '#1231', customer: 'Dave Brown', total: '$59.99', status: 'Pending' },
-            ].map((order) => (
-              <div
-                key={order.id}
-                className="flex items-center justify-between rounded-lg border border-border px-4 py-2.5"
-              >
-                <div>
-                  <p className="text-sm font-medium text-foreground">
-                    {order.id} — {order.customer}
-                  </p>
-                  <p className="text-xs text-muted-foreground">{order.total}</p>
-                </div>
-                <StatusBadge status={order.status} />
-              </div>
-            ))}
-          </div>
-        </div>
+  const isAnyLoading =
+    overview.isLoading ||
+    revenue.isLoading ||
+    orderStats.isLoading ||
+    recentOrders.isLoading ||
+    topProducts.isLoading ||
+    categoryStats.isLoading ||
+    lowStock.isLoading ||
+    sales.isLoading ||
+    customers.isLoading ||
+    products.isLoading ||
+    orders.isLoading ||
+    categories.isLoading ||
+    coupons.isLoading ||
+    cart.isLoading ||
+    finance.isLoading;
 
-        <div className="rounded-xl border border-border bg-card p-6">
-          <h3 className="mb-4 text-sm font-semibold text-foreground">
-            Top Products
-          </h3>
-          <div className="space-y-3">
-            {[
-              { name: 'Wireless Headphones', sold: 342, revenue: '$17,100' },
-              { name: 'Smart Watch Pro', sold: 218, revenue: '$21,800' },
-              { name: 'USB-C Hub', sold: 195, revenue: '$5,850' },
-              { name: 'Mechanical Keyboard', sold: 167, revenue: '$13,360' },
-            ].map((product) => (
-              <div
-                key={product.name}
-                className="flex items-center justify-between rounded-lg border border-border px-4 py-2.5"
-              >
-                <div>
-                  <p className="text-sm font-medium text-foreground">{product.name}</p>
-                  <p className="text-xs text-muted-foreground">{product.sold} sold</p>
-                </div>
-                <span className="text-sm font-medium text-foreground">{product.revenue}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function StatCard({
-  title,
-  value,
-  change,
-}: {
-  title: string
-  value: string
-  change: string
-}) {
-  const isPositive = change.startsWith('+')
-  return (
-    <div className="rounded-xl border border-border bg-card p-4">
-      <p className="text-sm text-muted-foreground">{title}</p>
-      <p className="mt-1 text-2xl font-bold text-foreground">{value}</p>
-      <p className={`mt-1 text-xs font-medium ${isPositive ? 'text-success' : 'text-destructive'}`}>
-        {change} vs last month
-      </p>
-    </div>
-  )
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const colorMap: Record<string, string> = {
-    Delivered: 'var(--order-delivered)',
-    Shipped: 'var(--order-shipped)',
-    Processing: 'var(--order-processing)',
-    Pending: 'var(--order-pending)',
+  if (isAnyLoading) {
+    return <PageSkeleton />;
   }
 
   return (
-    <span
-      className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium text-white"
-      style={{ backgroundColor: colorMap[status] ?? 'var(--brand-text-secondary)' }}
-    >
-      {status}
-    </span>
-  )
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          {t('dashboard.pageTitle')}
+        </h1>
+        <p className="text-muted-foreground">
+          {t('dashboard.pageDescription')}
+        </p>
+      </div>
+
+      {/* 1. KPI Summary Cards */}
+      <KpiCards data={overview.data?.data} isLoading={overview.isLoading} error={overview.error} />
+
+      {/* 2. Revenue Analytics */}
+      <RevenueChart data={revenue.data?.data} isLoading={revenue.isLoading} error={revenue.error} />
+
+      {/* 3. Sales Analytics */}
+      <SalesAnalytics data={sales.data?.data} isLoading={sales.isLoading} error={sales.error} />
+
+      {/* 4. Customer Analytics + 5. Product Analytics */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <CustomerAnalytics data={customers.data?.data} isLoading={customers.isLoading} error={customers.error} />
+        <ProductAnalytics data={products.data?.data} isLoading={products.isLoading} error={products.error} />
+      </div>
+
+      {/* 6. Order Analytics */}
+      <OrderAnalytics data={orders.data?.data} isLoading={orders.isLoading} error={orders.error} />
+
+      {/* 7. Category Stats + Order Stats side by side */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <OrderStatsChart data={orderStats.data?.data} isLoading={orderStats.isLoading} error={orderStats.error} />
+        <CategoryCharts data={categoryStats.data?.data} isLoading={categoryStats.isLoading} error={categoryStats.error} />
+      </div>
+
+      {/* 8. Category Analytics + 9. Coupon Analytics */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <CategoryAnalytics data={categories.data?.data} isLoading={categories.isLoading} error={categories.error} />
+        <CouponAnalytics data={coupons.data?.data} isLoading={coupons.isLoading} error={coupons.error} />
+      </div>
+
+      {/* 10. Cart Analytics */}
+      <CartAnalytics data={cart.data?.data} isLoading={cart.isLoading} error={cart.error} />
+
+      {/* 11. Finance Analytics */}
+      <FinanceAnalytics data={finance.data?.data} isLoading={finance.isLoading} error={finance.error} />
+
+      {/* Recent Orders */}
+      <RecentOrdersTable data={recentOrders.data?.data} isLoading={recentOrders.isLoading} error={recentOrders.error} />
+
+      {/* Top Products + Low Stock Alerts */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <TopProductsTable data={topProducts.data?.data} isLoading={topProducts.isLoading} error={topProducts.error} />
+        <LowStockAlerts data={lowStock.data?.data} isLoading={lowStock.isLoading} error={lowStock.error} />
+      </div>
+    </div>
+  );
 }
