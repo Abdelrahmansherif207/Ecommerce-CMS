@@ -3,6 +3,8 @@ export interface LocalizedName {
   ar: string;
 }
 
+export type LocalizedField = string | LocalizedName;
+
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
@@ -58,13 +60,13 @@ export interface OrderStatsData {
 
 export interface OrderProduct {
   id: number;
-  name: string;
+  name: LocalizedField;
   pivot: { product_quantity: number };
 }
 
 export interface OrderUser {
   id: number;
-  name: string;
+  name: LocalizedField;
   email: string;
 }
 
@@ -82,7 +84,7 @@ export interface RecentOrder {
 
 export interface TopProduct {
   id: number;
-  name: string;
+  name: LocalizedField;
   slug: string;
   price: number;
   sold_quantity: number;
@@ -111,12 +113,12 @@ export interface CategoryStatsData {
 
 export interface ProductType {
   id: number;
-  name: string;
+  name: LocalizedField;
 }
 
 export interface LowStockProduct {
   id: number;
-  name: string;
+  name: LocalizedField;
   slug: string;
   quantity: number;
   price: number;
@@ -139,7 +141,7 @@ export interface RevenueComparison {
 }
 
 export interface PaymentMethodRevenue {
-  method: string;
+  method: LocalizedField;
   total: number;
 }
 
@@ -164,7 +166,7 @@ export interface MonthlyGrowth {
 
 export interface TopCustomerEntry {
   id: number;
-  name: string;
+  name: LocalizedField;
   email: string;
   orders?: number;
   revenue?: number;
@@ -177,7 +179,7 @@ export interface TopCustomers {
 
 export interface ClvEntry {
   id: number;
-  name: string;
+  name: LocalizedField;
   email: string;
   lifetime_value: number;
 }
@@ -200,7 +202,7 @@ export interface CustomerData {
 
 export interface DashboardProductItem {
   id: number;
-  name: string | LocalizedName;
+  name: LocalizedField;
   slug: string;
   price: number | string;
   sold_quantity?: number;
@@ -282,7 +284,7 @@ export interface DashboardCategoriesData {
 export interface TopCouponEntry {
   id: number;
   code: string;
-  name: string;
+  name: LocalizedField;
   usage_count: number;
 }
 
@@ -302,7 +304,7 @@ export interface DashboardCouponsData {
 
 export interface CartProductEntry {
   id: number;
-  name: string | LocalizedName;
+  name: LocalizedField;
   slug: string;
   price: number;
   total_added: number;

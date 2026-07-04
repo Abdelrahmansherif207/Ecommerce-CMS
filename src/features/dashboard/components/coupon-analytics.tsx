@@ -11,6 +11,7 @@ import {
 import { TicketPercent, DollarSign } from 'lucide-react';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
+import { getLocalizedName } from '@/shared/lib/localize';
 import type { DashboardCouponsData } from '../types/dashboard.types';
 import { formatCurrency, formatNumber } from '../lib/dashboard-utils';
 
@@ -31,7 +32,8 @@ const ChartTooltip = ({ active, payload, label }: any) => {
 };
 
 export function CouponAnalytics({ data, isLoading, error }: CouponAnalyticsProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || 'en';
 
   if (error) {
     return (
@@ -91,7 +93,7 @@ export function CouponAnalytics({ data, isLoading, error }: CouponAnalyticsProps
                       {data.top_coupons.map((c) => (
                         <TableRow key={c.id}>
                           <TableCell className="font-mono text-xs font-medium text-foreground">{c.code}</TableCell>
-                          <TableCell className="text-sm text-foreground">{c.name}</TableCell>
+                          <TableCell className="text-sm text-foreground">{getLocalizedName(c.name, lang)}</TableCell>
                           <TableCell className="text-end tabular-nums font-medium">{formatNumber(c.usage_count)}</TableCell>
                         </TableRow>
                       ))}
