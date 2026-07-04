@@ -2,7 +2,7 @@ export const queryKeys = {
   products: {
     all: ['products'] as const,
     lists: () => ['products', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['products', 'list', params] as const,
+    list: (params: Record<string, any>) => ['products', 'list', params] as const,
     details: () => ['products', 'detail'] as const,
     detail: (id: number | string) => ['products', 'detail', id] as const,
     search: (q: string) => ['products', 'search', q] as const,
@@ -11,7 +11,7 @@ export const queryKeys = {
   categories: {
     all: ['categories'] as const,
     lists: () => ['categories', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['categories', 'list', params] as const,
+    list: (params: Record<string, any>) => ['categories', 'list', params] as const,
     details: () => ['categories', 'detail'] as const,
     detail: (id: number | string) => ['categories', 'detail', id] as const,
     featured: (page: number, perPage: number) => ['categories', 'featured', { page, perPage }] as const,
@@ -20,7 +20,7 @@ export const queryKeys = {
   brands: {
     all: ['brands'] as const,
     lists: () => ['brands', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['brands', 'list', params] as const,
+    list: (params: Record<string, any>) => ['brands', 'list', params] as const,
     details: () => ['brands', 'detail'] as const,
     detail: (id: number | string) => ['brands', 'detail', id] as const,
     productSearch: (q: string) => ['brands', 'product-search', q] as const,
@@ -28,7 +28,7 @@ export const queryKeys = {
   sliders: {
     all: ['sliders'] as const,
     lists: () => ['sliders', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['sliders', 'list', params] as const,
+    list: (params: Record<string, any>) => ['sliders', 'list', params] as const,
     details: () => ['sliders', 'detail'] as const,
     detail: (id: number | string) => ['sliders', 'detail', id] as const,
     filter: (q: string) => ['sliders', 'filter', q] as const,
@@ -37,7 +37,7 @@ export const queryKeys = {
   flashSales: {
     all: ['flash-sales'] as const,
     lists: () => ['flash-sales', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['flash-sales', 'list', params] as const,
+    list: (params: Record<string, any>) => ['flash-sales', 'list', params] as const,
     details: () => ['flash-sales', 'detail'] as const,
     detail: (id: number | string) => ['flash-sales', 'detail', id] as const,
     filter: (q: string) => ['flash-sales', 'filter', q] as const,
@@ -46,20 +46,20 @@ export const queryKeys = {
   banners: {
     all: ['banners'] as const,
     lists: () => ['banners', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['banners', 'list', params] as const,
+    list: (params: Record<string, any>) => ['banners', 'list', params] as const,
     filter: (q: string) => ['banners', 'filter', q] as const,
   },
   orders: {
     all: ['orders'] as const,
     lists: () => ['orders', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['orders', 'list', params] as const,
+    list: (params: Record<string, any>) => ['orders', 'list', params] as const,
     details: () => ['orders', 'detail'] as const,
     detail: (id: number | string) => ['orders', 'detail', id] as const,
   },
   users: {
     all: ['users'] as const,
     lists: () => ['users', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['users', 'list', params] as const,
+    list: (params: Record<string, any>) => ['users', 'list', params] as const,
     roles: () => ['users', 'roles'] as const,
     search: (q: string) => ['users', 'search', q] as const,
     detail: (id: number | string) => ['users', 'detail', id] as const,
@@ -67,7 +67,7 @@ export const queryKeys = {
   roles: {
     all: ['roles'] as const,
     lists: () => ['roles', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['roles', 'list', params] as const,
+    list: (params: Record<string, any>) => ['roles', 'list', params] as const,
     details: () => ['roles', 'detail'] as const,
     detail: (id: number | string) => ['roles', 'detail', id] as const,
     permissions: () => ['roles', 'permissions'] as const,
@@ -75,21 +75,21 @@ export const queryKeys = {
   coupons: {
     all: ['coupons'] as const,
     lists: () => ['coupons', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['coupons', 'list', params] as const,
+    list: (params: Record<string, any>) => ['coupons', 'list', params] as const,
     details: () => ['coupons', 'detail'] as const,
     detail: (id: number | string) => ['coupons', 'detail', id] as const,
   },
   faqs: {
     all: ['faqs'] as const,
     lists: () => ['faqs', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['faqs', 'list', params] as const,
+    list: (params: Record<string, any>) => ['faqs', 'list', params] as const,
     details: () => ['faqs', 'detail'] as const,
     detail: (id: number | string) => ['faqs', 'detail', id] as const,
   },
   sections: {
     all: ['sections'] as const,
     lists: () => ['sections', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['sections', 'list', params] as const,
+    list: (params: Record<string, any>) => ['sections', 'list', params] as const,
     details: () => ['sections', 'detail'] as const,
     detail: (id: number | string) => ['sections', 'detail', id] as const,
     sectionTypes: () => ['sections', 'section-types'] as const,
@@ -100,7 +100,7 @@ export const queryKeys = {
   promotions: {
     all: ['promotions'] as const,
     lists: () => ['promotions', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['promotions', 'list', params] as const,
+    list: (params: Record<string, any>) => ['promotions', 'list', params] as const,
     details: () => ['promotions', 'detail'] as const,
     detail: (id: number | string) => ['promotions', 'detail', id] as const,
     productSearch: (q: string) => ['promotions', 'product-search', q] as const,
@@ -108,14 +108,14 @@ export const queryKeys = {
   attributes: {
     all: ['attributes'] as const,
     lists: () => ['attributes', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['attributes', 'list', params] as const,
+    list: (params: Record<string, any>) => ['attributes', 'list', params] as const,
     details: () => ['attributes', 'detail'] as const,
     detail: (id: number | string) => ['attributes', 'detail', id] as const,
   },
   contacts: {
     all: ['contacts'] as const,
     lists: () => ['contacts', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['contacts', 'list', params] as const,
+    list: (params: Record<string, any>) => ['contacts', 'list', params] as const,
     details: () => ['contacts', 'detail'] as const,
     detail: (id: number | string) => ['contacts', 'detail', id] as const,
   },
@@ -128,6 +128,6 @@ export const queryKeys = {
   shops: {
     all: ['shops'] as const,
     lists: () => ['shops', 'list'] as const,
-    list: (params: Record<string, unknown>) => ['shops', 'list', params] as const,
+    list: (params: Record<string, any>) => ['shops', 'list', params] as const,
   },
 }

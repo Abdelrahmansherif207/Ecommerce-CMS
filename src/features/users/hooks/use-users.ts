@@ -59,7 +59,7 @@ export function useToggleActivation() {
     mutationFn: (userId: number) => toggleActivation(userId),
     onMutate: async (userId) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.users.lists() });
-      const queries = queryClient.getQueriesData({ queryKey: queryKeys.users.lists() });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.users.lists() });
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
       queryClient.setQueriesData({ queryKey: queryKeys.users.lists() }, (old: any) => {

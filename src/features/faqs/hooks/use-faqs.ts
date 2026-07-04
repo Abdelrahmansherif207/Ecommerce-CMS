@@ -91,7 +91,7 @@ export function useReorderFaqs() {
     mutationFn: (faqIds: number[]) => reorderFaqs(faqIds),
     onMutate: async (faqIds) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.faqs.lists() });
-      const queries = queryClient.getQueriesData({ queryKey: queryKeys.faqs.lists() });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.faqs.lists() });
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
       queries.forEach(([queryKey, data]) => {

@@ -94,7 +94,7 @@ export function useChangeSliderStatus() {
     mutationFn: (id: number) => changeSliderStatus(id),
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.sliders.lists() });
-      const queries = queryClient.getQueriesData({ queryKey: queryKeys.sliders.lists() });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.sliders.lists() });
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
       queryClient.setQueriesData({ queryKey: queryKeys.sliders.lists() }, (old: any) => {
@@ -136,7 +136,7 @@ export function useReorderSliders() {
     mutationFn: (sliderIds: number[]) => reorderSliders(sliderIds),
     onMutate: async (sliderIds) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.sliders.lists() });
-      const queries = queryClient.getQueriesData({ queryKey: queryKeys.sliders.lists() });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.sliders.lists() });
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
       queries.forEach(([queryKey, data]) => {
