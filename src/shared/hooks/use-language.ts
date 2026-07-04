@@ -1,32 +1,25 @@
 import { useSyncExternalStore } from 'react';
 import i18n from 'i18next';
-import { STORAGE_KEYS, DEFAULT_LANGUAGE, type Language } from '@/shared/constants/api';
+import { getStoredLanguage } from '@/shared/api/language-utils';
+import { type Language } from '@/shared/constants/api';
 
-function getStoredLanguage(): Language {
-  const stored = localStorage.getItem(STORAGE_KEYS.LANGUAGE);
-  if (stored === 'en' || stored === 'ar') return stored;
-  return DEFAULT_LANGUAGE;
-}
-
-let currentLanguage: Language = getStoredLanguage();
-const listeners = new Set<() => void>();
-
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-  return () => listeners.delete(listener);
-}
+const initialLanguage = getStoredLanguage();
+document.documentElement.dir = initialLanguage === 'ar' ? 'rtl' : 'ltr';
+document.documentElement.lang = initialLanguage;
 
 function getSnapshot(): Language {
-  return currentLanguage;
+  return getStoredLanguage();
+}
+
+function subscribe(callback: () => void) {
+  i18n.on('languageChanged', callback);
+  return () => i18n.off('languageChanged', callback);
 }
 
 export function setLanguage(lang: Language) {
-  currentLanguage = lang;
-  localStorage.setItem(STORAGE_KEYS.LANGUAGE, lang);
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   document.documentElement.lang = lang;
   i18n.changeLanguage(lang);
-  listeners.forEach((listener) => listener());
 }
 
 export function useLanguage() {
