@@ -133,7 +133,7 @@ export function useToggleSectionActive() {
     mutationFn: (id: number) => toggleSectionActive(id),
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.sections.lists() });
-      const queries = queryClient.getQueriesData({ queryKey: queryKeys.sections.lists() });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.sections.lists() });
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
       queryClient.setQueriesData({ queryKey: queryKeys.sections.lists() }, (old: any) => {
@@ -172,7 +172,7 @@ export function useReorderSections() {
     mutationFn: (sectionIds: number[]) => reorderSections(sectionIds),
     onMutate: async (sectionIds) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.sections.lists() });
-      const queries = queryClient.getQueriesData({ queryKey: queryKeys.sections.lists() });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.sections.lists() });
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
       queries.forEach(([queryKey, data]) => {

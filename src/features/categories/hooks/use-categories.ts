@@ -53,7 +53,7 @@ export function useToggleFeatured() {
     mutationFn: (categoryId: number) => toggleFeatured(categoryId),
     onMutate: async (categoryId) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.categories.all });
-      const queries = queryClient.getQueriesData({ queryKey: queryKeys.categories.all });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.categories.all });
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
       queryClient.setQueriesData({ queryKey: queryKeys.categories.all }, (old: any) => {

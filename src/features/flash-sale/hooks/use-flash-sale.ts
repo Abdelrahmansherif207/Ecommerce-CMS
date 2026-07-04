@@ -93,7 +93,7 @@ export function useReorderFlashSales() {
     mutationFn: (flashSaleIds: number[]) => reorderFlashSales(flashSaleIds),
     onMutate: async (flashSaleIds) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.flashSales.lists() });
-      const queries = queryClient.getQueriesData({ queryKey: queryKeys.flashSales.lists() });
+      const queries = queryClient.getQueriesData<any>({ queryKey: queryKeys.flashSales.lists() });
       const previousData = queries.map(([key, data]) => ({ key, data }));
 
       queries.forEach(([queryKey, data]) => {
