@@ -20,7 +20,7 @@ const RolesPage = lazy(() => import("@/features/roles/pages/roles-page").then(m 
 const LoginPage = lazy(() => import("@/features/auth/pages/login-page").then(m => ({ default: m.LoginPage })));
 const ForgotPasswordPage = lazy(() => import("@/features/auth/pages/forgot-password-page").then(m => ({ default: m.ForgotPasswordPage })));
 const ResetPasswordPage = lazy(() => import("@/features/auth/pages/reset-password-page").then(m => ({ default: m.ResetPasswordPage })));
-const ChangePasswordPage = lazy(() => import("@/features/auth/pages/change-password-page").then(m => ({ default: m.ChangePasswordPage })));
+const ProfilePage = lazy(() => import("@/features/profile/pages/profile-page").then(m => ({ default: m.ProfilePage })));
 const ProductsPage = lazy(() => import("@/features/products/pages/products-page").then(m => ({ default: m.ProductsPage })));
 const CreateProductPage = lazy(() => import("@/features/products/pages/create-product-page").then(m => ({ default: m.CreateProductPage })));
 const ProductDetailPage = lazy(() => import("@/features/products/pages/product-detail-page").then(m => ({ default: m.ProductDetailPage })));
@@ -45,7 +45,7 @@ export default function App() {
 
           <Route element={<ProtectedRoute />}>
             <Route element={<AdminLayout />}>
-              <Route path="/change-password" element={<ChangePasswordPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/settings" element={<SettingsPage />} />

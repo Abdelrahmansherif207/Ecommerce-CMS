@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Search, Bell, LogOut, Settings, Languages, KeyRound } from "lucide-react";
+import { Search, Bell, LogOut, Settings, Languages, UserRound } from "lucide-react";
 import { SidebarTrigger } from "@/shared/ui/sidebar";
 import { Separator } from "@/shared/ui/separator";
 import { Input } from "@/shared/ui/input";
@@ -123,9 +123,9 @@ function UserMenu() {
             <Settings className="mr-2 size-4" />
             {t('sidebar.settings')}
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => window.location.href = '/change-password'}>
-            <KeyRound className="mr-2 size-4" />
-            {t('auth.changePassword')}
+          <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
+            <UserRound className="mr-2 size-4" />
+            {t('header.profile')}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
