@@ -24,6 +24,8 @@ const ProfilePage = lazy(() => import("@/features/profile/pages/profile-page").t
 const ProductsPage = lazy(() => import("@/features/products/pages/products-page").then(m => ({ default: m.ProductsPage })));
 const CreateProductPage = lazy(() => import("@/features/products/pages/create-product-page").then(m => ({ default: m.CreateProductPage })));
 const ProductDetailPage = lazy(() => import("@/features/products/pages/product-detail-page").then(m => ({ default: m.ProductDetailPage })));
+const OrdersPage = lazy(() => import("@/features/orders/pages/orders-page").then(m => ({ default: m.OrdersPage })));
+const OrderDetailPage = lazy(() => import("@/features/orders/pages/order-detail-page").then(m => ({ default: m.OrderDetailPage })));
 const SectionsPage = lazy(() => import("@/features/cms/pages/sections-page").then(m => ({ default: m.SectionsPage })));
 
 function Spinner() {
@@ -59,6 +61,8 @@ export default function App() {
               <Route path="/coupons" element={<CouponsPage />} />
               <Route path="/contacts" element={<ContactsPage />} />
               <Route path="/users" element={<UsersPage />} />
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/orders/:id" element={<OrderDetailPage />} />
               <Route path="/promotions" element={<PromotionsPage />} />
               <Route path="/attributes" element={<AttributesPage />} />
               <Route path="/roles" element={<RolesPage />} />
