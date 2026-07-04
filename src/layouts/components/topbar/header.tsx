@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, Bell, LogOut, Settings, Languages, UserRound } from "lucide-react";
+import { Search, Bell, LogOut, Settings, Languages, UserRound, X } from "lucide-react";
 import { SidebarTrigger } from "@/shared/ui/sidebar";
 import { Separator } from "@/shared/ui/separator";
 import { Input } from "@/shared/ui/input";
@@ -18,13 +19,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { useLogout } from "@/features/auth/hooks/use-auth";
 import { useAuthStore } from "@/features/auth/store/auth.store";
 import { useLanguage } from "@/shared/hooks/use-language";
+import { useIsMobile } from "@/shared/hooks/use-mobile";
 
 export function Header() {
+  const isMobile = useIsMobile();
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
-    <header className="flex h-14 shrink-0 items-center gap-2 px-4 transition-[width,height] ease-linear">
+    <header className="relative flex h-14 shrink-0 items-center gap-2 px-4 transition-[width,height] ease-linear">
       {/* Brand / Logo — always visible in the full-width header */}
       <div className="flex items-center gap-2 min-w-fit me-4">
-        <img src="/meem.svg" alt="Meem Logo" className="h-10 w-auto shrink-0 object-contain" />
+        <img src="/meem.svg" alt="Meem Logo" className="h-8 w-auto shrink-0 object-contain md:h-10" />
       </div>
 
       <div className="flex items-center gap-2">
@@ -32,16 +37,32 @@ export function Header() {
         <Separator orientation="vertical" className="mr-2 h-4" />
       </div>
 
-      <div className="relative flex-1 max-w-md">
-        <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input placeholder="Search..." className="h-9 pl-8 bg-muted/50" />
-      </div>
+      {!isMobile && (
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input placeholder="Search..." className="h-9 pl-8 bg-muted/50" />
+        </div>
+      )}
 
       <div className="ms-auto flex items-center gap-2">
+        {isMobile && (
+          <Button variant="ghost" size="icon-sm" onClick={() => setSearchOpen((v) => !v)}>
+            {searchOpen ? <X className="size-4" /> : <Search className="size-4" />}
+          </Button>
+        )}
         <LanguageSwitcher />
         <NotificationButton />
         <UserMenu />
       </div>
+
+      {isMobile && searchOpen && (
+        <div className="absolute inset-x-0 top-14 z-50 border-b bg-background p-3 shadow-md">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input placeholder="Search..." className="h-9 pl-8" autoFocus />
+          </div>
+        </div>
+      )}
     </header>
   );
 }

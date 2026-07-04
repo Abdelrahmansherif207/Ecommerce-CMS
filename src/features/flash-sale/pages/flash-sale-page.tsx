@@ -97,7 +97,7 @@ export function FlashSalePage() {
         )}
 
         <Select value={order} onValueChange={(v) => v && (setOrder(v), setPage(1))}>
-          <SelectTrigger className="h-8 w-[150px]">
+          <SelectTrigger className="h-8 w-full md:w-[150px]">
             <SelectValue placeholder={t("flashSale.sortBy")} />
           </SelectTrigger>
           <SelectContent>
@@ -107,7 +107,7 @@ export function FlashSalePage() {
           </SelectContent>
         </Select>
         <Select value={sortedBy} onValueChange={(v) => v && (setSortedBy(v), setPage(1))}>
-          <SelectTrigger className="h-8 w-[120px]">
+          <SelectTrigger className="h-8 w-full md:w-[120px]">
             <SelectValue placeholder={t("flashSale.sortedBy")} />
           </SelectTrigger>
           <SelectContent>
@@ -116,7 +116,7 @@ export function FlashSalePage() {
           </SelectContent>
         </Select>
         <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v)); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[90px]">
+          <SelectTrigger className="h-8 w-full md:w-[90px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

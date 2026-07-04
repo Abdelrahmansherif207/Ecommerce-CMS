@@ -119,7 +119,7 @@ export function CategoriesPage() {
                   setPage(1);
                 }}
               >
-                <SelectTrigger className="w-[140px]">
+                <SelectTrigger className="w-full md:w-[140px]">
                   <SelectValue placeholder={t('categories.allLevels')} />
                 </SelectTrigger>
                 <SelectContent>

@@ -83,7 +83,7 @@ export function CouponsPage() {
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <div className="relative flex-1 min-w-[200px] max-w-xs">
+        <div className="relative flex-1 w-full md:max-w-xs">
           <Button
             variant="ghost"
             size="icon"
@@ -102,7 +102,7 @@ export function CouponsPage() {
           />
         </div>
         <Select value={activeFilter} onValueChange={(v) => { if (v) setActiveFilter(v); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[130px]">
+          <SelectTrigger className="h-8 w-full md:w-[130px]">
             <SelectValue placeholder={t('common.status')} />
           </SelectTrigger>
           <SelectContent>
@@ -112,7 +112,7 @@ export function CouponsPage() {
           </SelectContent>
         </Select>
         <Select value={order} onValueChange={(v) => { if (v) setOrder(v); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[150px]">
+          <SelectTrigger className="h-8 w-full md:w-[150px]">
             <SelectValue placeholder={t('coupons.sortBy')} />
           </SelectTrigger>
           <SelectContent>
@@ -123,7 +123,7 @@ export function CouponsPage() {
           </SelectContent>
         </Select>
         <Select value={sortedBy} onValueChange={(v) => { if (v) setSortedBy(v); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[120px]">
+          <SelectTrigger className="h-8 w-full md:w-[120px]">
             <SelectValue placeholder={t('coupons.sortedBy')} />
           </SelectTrigger>
           <SelectContent>
@@ -132,7 +132,7 @@ export function CouponsPage() {
           </SelectContent>
         </Select>
         <Select value={String(perPage)} onValueChange={(v) => { if (v) setPerPage(Number(v)); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[90px]">
+          <SelectTrigger className="h-8 w-full md:w-[90px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
