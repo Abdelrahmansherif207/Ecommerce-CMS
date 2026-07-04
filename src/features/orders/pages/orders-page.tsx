@@ -78,7 +78,7 @@ export function OrdersPage() {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-full md:w-[140px]">
               <SelectValue placeholder={t('orders.allStatuses')} />
             </SelectTrigger>
             <SelectContent>
@@ -98,7 +98,7 @@ export function OrdersPage() {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[160px]">
+            <SelectTrigger className="w-full md:w-[160px]">
               <SelectValue placeholder={t('orders.allPaymentStatuses')} />
             </SelectTrigger>
             <SelectContent>
@@ -120,7 +120,7 @@ export function OrdersPage() {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger className="w-full md:w-[150px]">
               <SelectValue placeholder={t('orders.allShippingMethods')} />
             </SelectTrigger>
             <SelectContent>

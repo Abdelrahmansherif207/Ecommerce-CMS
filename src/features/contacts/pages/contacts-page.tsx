@@ -150,7 +150,7 @@ export function ContactsPage() {
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <div className="relative flex-1 min-w-[200px] max-w-xs">
+        <div className="relative flex-1 w-full md:max-w-xs">
           <Button
             variant="ghost"
             size="icon"
@@ -169,7 +169,7 @@ export function ContactsPage() {
           />
         </div>
         <Select value={readFilter} onValueChange={(v) => { if (v) setReadFilter(v); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[130px]">
+          <SelectTrigger className="h-8 w-full md:w-[130px]">
             <SelectValue placeholder={t('contacts.readFilter')} />
           </SelectTrigger>
           <SelectContent>
@@ -179,7 +179,7 @@ export function ContactsPage() {
           </SelectContent>
         </Select>
         <Select value={replayFilter} onValueChange={(v) => { if (v) setReplayFilter(v); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[140px]">
+          <SelectTrigger className="h-8 w-full md:w-[140px]">
             <SelectValue placeholder={t('contacts.replayFilter')} />
           </SelectTrigger>
           <SelectContent>
@@ -189,7 +189,7 @@ export function ContactsPage() {
           </SelectContent>
         </Select>
         <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v)); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[90px]">
+          <SelectTrigger className="h-8 w-full md:w-[90px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

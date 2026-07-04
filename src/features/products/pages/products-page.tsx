@@ -87,11 +87,11 @@ function ComboboxFilter({
 
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
-      <PopoverTrigger render={<Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between" />}>
+            <PopoverTrigger render={<Button variant="outline" role="combobox" aria-expanded={open} className="w-full md:w-[200px] justify-between" />}>
         {selectedLabel}
         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-full md:w-[200px] p-0">
         <Command shouldFilter={false}>
           <CommandInput
             placeholder={t('common.search')}
@@ -297,7 +297,7 @@ export function ProductsPage() {
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[200px] max-w-sm">
+        <div className="relative flex-1 w-full md:max-w-sm">
           <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder={t('products.searchPlaceholder')}
@@ -317,7 +317,7 @@ export function ProductsPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="w-[140px]">
+          <SelectTrigger className="w-full md:w-[140px]">
             <SelectValue placeholder={t('products.allStatuses')} />
           </SelectTrigger>
           <SelectContent>
@@ -334,7 +334,7 @@ export function ProductsPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="w-[150px]">
+          <SelectTrigger className="w-full md:w-[150px]">
             <SelectValue placeholder={t('products.sortBy')} />
           </SelectTrigger>
           <SelectContent>
@@ -361,7 +361,7 @@ export function ProductsPage() {
               setDateFrom(e.target.value);
               setPage(1);
             }}
-            className="w-[150px]"
+            className="w-full md:w-[150px]"
             placeholder={t('products.dateFrom')}
           />
           <span className="text-muted-foreground text-sm">{t('common.to')}</span>
@@ -372,7 +372,7 @@ export function ProductsPage() {
               setDateTo(e.target.value);
               setPage(1);
             }}
-            className="w-[150px]"
+            className="w-full md:w-[150px]"
             placeholder={t('products.dateTo')}
           />
         </div>

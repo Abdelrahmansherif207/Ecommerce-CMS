@@ -100,7 +100,7 @@ export function BrandsPage() {
         )}
 
         <Select value={activeFilter} onValueChange={(v) => v && (setActiveFilter(v), setPage(1))}>
-          <SelectTrigger className="h-8 w-[130px]">
+          <SelectTrigger className="h-8 w-full md:w-[130px]">
             <SelectValue placeholder={t('common.status')} />
           </SelectTrigger>
           <SelectContent>
@@ -110,7 +110,7 @@ export function BrandsPage() {
           </SelectContent>
         </Select>
         <Select value={order} onValueChange={(v) => v && (setOrder(v), setPage(1))}>
-          <SelectTrigger className="h-8 w-[150px]">
+          <SelectTrigger className="h-8 w-full md:w-[150px]">
             <SelectValue placeholder={t('brands.sortBy')} />
           </SelectTrigger>
           <SelectContent>
@@ -121,7 +121,7 @@ export function BrandsPage() {
           </SelectContent>
         </Select>
         <Select value={sortedBy} onValueChange={(v) => v && (setSortedBy(v), setPage(1))}>
-          <SelectTrigger className="h-8 w-[120px]">
+          <SelectTrigger className="h-8 w-full md:w-[120px]">
             <SelectValue placeholder={t('brands.sortedBy')} />
           </SelectTrigger>
           <SelectContent>
@@ -130,7 +130,7 @@ export function BrandsPage() {
           </SelectContent>
         </Select>
         <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v)); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[90px]">
+          <SelectTrigger className="h-8 w-full md:w-[90px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

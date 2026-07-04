@@ -107,7 +107,7 @@ export function PromotionsPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="h-8 w-[140px]">
+          <SelectTrigger className="h-8 w-full md:w-[140px]">
             <SelectValue placeholder={t('promotions.type')} />
           </SelectTrigger>
           <SelectContent>
@@ -124,7 +124,7 @@ export function PromotionsPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="h-8 w-[140px]">
+          <SelectTrigger className="h-8 w-full md:w-[140px]">
             <SelectValue placeholder={t('promotions.discountType')} />
           </SelectTrigger>
           <SelectContent>
@@ -142,7 +142,7 @@ export function PromotionsPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="h-8 w-[150px]">
+          <SelectTrigger className="h-8 w-full md:w-[150px]">
             <SelectValue placeholder={t('promotions.sortBy')} />
           </SelectTrigger>
           <SelectContent>
@@ -157,7 +157,7 @@ export function PromotionsPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="h-8 w-[120px]">
+          <SelectTrigger className="h-8 w-full md:w-[120px]">
             <SelectValue placeholder={t('promotions.sortedBy')} />
           </SelectTrigger>
           <SelectContent>
@@ -173,7 +173,7 @@ export function PromotionsPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="h-8 w-[90px]">
+          <SelectTrigger className="h-8 w-full md:w-[90px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

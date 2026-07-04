@@ -111,7 +111,7 @@ export function UsersPage() {
         {!showTrash && (
           <>
             <Select value={typeFilter} onValueChange={(v) => v && (setTypeFilter(v), setPage(1))}>
-              <SelectTrigger className="h-8 w-[140px]">
+              <SelectTrigger className="h-8 w-full md:w-[140px]">
                 <SelectValue placeholder={t('users.type')} />
               </SelectTrigger>
               <SelectContent>
@@ -122,7 +122,7 @@ export function UsersPage() {
             </Select>
 
             <Select value={activeFilter} onValueChange={(v) => v && (setActiveFilter(v), setPage(1))}>
-              <SelectTrigger className="h-8 w-[130px]">
+              <SelectTrigger className="h-8 w-full md:w-[130px]">
                 <SelectValue placeholder={t('common.status')}>
                   {activeFilter === '1' ? t('users.active') : activeFilter === '0' ? t('users.inactive') : t('common.all')}
                 </SelectValue>
@@ -137,7 +137,7 @@ export function UsersPage() {
         )}
 
         <Select value={orderBy} onValueChange={(v) => v && (setOrderBy(v), setPage(1))}>
-          <SelectTrigger className="h-8 w-[150px]">
+          <SelectTrigger className="h-8 w-full md:w-[150px]">
             <SelectValue placeholder={t('users.sortBy')} />
           </SelectTrigger>
           <SelectContent>
@@ -147,7 +147,7 @@ export function UsersPage() {
           </SelectContent>
         </Select>
         <Select value={sort} onValueChange={(v) => v && (setSort(v), setPage(1))}>
-          <SelectTrigger className="h-8 w-[120px]">
+          <SelectTrigger className="h-8 w-full md:w-[120px]">
             <SelectValue placeholder={t('users.sortedBy')} />
           </SelectTrigger>
           <SelectContent>
@@ -156,7 +156,7 @@ export function UsersPage() {
           </SelectContent>
         </Select>
         <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v)); setPage(1); }}>
-          <SelectTrigger className="h-8 w-[90px]">
+          <SelectTrigger className="h-8 w-full md:w-[90px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
