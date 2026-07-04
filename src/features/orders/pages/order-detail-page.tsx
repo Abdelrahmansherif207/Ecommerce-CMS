@@ -117,20 +117,11 @@ export function OrderDetailPage() {
                 {order.order_items.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>
-                      <div className="flex items-center gap-3">
-                        {item.product.image && (
-                          <img
-                            src={item.product.image}
-                            alt={item.product_name}
-                            className="h-10 w-10 rounded-lg border object-cover"
-                          />
-                        )}
-                        <div className="min-w-0">
-                          <p className="font-medium truncate">{item.product_name}</p>
-                          <p className="text-xs text-muted-foreground">
-                            /{item.product.slug}
-                          </p>
-                        </div>
+                      <div className="min-w-0">
+                        <p className="font-medium truncate">{item.product_name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {item.product_sku}
+                        </p>
                       </div>
                     </TableCell>
                     <TableCell>

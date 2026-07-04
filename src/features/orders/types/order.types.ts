@@ -51,12 +51,6 @@ export interface OrderItem {
   is_gift: boolean;
   promotion_id: number | null;
   attributes: string | null;
-  product: {
-    id: number;
-    name: string;
-    slug: string;
-    image: string | null;
-  };
 }
 
 export interface Transaction {
