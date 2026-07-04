@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   Sidebar,
   SidebarContent,
@@ -10,6 +11,7 @@ import { Separator } from '@/shared/ui/separator'
 import { useLanguage } from '@/shared/hooks/use-language'
 
 export function AppSidebar() {
+  const { t } = useTranslation();
   const navGroups = useNavGroups();
   const { isRTL } = useLanguage();
 
@@ -24,8 +26,10 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <Separator />
-        <div className="px-2 py-2 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
-          v0.0.1
+        <div className="px-2 py-2 text-xs text-muted-foreground text-center group-data-[collapsible=icon]:hidden">
+          <div>{t('sidebar.rightsReserved')}</div>
+          <div>© {t('sidebar.brand')}</div>
+          <div className="mt-0.5 opacity-50">v0.0.1</div>
         </div>
       </SidebarFooter>
       <SidebarRail />
