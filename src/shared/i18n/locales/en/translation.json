@@ -60,7 +60,8 @@
         "contacts": "Contact Us",
         "users": "Users",
         "attributes": "Attributes",
-        "roles": "Roles & Permissions"
+        "roles": "Roles & Permissions",
+        "activityLogs": "Activity Logs"
     },
     "orders": {
         "title": "Orders",
@@ -782,6 +783,18 @@
       "titleEnRequired": "English title is required",
       "titleArRequired": "Arabic title is required"
     }
+  },
+  "activityLogs": {
+    "pageTitle": "Activity Logs",
+    "pageDescription": "View and filter system activity logs.",
+    "searchPlaceholder": "Search by description...",
+    "allLogNames": "All Entities",
+    "allEvents": "All Events",
+    "event": "Event",
+    "description": "Description",
+    "entity": "Entity",
+    "causer": "User",
+    "date": "Date"
   },
   "products": {
     "title": "Products",

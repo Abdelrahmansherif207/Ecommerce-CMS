@@ -16,6 +16,7 @@ import {
   Mail,
   List,
   ShieldCheck,
+  History,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -73,6 +74,7 @@ export function useNavGroups(): NavGroup[] {
       items: [
         { title: t('sidebar.users'), url: '/users', icon: Users },
         { title: t('sidebar.roles'), url: '/roles', icon: ShieldCheck },
+        { title: t('sidebar.activityLogs'), url: '/activity-logs', icon: History },
         { title: t('sidebar.settings'), url: '/settings', icon: Settings },
       ],
     },

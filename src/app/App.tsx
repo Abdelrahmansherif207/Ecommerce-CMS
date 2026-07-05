@@ -27,6 +27,7 @@ const ProductDetailPage = lazy(() => import("@/features/products/pages/product-d
 const OrdersPage = lazy(() => import("@/features/orders/pages/orders-page").then(m => ({ default: m.OrdersPage })));
 const OrderDetailPage = lazy(() => import("@/features/orders/pages/order-detail-page").then(m => ({ default: m.OrderDetailPage })));
 const SectionsPage = lazy(() => import("@/features/cms/pages/sections-page").then(m => ({ default: m.SectionsPage })));
+const ActivityLogsPage = lazy(() => import("@/features/activity-logs/pages/activity-logs-page").then(m => ({ default: m.ActivityLogsPage })));
 
 function Spinner() {
   return (
@@ -67,6 +68,7 @@ export default function App() {
               <Route path="/attributes" element={<AttributesPage />} />
               <Route path="/roles" element={<RolesPage />} />
               <Route path="/cms" element={<SectionsPage />} />
+              <Route path="/activity-logs" element={<ActivityLogsPage />} />
             </Route>
           </Route>
 

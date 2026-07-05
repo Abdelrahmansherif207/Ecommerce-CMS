@@ -60,7 +60,8 @@
         "contacts": "اتصل بنا",
         "users": "المستخدمون",
         "attributes": "الخصائص",
-        "roles": "الأدوار والصلاحيات"
+        "roles": "الأدوار والصلاحيات",
+        "activityLogs": "سجل النشاطات"
     },
     "orders": {
         "title": "الطلبات",
@@ -781,6 +782,18 @@
       "titleEnRequired": "العنوان بالإنجليزية مطلوب",
       "titleArRequired": "العنوان بالعربية مطلوب"
     }
+  },
+  "activityLogs": {
+    "pageTitle": "سجل النشاطات",
+    "pageDescription": "عرض وتصفية سجل نشاطات النظام.",
+    "searchPlaceholder": "بحث بالوصف...",
+    "allLogNames": "جميع الكيانات",
+    "allEvents": "جميع الأحداث",
+    "event": "الحدث",
+    "description": "الوصف",
+    "entity": "الكيان",
+    "causer": "المستخدم",
+    "date": "التاريخ"
   },
   "products": {
     "title": "المنتجات",
