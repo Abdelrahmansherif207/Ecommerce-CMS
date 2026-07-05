@@ -279,7 +279,8 @@
         "sortCreatedAt": "Created At",
         "sortedBy": "Direction",
         "asc": "Ascending",
-        "desc": "Descending"
+        "desc": "Descending",
+        "allStatuses": "All Statuses"
     },
     "brandsForm": {
         "mobileImage": "Mobile Image",
@@ -326,7 +327,8 @@
         "sortStatus": "Status",
         "sortedBy": "Direction",
         "asc": "Ascending",
-        "desc": "Descending"
+        "desc": "Descending",
+        "allStatuses": "All Statuses"
     },
     "slidersForm": {
         "productsSelected": "selected",
@@ -462,7 +464,8 @@
         "discount": "Discount",
         "dates": "Dates",
         "usage": "Used",
-        "searchPlaceholder": "Search by name or code..."
+        "searchPlaceholder": "Search by name or code...",
+        "allStatuses": "All Statuses"
     },
     "contacts": {
         "pageTitle": "Contact Us",
@@ -495,7 +498,9 @@
         "deleteAllReadConfirm": "Are you sure you want to permanently delete all read contacts? This action cannot be undone.",
         "searchPlaceholder": "Search by email, subject, or message...",
         "readFilter": "Read Status",
-        "replayFilter": "Reply Status"
+        "replayFilter": "Reply Status",
+        "allReadStatuses": "All Read Statuses",
+        "allReplyStatuses": "All Reply Statuses"
     },
     "attributes": {
         "pageTitle": "Attributes",
@@ -621,6 +626,7 @@
     "createdAt": "Created At",
     "type": "Type",
     "allTypes": "All Types",
+    "allStatuses": "All Statuses",
     "usersOnly": "Users",
     "adminsOnly": "Admins",
     "activate": "Activate",
@@ -693,6 +699,8 @@
     "value": "Value",
     "discountType": "Discount Type",
     "period": "Period",
+    "allTypes": "All Types",
+    "allDiscountTypes": "All Discount Types",
     "created": "Promotion created successfully",
     "updated": "Promotion updated successfully",
     "deleted": "Promotion deleted successfully"

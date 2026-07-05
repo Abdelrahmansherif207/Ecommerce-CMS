@@ -173,7 +173,7 @@ export function ContactsPage() {
             <SelectValue placeholder={t('contacts.readFilter')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('common.all')}</SelectItem>
+            <SelectItem value="all">{t('contacts.allReadStatuses')}</SelectItem>
             <SelectItem value="read">{t('contacts.read')}</SelectItem>
             <SelectItem value="unread">{t('contacts.unread')}</SelectItem>
           </SelectContent>
@@ -183,7 +183,7 @@ export function ContactsPage() {
             <SelectValue placeholder={t('contacts.replayFilter')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('common.all')}</SelectItem>
+            <SelectItem value="all">{t('contacts.allReplyStatuses')}</SelectItem>
             <SelectItem value="replay">{t('contacts.replied')}</SelectItem>
             <SelectItem value="no_replay">{t('contacts.notReplied')}</SelectItem>
           </SelectContent>

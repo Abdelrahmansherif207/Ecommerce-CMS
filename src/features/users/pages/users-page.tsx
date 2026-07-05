@@ -124,11 +124,11 @@ export function UsersPage() {
             <Select value={activeFilter} onValueChange={(v) => v && (setActiveFilter(v), setPage(1))}>
               <SelectTrigger className="h-8 w-full md:w-[130px]">
                 <SelectValue placeholder={t('common.status')}>
-                  {activeFilter === '1' ? t('users.active') : activeFilter === '0' ? t('users.inactive') : t('common.all')}
+                  {activeFilter === '1' ? t('users.active') : activeFilter === '0' ? t('users.inactive') : t('users.allStatuses')}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t('common.all')}</SelectItem>
+                <SelectItem value="all">{t('users.allStatuses')}</SelectItem>
                 <SelectItem value="1">{t('users.active')}</SelectItem>
                 <SelectItem value="0">{t('users.inactive')}</SelectItem>
               </SelectContent>

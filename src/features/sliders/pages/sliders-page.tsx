@@ -78,7 +78,7 @@ export function SlidersPage() {
             <SelectValue placeholder={t('common.status')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('common.all')}</SelectItem>
+            <SelectItem value="all">{t('sliders.allStatuses')}</SelectItem>
             <SelectItem value="1">{t('sliders.active')}</SelectItem>
             <SelectItem value="0">{t('sliders.inactive')}</SelectItem>
           </SelectContent>

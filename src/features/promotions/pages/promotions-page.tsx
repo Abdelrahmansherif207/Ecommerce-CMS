@@ -111,7 +111,7 @@ export function PromotionsPage() {
             <SelectValue placeholder={t('promotions.type')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('common.all')}</SelectItem>
+            <SelectItem value="all">{t('promotions.allTypes')}</SelectItem>
             <SelectItem value="price">{t('promotionsForm.priceDiscount')}</SelectItem>
             <SelectItem value="quantity">{t('promotionsForm.quantityPromotion')}</SelectItem>
           </SelectContent>
@@ -128,7 +128,7 @@ export function PromotionsPage() {
             <SelectValue placeholder={t('promotions.discountType')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('common.all')}</SelectItem>
+            <SelectItem value="all">{t('promotions.allDiscountTypes')}</SelectItem>
             <SelectItem value="fixed_rate">{t('promotionsForm.fixedRate')}</SelectItem>
             <SelectItem value="percentage">{t('promotionsForm.percentage')}</SelectItem>
             <SelectItem value="gift">{t('promotionsForm.gift')}</SelectItem>
