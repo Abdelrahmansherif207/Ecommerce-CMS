@@ -1,21 +1,20 @@
 import { useTranslation } from 'react-i18next';
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
   PieChart,
   Pie,
   Cell,
+  Tooltip,
   Legend,
+  ResponsiveContainer,
 } from 'recharts';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { getLocalizedName } from '@/shared/lib/localize';
 import type { CategoryStatsData } from '../types/dashboard.types';
 import { formatCurrency } from '../lib/dashboard-utils';
+import { ChartSwitcher } from './chart-switcher';
+import type { ChartType } from './chart-switcher';
+import { SimpleChartRenderer } from './chart-renderer';
+import { useState } from 'react';
 
 interface CategoryChartsProps {
   data: CategoryStatsData | undefined;
@@ -24,16 +23,6 @@ interface CategoryChartsProps {
 }
 
 const COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)'];
-
-const BarTooltip = ({ active, payload, label }: any) => {
-  if (!active || !payload?.length) return null;
-  return (
-    <div className="rounded-lg border border-border bg-card px-3 py-2 shadow-lg">
-      <p className="text-xs text-muted-foreground mb-1">{label}</p>
-      <p className="text-sm font-bold text-foreground">{payload[0].value} products</p>
-    </div>
-  );
-};
 
 const PieTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
@@ -49,6 +38,8 @@ const PieTooltip = ({ active, payload }: any) => {
 export function CategoryCharts({ data, isLoading, error }: CategoryChartsProps) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || 'en';
+  const [prodChartType, setProdChartType] = useState<ChartType>('bar');
+  const [salesChartType, setSalesChartType] = useState<ChartType>('pie');
 
   if (error) {
     return (
@@ -62,8 +53,8 @@ export function CategoryCharts({ data, isLoading, error }: CategoryChartsProps) 
   }
 
   const productDist = (data?.product_distribution ?? []).map((item) => ({
-    ...item,
-    displayName: getLocalizedName(item.category_name, lang),
+    name: getLocalizedName(item.category_name, lang),
+    value: item.product_count,
   }));
 
   const salesDist = data?.sales_distribution ?? [];
@@ -72,6 +63,11 @@ export function CategoryCharts({ data, isLoading, error }: CategoryChartsProps) 
     name: getLocalizedName(item.category_name, lang),
     value: item.total_sales,
     color: COLORS[index % COLORS.length],
+  }));
+
+  const salesBarData = salesDist.map((item) => ({
+    name: getLocalizedName(item.category_name, lang),
+    value: item.total_sales,
   }));
 
   return (
@@ -88,25 +84,14 @@ export function CategoryCharts({ data, isLoading, error }: CategoryChartsProps) 
       ) : (
         <div className="grid gap-6 lg:grid-cols-2">
           <div>
-            <h4 className="mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              {t('dashboard.categoryStats.productDistribution')}
-            </h4>
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                {t('dashboard.categoryStats.productDistribution')}
+              </h4>
+              <ChartSwitcher type={prodChartType} onChange={setProdChartType} />
+            </div>
             {productDist.length > 0 ? (
-              <div className="h-[220px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={productDist}
-                    layout="vertical"
-                    margin={{ top: 0, right: 20, left: 0, bottom: 0 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
-                    <XAxis type="number" tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} tickLine={false} axisLine={false} />
-                    <YAxis type="category" dataKey="displayName" tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} tickLine={false} axisLine={false} width={110} />
-                    <Tooltip content={<BarTooltip />} />
-                    <Bar dataKey="product_count" fill="var(--chart-1)" radius={[0, 4, 4, 0]} barSize={16} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+              <SimpleChartRenderer data={productDist} chartType={prodChartType} height={220} />
             ) : (
               <div className="flex h-[150px] items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted-foreground">
                 {t('dashboard.errors.noData')}
@@ -115,25 +100,32 @@ export function CategoryCharts({ data, isLoading, error }: CategoryChartsProps) 
           </div>
 
           <div>
-            <h4 className="mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              {t('dashboard.categoryStats.salesDistribution')}
-            </h4>
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                {t('dashboard.categoryStats.salesDistribution')}
+              </h4>
+              <ChartSwitcher type={salesChartType} onChange={setSalesChartType} showPie />
+            </div>
             {salesPieData.length > 0 ? (
-              <div className="h-[220px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie data={salesPieData} cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={3} dataKey="value">
-                      {salesPieData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip content={<PieTooltip />} />
-                    <Legend wrapperStyle={{ fontSize: '10px' }} iconSize={8}
-                      formatter={(value: string) => <span style={{ color: 'var(--muted-foreground)' }}>{value}</span>}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
+              salesChartType === 'pie' ? (
+                <div className="h-[220px] w-full" dir="ltr">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={salesPieData} cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={3} dataKey="value">
+                        {salesPieData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip content={<PieTooltip />} />
+                      <Legend wrapperStyle={{ fontSize: '10px' }} iconSize={8}
+                        formatter={(value: string) => <span style={{ color: 'var(--muted-foreground)' }}>{value}</span>}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <SimpleChartRenderer data={salesBarData} chartType={salesChartType} formatter={formatCurrency} height={220} />
+              )
             ) : (
               <div className="flex h-[150px] items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted-foreground">
                 {t('dashboard.errors.noData')}

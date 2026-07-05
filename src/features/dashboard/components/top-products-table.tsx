@@ -67,34 +67,31 @@ export function TopProductsTable({ data, isLoading, error }: TopProductsTablePro
       ) : data && data.length > 0 ? (
         <>
           {/* Horizontal bar chart */}
-          <div className="h-[200px] w-full mb-4">
+          <div className="h-[200px] w-full mb-4" dir="ltr">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={data.slice(0, 8).map((p) => ({ ...p, displayName: getLocalizedName(p.name, lang) }))}
-                layout="vertical"
-                margin={{ top: 0, right: 30, left: 0, bottom: 0 }}
+                margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
                 <XAxis
-                  type="number"
-                  tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }}
+                  dataKey="displayName"
+                  tick={{ fontSize: 10, fill: 'var(--muted-foreground)' }}
                   tickLine={false}
                   axisLine={false}
                 />
                 <YAxis
-                  type="category"
-                  dataKey="displayName"
                   tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }}
                   tickLine={false}
                   axisLine={false}
-                  width={140}
+                  width={40}
                 />
                 <Tooltip content={<ChartTooltip />} />
                 <Bar
                   dataKey="sold_quantity"
-                  fill="var(--chart-2)"
-                  radius={[0, 4, 4, 0]}
-                  barSize={14}
+                  fill="var(--chart-4)"
+                  radius={[4, 4, 0, 0]}
+                  barSize={20}
                 />
               </BarChart>
             </ResponsiveContainer>

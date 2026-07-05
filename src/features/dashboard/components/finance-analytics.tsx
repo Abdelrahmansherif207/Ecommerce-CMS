@@ -88,7 +88,7 @@ export function FinanceAnalytics({ data, isLoading, error }: FinanceAnalyticsPro
           <div>
             <h4 className="mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('dashboard.finance.revenueBreakdown')}</h4>
             {breakdownData.length > 0 ? (
-              <div className="h-[250px] w-full">
+              <div className="h-[250px] w-full" dir="ltr">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={breakdownData} layout="vertical" margin={{ top: 0, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />

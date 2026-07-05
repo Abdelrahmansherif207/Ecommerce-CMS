@@ -1,22 +1,21 @@
 import { useTranslation } from 'react-i18next';
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
   PieChart,
   Pie,
   Cell,
+  Tooltip,
   Legend,
+  ResponsiveContainer,
 } from 'recharts';
 import { DollarSign, TrendingUp, CalendarRange, Wallet } from 'lucide-react';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { getLocalizedName } from '@/shared/lib/localize';
 import type { SalesData } from '../types/dashboard.types';
 import { formatCurrency } from '../lib/dashboard-utils';
+import { ChartSwitcher } from './chart-switcher';
+import type { ChartType } from './chart-switcher';
+import { SimpleChartRenderer, MultiSeriesChartRenderer } from './chart-renderer';
+import { useState } from 'react';
 
 interface SalesAnalyticsProps {
   data: SalesData | undefined;
@@ -25,16 +24,6 @@ interface SalesAnalyticsProps {
 }
 
 const COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)'];
-
-const ChartTooltip = ({ active, payload, label }: any) => {
-  if (!active || !payload?.length) return null;
-  return (
-    <div className="rounded-lg border border-border bg-card px-3 py-2 shadow-lg">
-      <p className="text-xs text-muted-foreground mb-1">{label}</p>
-      <p className="text-sm font-bold text-foreground">{formatCurrency(payload[0].value)}</p>
-    </div>
-  );
-};
 
 const PieTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
@@ -49,6 +38,8 @@ const PieTooltip = ({ active, payload }: any) => {
 export function SalesAnalytics({ data, isLoading, error }: SalesAnalyticsProps) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || 'en';
+  const [compChartType, setCompChartType] = useState<ChartType>('bar');
+  const [paymentChartType, setPaymentChartType] = useState<ChartType>('pie');
 
   if (error) {
     return (
@@ -108,21 +99,21 @@ export function SalesAnalytics({ data, isLoading, error }: SalesAnalyticsProps) 
 
           <div className="grid gap-6 lg:grid-cols-2">
             <div>
-              <h4 className="mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('dashboard.sales.revenueComparison')}</h4>
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('dashboard.sales.revenueComparison')}</h4>
+                <ChartSwitcher type={compChartType} onChange={setCompChartType} />
+              </div>
               {comparisonData.length > 0 ? (
-                <div className="h-[220px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={comparisonData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-                      <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'var(--muted-foreground)' }} tickLine={false} axisLine={false} />
-                      <YAxis tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} tickLine={false} axisLine={false} tickFormatter={(v: number) => formatCurrency(v)} width={60} />
-                      <Tooltip content={<ChartTooltip />} />
-                      <Legend wrapperStyle={{ fontSize: '10px' }} iconSize={8} />
-                      <Bar dataKey="current" fill="var(--chart-1)" radius={[4, 4, 0, 0]} barSize={16} name="Current" />
-                      <Bar dataKey="previous" fill="var(--chart-3)" radius={[4, 4, 0, 0]} barSize={16} name="Previous" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
+                <MultiSeriesChartRenderer
+                  data={comparisonData}
+                  chartType={compChartType}
+                  dataKeys={[
+                    { key: 'current', name: 'Current', color: 'var(--chart-1)' },
+                    { key: 'previous', name: 'Previous', color: 'var(--chart-3)' },
+                  ]}
+                  formatter={formatCurrency}
+                  height={220}
+                />
               ) : (
                 <div className="flex h-[150px] items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted-foreground">{t('dashboard.errors.noData')}</div>
               )}
@@ -139,21 +130,28 @@ export function SalesAnalytics({ data, isLoading, error }: SalesAnalyticsProps) 
             </div>
 
             <div>
-              <h4 className="mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('dashboard.sales.revenueByPaymentMethod')}</h4>
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('dashboard.sales.revenueByPaymentMethod')}</h4>
+                <ChartSwitcher type={paymentChartType} onChange={setPaymentChartType} showPie />
+              </div>
               {paymentData.length > 0 ? (
-                <div className="h-[220px] w-full">
+                paymentChartType === 'pie' ? (
+                <div className="h-[220px] w-full" dir="ltr">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
-                      <Pie data={paymentData} cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={3} dataKey="value">
-                        {paymentData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
-                      </Pie>
-                      <Tooltip content={<PieTooltip />} />
-                      <Legend wrapperStyle={{ fontSize: '10px' }} iconSize={8}
-                        formatter={(value: string) => <span style={{ color: 'var(--muted-foreground)' }}>{value}</span>}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
+                        <Pie data={paymentData} cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={3} dataKey="value">
+                          {paymentData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                        </Pie>
+                        <Tooltip content={<PieTooltip />} />
+                        <Legend wrapperStyle={{ fontSize: '10px' }} iconSize={8}
+                          formatter={(value: string) => <span style={{ color: 'var(--muted-foreground)' }}>{value}</span>}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                ) : (
+                  <SimpleChartRenderer data={paymentData} chartType={paymentChartType} formatter={formatCurrency} height={220} />
+                )
               ) : (
                 <div className="flex h-[150px] items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted-foreground">{t('dashboard.errors.noData')}</div>
               )}

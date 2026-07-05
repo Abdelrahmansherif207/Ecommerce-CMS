@@ -68,7 +68,7 @@ export function RevenueChart({ data, isLoading, error }: RevenueChartProps) {
           <Skeleton className="h-[300px] w-full rounded-lg" />
         </div>
       ) : data?.monthly_breakdown && data.monthly_breakdown.length > 0 ? (
-        <div className="h-[300px] w-full">
+        <div className="h-[300px] w-full" dir="ltr">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={data.monthly_breakdown}

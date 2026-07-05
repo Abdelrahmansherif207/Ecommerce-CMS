@@ -107,7 +107,7 @@ export function OrderAnalytics({ data, isLoading, error }: OrderAnalyticsProps) 
               </div>
             </div>
             {timelineChartData.length > 0 ? (
-              <div className="h-[220px] w-full">
+              <div className="h-[220px] w-full" dir="ltr">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={timelineChartData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -129,7 +129,7 @@ export function OrderAnalytics({ data, isLoading, error }: OrderAnalyticsProps) 
             <div>
               <h4 className="mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('dashboard.orders.successRate')}</h4>
               {successPieData.length > 0 ? (
-                <div className="h-[200px] w-full">
+                <div className="h-[200px] w-full" dir="ltr">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie data={successPieData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value">

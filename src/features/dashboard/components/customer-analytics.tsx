@@ -97,7 +97,7 @@ export function CustomerAnalytics({ data, isLoading, error }: CustomerAnalyticsP
             <div>
               <h4 className="mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('dashboard.customers.newVsReturning')}</h4>
               {newVsReturningData.some((d) => d.value > 0) ? (
-                <div className="h-[200px] w-full">
+                <div className="h-[200px] w-full" dir="ltr">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie data={newVsReturningData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value">
@@ -118,7 +118,7 @@ export function CustomerAnalytics({ data, isLoading, error }: CustomerAnalyticsP
             <div>
               <h4 className="mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('dashboard.customers.growth')}</h4>
               {data.monthly_growth.length > 0 ? (
-                <div className="h-[200px] w-full">
+                <div className="h-[200px] w-full" dir="ltr">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={data.monthly_growth} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
