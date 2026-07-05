@@ -279,6 +279,7 @@
         "sortCreatedAt": "تاريخ الإنشاء",
         "sortedBy": "الاتجاه",
         "asc": "تصاعدي",
+        "allStatuses": "جميع الحالات",
         "desc": "تنازلي"
     },
     "brandsForm": {
@@ -326,6 +327,7 @@
         "sortStatus": "الحالة",
         "sortedBy": "الاتجاه",
         "asc": "تصاعدي",
+        "allStatuses": "جميع الحالات",
         "desc": "تنازلي"
     },
     "slidersForm": {
@@ -462,6 +464,7 @@
         "discount": "الخصم",
         "dates": "التواريخ",
         "usage": "المستخدم",
+        "allStatuses": "جميع الحالات",
         "searchPlaceholder": "البحث بالاسم أو الكود..."
     },
     "contacts": {
@@ -495,7 +498,9 @@
         "deleteAllReadConfirm": "هل أنت متأكد من حذف جميع الرسائل المقروءة بشكل دائم؟ لا يمكن التراجع عن هذا الإجراء.",
         "searchPlaceholder": "البحث بالبريد الإلكتروني أو الموضوع أو الرسالة...",
         "readFilter": "حالة القراءة",
-        "replayFilter": "حالة الرد"
+        "replayFilter": "حالة الرد",
+        "allReadStatuses": "جميع حالات القراءة",
+        "allReplyStatuses": "جميع حالات الرد"
     },
     "attributes": {
         "pageTitle": "الخصائص",
@@ -620,6 +625,7 @@
     "createdAt": "تاريخ الإنشاء",
     "type": "النوع",
     "allTypes": "جميع الأنواع",
+    "allStatuses": "جميع الحالات",
     "usersOnly": "مستخدمون",
     "adminsOnly": "مشرفون",
     "activate": "تفعيل",
@@ -694,7 +700,9 @@
     "period": "الفترة",
     "created": "تم إنشاء العرض بنجاح",
     "updated": "تم تحديث العرض بنجاح",
-    "deleted": "تم حذف العرض بنجاح"
+    "deleted": "تم حذف العرض بنجاح",
+    "allTypes": "جميع الأنواع",
+    "allDiscountTypes": "جميع أنواع الخصم"
   },
   "promotionsForm": {
     "nameEn": "الاسم (إنجليزي)",

@@ -6,9 +6,7 @@ import {
   Users,
   Tags,
   FolderTree,
-  BarChart3,
   Settings,
-  CreditCard,
   Star,
   Megaphone,
   FileText,
@@ -68,13 +66,6 @@ export function useNavGroups(): NavGroup[] {
         { title: t('sidebar.faqs'), url: '/faqs', icon: HelpCircle },
         { title: t('sidebar.flashSale'), url: '/flash-sale', icon: Megaphone },
         { title: t('sidebar.contacts'), url: '/contacts', icon: Mail },
-      ],
-    },
-    {
-      title: t('sidebar.insights'),
-      items: [
-        { title: t('sidebar.analytics'), url: '/analytics', icon: BarChart3 },
-        { title: t('sidebar.payments'), url: '/payments', icon: CreditCard },
       ],
     },
     {

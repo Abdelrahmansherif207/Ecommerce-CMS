@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react';
-import { MoreHorizontal, Eye, ExternalLink, Trash2, Copy, Check, Tag, Zap } from 'lucide-react';
+import { MoreHorizontal, Eye, ExternalLink, Trash2, Copy, Check, Tag, Zap, ImageIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import { ImagePreview } from '@/shared/components/image-preview';
 import {
   Table,
   TableBody,
@@ -160,13 +161,15 @@ export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onRef
                 </TableCell>
                 <TableCell>
                   {product.images && product.images.length > 0 ? (
-                    <img
+                    <ImagePreview
                       src={product.images[0]}
                       alt={product.name}
-                      className="h-10 w-10 rounded-lg object-cover shrink-0"
+                      thumbnailClassName="h-10 w-10 rounded-lg object-cover shrink-0"
                     />
                   ) : (
-                    <div className="h-10 w-10 rounded-lg bg-muted shrink-0" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-dashed border-border bg-muted shrink-0">
+                      <ImageIcon className="h-4 w-4 text-muted-foreground" />
+                    </div>
                   )}
                 </TableCell>
                 <TableCell>
@@ -305,13 +308,15 @@ function ProductCard({ product, copiedSlugId, onCopySlug, onView, onNavigateDeta
           className="mt-1 size-4 cursor-pointer shrink-0"
         />
         {product.images && product.images.length > 0 ? (
-          <img
+          <ImagePreview
             src={product.images[0]}
             alt={product.name}
-            className="h-14 w-14 rounded-lg object-cover shrink-0"
+            thumbnailClassName="h-14 w-14 rounded-lg object-cover shrink-0"
           />
         ) : (
-          <div className="h-14 w-14 rounded-lg bg-muted shrink-0" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-lg border border-dashed border-border bg-muted shrink-0">
+            <ImageIcon className="h-5 w-5 text-muted-foreground" />
+          </div>
         )}
 
         <div className="flex-1 min-w-0">

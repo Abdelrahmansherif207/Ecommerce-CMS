@@ -106,7 +106,7 @@ export function CouponsPage() {
             <SelectValue placeholder={t('common.status')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('common.all')}</SelectItem>
+            <SelectItem value="all">{t('coupons.allStatuses')}</SelectItem>
             <SelectItem value="active">{t('coupons.active')}</SelectItem>
             <SelectItem value="inactive">{t('coupons.inactive')}</SelectItem>
           </SelectContent>

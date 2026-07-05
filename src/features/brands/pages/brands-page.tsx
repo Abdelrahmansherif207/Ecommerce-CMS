@@ -104,7 +104,7 @@ export function BrandsPage() {
             <SelectValue placeholder={t('common.status')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('common.all')}</SelectItem>
+            <SelectItem value="all">{t('brands.allStatuses')}</SelectItem>
             <SelectItem value="1">{t('brands.active')}</SelectItem>
             <SelectItem value="0">{t('brands.inactive')}</SelectItem>
           </SelectContent>
