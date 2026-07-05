@@ -13,14 +13,9 @@ import {
 } from '@/shared/ui/dialog';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
 import { DynamicSettingsForm } from './dynamic-settings-form';
+import { SectionTypeSelector } from './section-type-selector';
+import { SectionTypeConfig } from './section-type-config';
 import {
   sectionFormSchema,
   sectionFormDefaults,
@@ -63,6 +58,7 @@ export function SectionFormDialog({
   const [backSettings, setBackSettings] = useState<Record<string, unknown>>({});
   const [productType, setProductType] = useState<string | null>(null);
 
+  const configRef = useRef<HTMLDivElement>(null);
   const sectionTypes = sectionTypesData?.data || [];
 
   const form = useForm<SectionFormValues>({
@@ -119,6 +115,13 @@ export function SectionFormDialog({
       }
     }
   }, [sectionDetail, isEditing, section, form]);
+
+  // ─── Auto-scroll to config on type change ─────────────────────
+  useEffect(() => {
+    if (selectedType && configRef.current) {
+      configRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [selectedType]);
 
   // ─── Type change handler — reset settings ─────────────────────
 
@@ -201,22 +204,12 @@ export function SectionFormDialog({
               <label className="text-sm font-medium">
                 {t('sections.sectionType')} *
               </label>
-              <Select
+              <SectionTypeSelector
+                types={sectionTypes}
                 value={selectedType}
-                onValueChange={handleTypeChange}
+                onChange={handleTypeChange}
                 disabled={isEditing}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t('sections.selectType')} />
-                </SelectTrigger>
-                <SelectContent>
-                  {sectionTypes.map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {type.replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase())}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              />
               {getError('type') && (
                 <p className="text-xs text-destructive">{getError('type')}</p>
               )}
@@ -296,10 +289,22 @@ export function SectionFormDialog({
               </div>
             </div>
 
+            {/* ─── Inline Type Config ─── */}
+            {selectedType && (
+              <div ref={configRef} className="rounded-lg border p-4 space-y-3 scroll-mt-4">
+                <h3 className="text-sm font-semibold">{t('sections.typeConfig')}</h3>
+                <SectionTypeConfig
+                  type={selectedType}
+                  frontSettings={frontSettings}
+                  onFrontChange={setFrontSettings}
+                />
+              </div>
+            )}
+
             {/* ─── Dynamic Settings ─── */}
             {selectedType && (
               <div className="rounded-lg border p-4 space-y-3">
-                <h3 className="text-sm font-semibold">{t('sections.settings')}</h3>
+                <h3 className="text-sm font-semibold">{t('sections.advancedSettings')}</h3>
                 <DynamicSettingsForm
                   sectionType={selectedType}
                   frontSettings={frontSettings}
