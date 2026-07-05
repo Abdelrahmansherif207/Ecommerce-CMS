@@ -130,6 +130,11 @@ export const queryKeys = {
     lists: () => ['shops', 'list'] as const,
     list: (params: Record<string, any>) => ['shops', 'list', params] as const,
   },
+  activityLogs: {
+    all: ['activity-logs'] as const,
+    lists: () => ['activity-logs', 'list'] as const,
+    list: (params: Record<string, any>) => ['activity-logs', 'list', params] as const,
+  },
   dashboard: {
     all: ['dashboard'] as const,
     overview: () => ['dashboard', 'overview'] as const,
