@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@/shared/ui/table';
 import { Badge } from '@/shared/ui/badge';
+import { getLocalizedName } from '@/shared/lib/localize';
 import type { RecentOrder } from '../types/dashboard.types';
 import { formatCurrency } from '../lib/dashboard-utils';
 
@@ -32,7 +33,8 @@ const STATUS_VARIANTS: Record<string, 'default' | 'secondary' | 'destructive' | 
 };
 
 export function RecentOrdersTable({ data, isLoading, error }: RecentOrdersTableProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || 'en';
 
   if (error) {
     return (
@@ -79,7 +81,7 @@ export function RecentOrdersTable({ data, isLoading, error }: RecentOrdersTableP
                     #{order.id}
                   </TableCell>
                   <TableCell>
-                    <div className="text-sm font-medium text-foreground">{order.user?.name ?? '—'}</div>
+                    <div className="text-sm font-medium text-foreground">{getLocalizedName(order.user?.name, lang) || '—'}</div>
                     <div className="text-xs text-muted-foreground">{order.user?.email ?? ''}</div>
                   </TableCell>
                   <TableCell>

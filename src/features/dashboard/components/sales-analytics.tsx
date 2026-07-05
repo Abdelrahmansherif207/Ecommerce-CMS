@@ -14,6 +14,7 @@ import {
 } from 'recharts';
 import { DollarSign, TrendingUp, CalendarRange, Wallet } from 'lucide-react';
 import { Skeleton } from '@/shared/ui/skeleton';
+import { getLocalizedName } from '@/shared/lib/localize';
 import type { SalesData } from '../types/dashboard.types';
 import { formatCurrency } from '../lib/dashboard-utils';
 
@@ -46,7 +47,8 @@ const PieTooltip = ({ active, payload }: any) => {
 };
 
 export function SalesAnalytics({ data, isLoading, error }: SalesAnalyticsProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || 'en';
 
   if (error) {
     return (
@@ -72,7 +74,7 @@ export function SalesAnalytics({ data, isLoading, error }: SalesAnalyticsProps) 
   ] : [];
 
   const paymentData = (data?.revenue_by_payment_method ?? []).map((item, i) => ({
-    name: item.method,
+    name: getLocalizedName(item.method, lang),
     value: item.total,
     color: COLORS[i % COLORS.length],
   }));

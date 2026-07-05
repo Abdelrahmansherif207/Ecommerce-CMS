@@ -15,6 +15,7 @@ import {
 import { Users, UserCheck, Clock } from 'lucide-react';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
+import { getLocalizedName } from '@/shared/lib/localize';
 import type { CustomerData } from '../types/dashboard.types';
 import { formatCurrency, formatNumber } from '../lib/dashboard-utils';
 
@@ -47,7 +48,8 @@ const LineTooltip = ({ active, payload, label }: any) => {
 };
 
 export function CustomerAnalytics({ data, isLoading, error }: CustomerAnalyticsProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || 'en';
 
   if (error) {
     return (
@@ -148,7 +150,7 @@ export function CustomerAnalytics({ data, isLoading, error }: CustomerAnalyticsP
                     <TableBody>
                       {data.top_customers.by_orders.map((c) => (
                         <TableRow key={c.id}>
-                          <TableCell><span className="text-sm font-medium text-foreground">{c.name}</span><span className="text-xs text-muted-foreground ml-2">{c.email}</span></TableCell>
+                          <TableCell><span className="text-sm font-medium text-foreground">{getLocalizedName(c.name, lang)}</span><span className="text-xs text-muted-foreground ml-2">{c.email}</span></TableCell>
                           <TableCell className="text-end tabular-nums font-medium">{c.orders}</TableCell>
                         </TableRow>
                       ))}
@@ -173,7 +175,7 @@ export function CustomerAnalytics({ data, isLoading, error }: CustomerAnalyticsP
                     <TableBody>
                       {data.top_customers.by_revenue.map((c) => (
                         <TableRow key={c.id}>
-                          <TableCell><span className="text-sm font-medium text-foreground">{c.name}</span><span className="text-xs text-muted-foreground ml-2">{c.email}</span></TableCell>
+                          <TableCell><span className="text-sm font-medium text-foreground">{getLocalizedName(c.name, lang)}</span><span className="text-xs text-muted-foreground ml-2">{c.email}</span></TableCell>
                           <TableCell className="text-end tabular-nums font-medium">{formatCurrency(c.revenue ?? 0)}</TableCell>
                         </TableRow>
                       ))}

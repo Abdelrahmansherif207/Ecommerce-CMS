@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, Package } from 'lucide-react';
 import { Skeleton } from '@/shared/ui/skeleton';
+import { getLocalizedName } from '@/shared/lib/localize';
 import type { LowStockProduct } from '../types/dashboard.types';
 import { formatCurrency } from '../lib/dashboard-utils';
 
@@ -11,7 +12,8 @@ interface LowStockAlertsProps {
 }
 
 export function LowStockAlerts({ data, isLoading, error }: LowStockAlertsProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || 'en';
 
   if (error) {
     return (
@@ -63,10 +65,10 @@ export function LowStockAlerts({ data, isLoading, error }: LowStockAlertsProps) 
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-foreground truncate">
-                    {product.name}
+                    {getLocalizedName(product.name, lang)}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {product.type?.name ?? ''} &middot; {formatCurrency(product.price)}
+                    {getLocalizedName(product.type?.name, lang)} &middot; {formatCurrency(product.price)}
                   </p>
                 </div>
                 <div className="text-end shrink-0">

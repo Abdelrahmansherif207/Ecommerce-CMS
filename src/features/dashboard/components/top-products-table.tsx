@@ -17,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/ui/table';
+import { getLocalizedName } from '@/shared/lib/localize';
 import type { TopProduct } from '../types/dashboard.types';
 import { formatCurrency } from '../lib/dashboard-utils';
 
@@ -37,7 +38,8 @@ const ChartTooltip = ({ active, payload, label }: any) => {
 };
 
 export function TopProductsTable({ data, isLoading, error }: TopProductsTableProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || 'en';
 
   if (error) {
     return (
@@ -68,7 +70,7 @@ export function TopProductsTable({ data, isLoading, error }: TopProductsTablePro
           <div className="h-[200px] w-full mb-4">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={data.slice(0, 8)}
+                data={data.slice(0, 8).map((p) => ({ ...p, displayName: getLocalizedName(p.name, lang) }))}
                 layout="vertical"
                 margin={{ top: 0, right: 30, left: 0, bottom: 0 }}
               >
@@ -81,7 +83,7 @@ export function TopProductsTable({ data, isLoading, error }: TopProductsTablePro
                 />
                 <YAxis
                   type="category"
-                  dataKey="name"
+                  dataKey="displayName"
                   tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }}
                   tickLine={false}
                   axisLine={false}
@@ -112,7 +114,7 @@ export function TopProductsTable({ data, isLoading, error }: TopProductsTablePro
                 {data.map((product) => (
                   <TableRow key={product.id}>
                     <TableCell className="font-medium text-foreground">
-                      {product.name}
+                      {getLocalizedName(product.name, lang)}
                     </TableCell>
                     <TableCell className="text-end tabular-nums">
                       {formatCurrency(product.price)}
