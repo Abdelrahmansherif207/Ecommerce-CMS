@@ -108,7 +108,7 @@ export function CouponAnalytics({ data, isLoading, error }: CouponAnalyticsProps
             <div>
               <h4 className="mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('dashboard.coupons.revenueByCoupon')}</h4>
               {data.revenue_by_coupon.length > 0 ? (
-                <div className="h-[220px] w-full">
+                <div className="h-[220px] w-full" dir="ltr">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.revenue_by_coupon} layout="vertical" margin={{ top: 0, right: 20, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />

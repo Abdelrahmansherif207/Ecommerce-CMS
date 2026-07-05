@@ -10,6 +10,9 @@ import {
 } from 'recharts';
 import { Skeleton } from '@/shared/ui/skeleton';
 import type { OrderStatsData, OrderStats } from '../types/dashboard.types';
+import { ChartSwitcher } from './chart-switcher';
+import type { ChartType } from './chart-switcher';
+import { SimpleChartRenderer } from './chart-renderer';
 
 interface OrderStatsChartProps {
   data: OrderStatsData | undefined;
@@ -51,6 +54,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 export function OrderStatsChart({ data, isLoading, error }: OrderStatsChartProps) {
   const { t } = useTranslation();
   const [activeRange, setActiveRange] = useState<TimeRange>('monthly');
+  const [chartType, setChartType] = useState<ChartType>('pie');
 
   if (error) {
     return (
@@ -81,53 +85,60 @@ export function OrderStatsChart({ data, isLoading, error }: OrderStatsChartProps
         <h3 className="text-sm font-semibold text-foreground">
           {t('dashboard.orderStats.title')}
         </h3>
-        <div className="flex gap-1">
-          {timeRanges.map((range) => (
-            <button
-              key={range.key}
-              onClick={() => setActiveRange(range.key)}
-              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                activeRange === range.key
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-            >
-              {t(range.labelKey)}
-            </button>
-          ))}
+        <div className="flex items-center gap-2">
+          <ChartSwitcher type={chartType} onChange={setChartType} showPie />
+          <div className="flex gap-1">
+            {timeRanges.map((range) => (
+              <button
+                key={range.key}
+                onClick={() => setActiveRange(range.key)}
+                className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                  activeRange === range.key
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
+              >
+                {t(range.labelKey)}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       {isLoading ? (
         <Skeleton className="h-[250px] w-full rounded-lg" />
       ) : chartData.length > 0 ? (
-        <div className="h-[250px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={chartData}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={100}
-                paddingAngle={3}
-                dataKey="value"
-              >
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip content={<CustomTooltip />} />
-              <Legend
-                wrapperStyle={{ fontSize: '11px' }}
-                iconSize={8}
-                formatter={(value: string) => (
-                  <span style={{ color: 'var(--muted-foreground)' }}>{value}</span>
-                )}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+        chartType === 'pie' ? (
+          <div className="h-[250px] w-full" dir="ltr">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={100}
+                  paddingAngle={3}
+                  dataKey="value"
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip content={<CustomTooltip />} />
+                <Legend
+                  wrapperStyle={{ fontSize: '11px' }}
+                  iconSize={8}
+                  formatter={(value: string) => (
+                    <span style={{ color: 'var(--muted-foreground)' }}>{value}</span>
+                  )}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <SimpleChartRenderer data={chartData} chartType={chartType} height={250} />
+        )
       ) : (
         <div className="flex h-[200px] items-center justify-center rounded-lg border border-dashed border-border text-sm text-muted-foreground">
           {t('dashboard.errors.noData')}
