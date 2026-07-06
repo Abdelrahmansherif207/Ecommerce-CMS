@@ -810,6 +810,9 @@
     "causer": "المستخدم",
     "date": "التاريخ"
   },
+  "notifications": {
+    "newNotification": "🔔 إشعار جديد"
+  },
   "products": {
     "title": "المنتجات",
     "subtitle": "إدارة كتالوج المنتجات.",

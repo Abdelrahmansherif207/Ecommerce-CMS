@@ -7,6 +7,7 @@ import { initPusher, destroyPusher } from '../lib/pusher';
 import { useNotificationStore } from '../store/notification.store';
 import { fetchUnreadNotifications } from '../api/notifications.api';
 import { getNotificationIcon } from '../lib/icons';
+import { useNotificationTitle } from './use-notification-title';
 
 const IS_DEV = import.meta.env.DEV;
 
@@ -18,6 +19,8 @@ function log(event: string, data?: unknown) {
 export function usePusher() {
   const { user, isAuthenticated } = useAuthStore();
   const { setUnreadCount, incrementUnreadCount } = useNotificationStore();
+
+  useNotificationTitle();
   const queryClient = useQueryClient();
   const initialized = useRef(false);
 
