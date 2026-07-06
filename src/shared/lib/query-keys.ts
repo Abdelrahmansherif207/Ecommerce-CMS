@@ -135,6 +135,14 @@ export const queryKeys = {
     lists: () => ['activity-logs', 'list'] as const,
     list: (params: Record<string, any>) => ['activity-logs', 'list', params] as const,
   },
+  notifications: {
+    all: ['notifications'] as const,
+    lists: () => ['notifications', 'list'] as const,
+    list: (params: Record<string, any>) => ['notifications', 'list', params] as const,
+    unreadLists: () => ['notifications', 'unread'] as const,
+    unreadList: (params: Record<string, any>) => ['notifications', 'unread', params] as const,
+    count: () => ['notifications', 'count'] as const,
+  },
   dashboard: {
     all: ['dashboard'] as const,
     overview: () => ['dashboard', 'overview'] as const,
