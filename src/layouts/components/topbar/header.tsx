@@ -20,10 +20,13 @@ import { useLogout } from "@/features/auth/hooks/use-auth";
 import { useAuthStore } from "@/features/auth/store/auth.store";
 import { useLanguage } from "@/shared/hooks/use-language";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
+import { useNotificationCount, usePusher } from "@/features/notifications/hooks/use-pusher";
+import { NotificationDropdown } from "@/features/notifications/components/notification-dropdown";
 
 export function Header() {
   const isMobile = useIsMobile();
   const [searchOpen, setSearchOpen] = useState(false);
+  usePusher();
 
   return (
     <header className="fixed top-0 z-20 flex h-14 w-full items-center gap-2 bg-background px-4">
@@ -97,16 +100,27 @@ function LanguageSwitcher() {
 }
 
 function NotificationButton() {
+  const unreadCount = useNotificationCount();
+
   return (
-    <Button variant="ghost" size="icon-sm" className="relative">
-      <Bell className="size-4" />
-      <Badge
-        variant="destructive"
-        className="absolute -right-1 -top-1 size-4 p-0 flex items-center justify-center text-[10px]"
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <Button variant="ghost" size="icon-sm" className="relative" />
+        }
       >
-        3
-      </Badge>
-    </Button>
+        <Bell className="size-4" />
+        {unreadCount > 0 && (
+          <Badge
+            variant="destructive"
+            className="absolute -right-1 -top-1 size-4 p-0 flex items-center justify-center text-[10px]"
+          >
+            {unreadCount > 9 ? '9+' : unreadCount}
+          </Badge>
+        )}
+      </DropdownMenuTrigger>
+      <NotificationDropdown />
+    </DropdownMenu>
   );
 }
 

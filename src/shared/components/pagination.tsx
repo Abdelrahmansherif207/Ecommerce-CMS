@@ -51,6 +51,7 @@ export function Pagination({
       </p>
       <div className="flex items-center gap-1">
         <Button
+          key="prev"
           variant="outline"
           size="icon-sm"
           onClick={() => onPageChange(page - 1)}
@@ -58,23 +59,25 @@ export function Pagination({
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        {pages.map((p, i) =>
-          p === 'ellipsis' ? (
-            <span key={'e' + i} className="flex h-8 w-8 items-center justify-center text-sm text-muted-foreground">
+        {pages.map((p, i) => {
+          const key = p === 'ellipsis' ? `ellipsis-${i}` : `page-${p}`;
+          return p === 'ellipsis' ? (
+            <span key={key} className="flex h-8 w-8 items-center justify-center text-sm text-muted-foreground">
               ...
             </span>
           ) : (
             <Button
-              key={p}
+              key={key}
               variant={p === page ? 'default' : 'outline'}
               size="icon-sm"
               onClick={() => onPageChange(p)}
             >
               {p}
             </Button>
-          )
-        )}
+          );
+        })}
         <Button
+          key="next"
           variant="outline"
           size="icon-sm"
           onClick={() => onPageChange(page + 1)}
