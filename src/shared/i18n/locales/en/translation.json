@@ -811,6 +811,9 @@
     "causer": "User",
     "date": "Date"
   },
+  "notifications": {
+    "newNotification": "🔔 New Notification"
+  },
   "products": {
     "title": "Products",
     "subtitle": "Manage your product catalog.",
