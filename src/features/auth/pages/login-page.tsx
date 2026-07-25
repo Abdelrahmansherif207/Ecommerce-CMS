@@ -82,7 +82,7 @@ export function LoginPage() {
                   type="button"
                   variant="ghost"
                   size="icon-sm"
-                  className="absolute right-1 top-1/2 -translate-y-1/2"
+                  className="absolute end-1 top-1/2 -translate-y-1/2"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (

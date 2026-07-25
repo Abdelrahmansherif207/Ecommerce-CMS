@@ -48,7 +48,7 @@ export function ChangePasswordForm() {
             type="button"
             variant="ghost"
             size="icon-sm"
-            className="absolute right-1 top-1/2 -translate-y-1/2"
+            className="absolute end-1 top-1/2 -translate-y-1/2"
             onClick={() => setShowOld(!showOld)}
           >
             {showOld ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -77,7 +77,7 @@ export function ChangePasswordForm() {
             type="button"
             variant="ghost"
             size="icon-sm"
-            className="absolute right-1 top-1/2 -translate-y-1/2"
+            className="absolute end-1 top-1/2 -translate-y-1/2"
             onClick={() => setShowNew(!showNew)}
           >
             {showNew ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -106,7 +106,7 @@ export function ChangePasswordForm() {
             type="button"
             variant="ghost"
             size="icon-sm"
-            className="absolute right-1 top-1/2 -translate-y-1/2"
+            className="absolute end-1 top-1/2 -translate-y-1/2"
             onClick={() => setShowConfirm(!showConfirm)}
           >
             {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
