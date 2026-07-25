@@ -65,12 +65,12 @@
         "attributes": "الخصائص",
         "roles": "الأدوار والصلاحيات",
         "activityLogs": "سجل النشاطات",
-        "pickupLocations": "Pickup Locations",
-        "banners": "Banners",
-        "shipping": "Shipping",
-        "countries": "Countries",
-        "governorates": "Governorates",
-        "cities": "Cities"
+        "pickupLocations": "مواقع الاستلام",
+        "banners": "البنرات",
+        "shipping": "الشحن",
+        "countries": "الدول",
+        "governorates": "المحافظات",
+        "cities": "المدن"
     },
     "orders": {
         "title": "الطلبات",
