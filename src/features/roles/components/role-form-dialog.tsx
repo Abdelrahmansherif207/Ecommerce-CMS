@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,7 @@ import {
   roleFormDefaults,
   toApiFormat,
   parseDisplayName,
+  autoGenerateName,
   type RoleFormValues,
 } from '../schemas/role.schema';
 import {
@@ -93,6 +94,12 @@ export function RoleFormDialog({
       : [...current, permissionId];
     form.setValue('permissionIds', updated, { shouldValidate: true });
   };
+
+  const handleNameEnChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    form.setValue('displayNameEn', val);
+    form.setValue('name', autoGenerateName(val));
+  }, [form]);
 
   const handleClose = () => {
     onOpenChange(false);
@@ -188,7 +195,8 @@ export function RoleFormDialog({
               <Input
                 id="displayNameEn"
                 placeholder={t('rolesForm.nameEn')}
-                {...form.register('displayNameEn')}
+                value={form.watch('displayNameEn')}
+                onChange={handleNameEnChange}
               />
               {getError('displayNameEn') && (
                 <p className="text-xs text-destructive">{getError('displayNameEn')}</p>
@@ -208,6 +216,32 @@ export function RoleFormDialog({
               {getError('displayNameAr') && (
                 <p className="text-xs text-destructive">{getError('displayNameAr')}</p>
               )}
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <label htmlFor="name" className="text-sm font-medium">
+                {t('roles.name')}
+              </label>
+              <Input
+                id="name"
+                placeholder={t('roles.name')}
+                {...form.register('name')}
+                readOnly
+                className="bg-muted"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">
+                {t('roles.guardName')}
+              </label>
+              <Input
+                value="api"
+                readOnly
+                className="bg-muted"
+              />
             </div>
           </div>
 

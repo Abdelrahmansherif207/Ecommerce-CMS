@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, ShieldX } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
@@ -16,8 +16,9 @@ export function RolePermissionsGrid({ selectedIds, onToggle }: RolePermissionsGr
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterMode>('all');
-  const { data: permissionsData, isLoading } = usePermissions();
+  const { data: permissionsData, isLoading, isError, error } = usePermissions();
 
+  const isForbidden = isError && (error as any)?.status === 403;
   const permissions = permissionsData?.data ?? [];
 
   const filtered = permissions.filter((p) => {
@@ -41,6 +42,15 @@ export function RolePermissionsGrid({ selectedIds, onToggle }: RolePermissionsGr
     return (
       <div className="flex items-center justify-center py-8 text-sm text-muted-foreground">
         {t('common.loading')}
+      </div>
+    );
+  }
+
+  if (isForbidden) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2 rounded-lg border py-8 text-sm text-muted-foreground">
+        <ShieldX className="h-8 w-8" />
+        <p>{t('roles.permissionsForbidden')}</p>
       </div>
     );
   }

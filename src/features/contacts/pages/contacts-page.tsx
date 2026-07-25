@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { RefreshCw, Search, Trash2, MailX } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
@@ -35,7 +35,7 @@ export function ContactsPage() {
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [readFilter, setReadFilter] = useState<string>('all');
-  const [replayFilter, setReplayFilter] = useState<string>('all');
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const [viewContactId, setViewContactId] = useState<number | null>(null);
   const [openDetail, setOpenDetail] = useState(false);
@@ -47,7 +47,6 @@ export function ContactsPage() {
   const deleteAllReadMutation = useDeleteAllReadContacts();
 
   const readParam = readFilter === 'read' ? true : readFilter === 'unread' ? false : undefined;
-  const replayParam = replayFilter === 'replay' ? true : undefined;
 
   const params = {
     page,
@@ -55,7 +54,6 @@ export function ContactsPage() {
     search: search || undefined,
     read: readParam,
     unread: readParam === false ? true : undefined,
-    replay: replayParam,
   };
 
   const { data, isLoading, refetch } = useContacts(params);
@@ -65,6 +63,7 @@ export function ContactsPage() {
   const lastPage = data?.data?.last_page ?? 1;
   const from = data?.data?.from ?? 0;
   const to = data?.data?.to ?? 0;
+  const hasActiveFilters = search || readFilter !== 'all';
 
   const handleView = useCallback((contact: Contact) => {
     setViewContactId(contact.id);
@@ -76,8 +75,19 @@ export function ContactsPage() {
     setOpenReply(true);
   }, []);
 
-  const handleSearch = () => {
-    setSearch(searchInput);
+  const handleSearchInput = (value: string) => {
+    setSearchInput(value);
+    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+    searchTimerRef.current = setTimeout(() => {
+      setSearch(value);
+      setPage(1);
+    }, 300);
+  };
+
+  const clearFilters = () => {
+    setSearch('');
+    setSearchInput('');
+    setReadFilter('all');
     setPage(1);
   };
 
@@ -151,20 +161,11 @@ export function ContactsPage() {
 
       <div className="flex flex-wrap items-center gap-2">
         <div className="relative flex-1 w-full md:max-w-xs">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground hover:text-foreground"
-            onClick={handleSearch}
-            aria-label={t('common.search')}
-          >
-            <Search className="h-4 w-4" />
-          </Button>
+          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder={t('contacts.searchPlaceholder')}
             value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(); }}
+            onChange={(e) => handleSearchInput(e.target.value)}
             className="h-8 ps-9"
           />
         </div>
@@ -176,16 +177,6 @@ export function ContactsPage() {
             <SelectItem value="all">{t('contacts.allReadStatuses')}</SelectItem>
             <SelectItem value="read">{t('contacts.read')}</SelectItem>
             <SelectItem value="unread">{t('contacts.unread')}</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={replayFilter} onValueChange={(v) => { if (v) setReplayFilter(v); setPage(1); }}>
-          <SelectTrigger className="h-8 w-full md:w-[140px]">
-            <SelectValue placeholder={t('contacts.replayFilter')} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t('contacts.allReplyStatuses')}</SelectItem>
-            <SelectItem value="replay">{t('contacts.replied')}</SelectItem>
-            <SelectItem value="no_replay">{t('contacts.notReplied')}</SelectItem>
           </SelectContent>
         </Select>
         <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v)); setPage(1); }}>
@@ -204,9 +195,11 @@ export function ContactsPage() {
       <ContactsTable
         data={contacts}
         isLoading={isLoading}
+        hasActiveFilters={hasActiveFilters}
         onView={handleView}
         onReply={handleReply}
         onDelete={setDeleteTarget}
+        onClearFilters={clearFilters}
       />
 
       <Pagination

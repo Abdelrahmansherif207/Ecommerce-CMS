@@ -109,8 +109,19 @@ export function useDeleteRole() {
 export function usePermissions() {
   return useQuery({
     queryKey: queryKeys.roles.permissions(),
-    queryFn: () => fetchPermissions(200),
+    queryFn: () => fetchPermissions(200).catch((err) => {
+      const apiErr = err as ApiErrorResponse;
+      if (apiErr?.status === 403) {
+        return { status: 403, message: apiErr.message, success: false, data: [] };
+      }
+      throw err;
+    }),
     staleTime: 15 * 60 * 1000,
+    retry: (failureCount, error) => {
+      const apiErr = error as ApiErrorResponse;
+      if (apiErr?.status === 403) return false;
+      return failureCount < 3;
+    },
   });
 }
 

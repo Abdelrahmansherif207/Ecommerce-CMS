@@ -13,6 +13,9 @@ export interface Settings {
   promotion_video_url: string;
   youtube: string;
   phone: string;
+  fast_shipping_page_publish: number;
+  minimumOrderAmount: number;
+  options: Record<string, any> | null;
 }
 
 export interface SettingsResponse {
@@ -31,6 +34,8 @@ export interface UpdateSettingsPayload {
   'meta_desc[ar]': string;
   'site_copy_right[en]': string;
   'site_copy_right[ar]': string;
+  fast_shipping_page_publish?: string | number;
+  minimumOrderAmount?: string | number;
   site_email: string;
   email_support: string;
   facebook: string;

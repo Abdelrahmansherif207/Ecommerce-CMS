@@ -7,6 +7,7 @@ import {
   fetchProductById,
   deleteProduct,
   createProduct,
+  updateProduct,
   importProducts,
   getImportStatus,
   downloadImportErrors,
@@ -14,6 +15,7 @@ import {
   bulkDeleteProducts,
   exportProducts,
   type CreateProductData,
+  type UpdateProductData,
 } from '../api/products.api';
 import type { FetchProductsParams } from '../types/product.types';
 import type { ApiErrorResponse } from '@/shared/api';
@@ -70,6 +72,22 @@ export function useCreateProduct() {
     },
     onError: (error: unknown) => {
       handleApiError(error, 'Failed to create product');
+    },
+  });
+}
+
+export function useUpdateProduct() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: number; data: UpdateProductData }) => updateProduct(id, data),
+    onSuccess: (response, { id }) => {
+      toast.success(response.message || 'Product updated successfully');
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.lists() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.detail(id) });
+    },
+    onError: (error: unknown) => {
+      handleApiError(error, 'Failed to update product');
     },
   });
 }

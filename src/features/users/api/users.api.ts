@@ -1,6 +1,7 @@
 import { axiosClient } from '@/shared/api';
 import type {
   UsersListResponse,
+  UserDetailResponse,
   CreateUserResponse,
   ApiActionResponse,
   RolesResponse,
@@ -57,8 +58,24 @@ export async function fetchRoles(): Promise<RolesResponse> {
   return data;
 }
 
+export async function fetchUser(id: number): Promise<UserDetailResponse> {
+  const { data } = await axiosClient.get<UserDetailResponse>('/users/' + id);
+  return data;
+}
+
 export async function createUser(payload: CreateUserData): Promise<CreateUserResponse> {
-  const { data } = await axiosClient.post<CreateUserResponse>('/admin-users/add', payload);
+  const formData = new FormData();
+  formData.append('name', payload.name);
+  formData.append('email', payload.email);
+  formData.append('password', payload.password);
+  formData.append('password_confirmation', payload.password_confirmation);
+  formData.append('phone_number', payload.phone_number);
+  payload.roles.forEach((roleId) => formData.append('roles[]', String(roleId)));
+  formData.append('is_active', String(payload.is_active));
+  if (payload.image) {
+    formData.append('image', payload.image);
+  }
+  const { data } = await axiosClient.post<CreateUserResponse>('/admin-users/add', formData);
   return data;
 }
 

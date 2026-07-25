@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import {
@@ -54,6 +54,20 @@ export function OrderDetailPage() {
 
   const { data, isLoading } = useOrder(Number(id));
   const order = data?.data;
+
+  const parsedAddress = useMemo(() => {
+    if (!order?.address) return null;
+    if (typeof order.address === 'string') {
+      try {
+        return JSON.parse(order.address);
+      } catch {
+        return null;
+      }
+    }
+    return order.address;
+  }, [order?.address]);
+
+  const address = parsedAddress as { street?: string; city?: string; state?: string; country?: string } | null;
 
   if (isLoading) {
     return <DetailSkeleton />;
@@ -216,11 +230,11 @@ export function OrderDetailPage() {
               {t('orders.shippingAddress')}
             </h2>
             <div className="space-y-1 text-sm">
-              <p>{order.address.street_address}</p>
+              <p>{address?.street ?? address?.street_address}</p>
               <p>
-                {order.address.city}, {order.address.state}
+                {address?.city}{address?.state ? `, ${address.state}` : ''}
               </p>
-              <p>{order.address.country}</p>
+              <p>{address?.country}</p>
             </div>
             <Separator className="my-4" />
             <div className="flex items-center gap-2 text-sm">

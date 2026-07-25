@@ -149,11 +149,11 @@ export function OrdersPage() {
 
       <Pagination
         page={page}
-        lastPage={data?.data?.last_page ?? 1}
-        total={data?.data?.total ?? 0}
-        from={data?.data?.from ?? 0}
-        to={data?.data?.to ?? 0}
-        perPage={data?.data?.per_page ?? 15}
+        lastPage={data?.data?.links?.last_page ?? 1}
+        total={data?.data?.links?.total ?? 0}
+        from={data?.data?.links?.from ?? 0}
+        to={data?.data?.links?.to ?? 0}
+        perPage={data?.data?.links?.per_page ?? 15}
         onPageChange={setPage}
         className="py-2"
       />

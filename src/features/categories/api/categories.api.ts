@@ -63,6 +63,7 @@ export async function createCategory(payload: CreateCategoryData): Promise<ApiRe
   if (payload.parent_id !== undefined && payload.parent_id !== null) {
     formData.append('parent_id', payload.parent_id.toString());
   }
+  formData.append('status', payload.status);
 
   const { data } = await axiosClient.post<ApiResponse<CategoryListItem>>('/categories', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
@@ -86,6 +87,7 @@ export async function updateCategory(
   if (payload.parent_id !== undefined && payload.parent_id !== null) {
     formData.append('parent_id', payload.parent_id.toString());
   }
+  formData.append('status', payload.status);
 
   const { data } = await axiosClient.post<ApiResponse<CategoryListItem>>(`/categories/${id}`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },

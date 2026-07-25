@@ -1,5 +1,4 @@
-export interface PaginatedResponse<T> {
-  data: T[];
+export interface PaginationLinks {
   current_page: number;
   from: number;
   to: number;
@@ -9,6 +8,11 @@ export interface PaginatedResponse<T> {
   total: number;
   next_page_url: string | null;
   prev_page_url: string | null;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  links: PaginationLinks;
 }
 
 export interface ApiResponse<T> {
@@ -70,12 +74,7 @@ export interface OrderDetail {
   customer_name: string;
   customer_phone: string;
   customer_email: string;
-  address: {
-    city: string;
-    state: string;
-    country: string;
-    street_address: string;
-  };
+  address: string;
   notes: string | null;
   price: number;
   shipping_price: number | null;

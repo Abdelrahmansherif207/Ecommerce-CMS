@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { MoreHorizontal, Eye, ExternalLink, Trash2, Copy, Check, Tag, Zap, ImageIcon } from 'lucide-react';
+import { MoreHorizontal, Eye, ExternalLink, Pencil, Trash2, Copy, Check, Tag, Zap, ImageIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
@@ -30,12 +30,13 @@ interface ProductsTableProps {
   isLoading: boolean;
   onView: (product: Product) => void;
   onNavigateDetail: (product: Product) => void;
+  onEdit: (product: Product) => void;
   onRefresh: () => void;
   selectedIds: number[];
   onSelectionChange: (ids: number[]) => void;
 }
 
-export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onRefresh, selectedIds, onSelectionChange }: ProductsTableProps) {
+export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onEdit, onRefresh, selectedIds, onSelectionChange }: ProductsTableProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
@@ -252,6 +253,10 @@ export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onRef
                         <ExternalLink className="me-2 h-4 w-4" />
                         {t('products.viewDetails')}
                       </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onEdit(product)}>
+                        <Pencil className="me-2 h-4 w-4" />
+                        {t('common.edit')}
+                      </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-destructive"
                         onClick={() => setDeleteTarget(product)}
@@ -334,6 +339,10 @@ function ProductCard({ product, copiedSlugId, onCopySlug, onView, onNavigateDeta
                 <DropdownMenuItem onClick={() => { onNavigateDetail(product); setMenuOpen(false); }}>
                   <ExternalLink className="me-2 h-4 w-4" />
                   {t('products.viewDetails')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { onEdit(product); setMenuOpen(false); }}>
+                  <Pencil className="me-2 h-4 w-4" />
+                  {t('common.edit')}
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-destructive" onClick={() => { onDelete(product); setMenuOpen(false); }}>
                   <Trash2 className="me-2 h-4 w-4" />

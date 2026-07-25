@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import {
   login,
@@ -25,16 +26,27 @@ function handleApiError(error: unknown, fallbackMessage: string) {
 export function useLogin() {
   const navigate = useNavigate();
   const { setAuth } = useAuthStore();
+  const { t } = useTranslation();
 
   return useMutation({
     mutationFn: (data: LoginData) => login(data),
     onSuccess: (authData) => {
       setAuth(authData);
-      toast.success('Login successful');
+      toast.success(t('auth.loginSuccess'));
       navigate('/dashboard');
     },
     onError: (error: unknown) => {
-      handleApiError(error, 'Login failed');
+      const apiError = error as ApiErrorResponse;
+      const msg = apiError?.message || '';
+      if (msg.includes('INVALID_CREDENTIALS')) {
+        toast.error(t('auth.invalidCredentials'));
+      } else if (msg.includes('USER_NOT_FOUND')) {
+        toast.error(t('auth.userNotFound'));
+      } else if (msg.includes('USER_NOT_VERIFIED')) {
+        toast.error(t('auth.userNotVerified'));
+      } else {
+        toast.error(msg || t('auth.loginFailed'));
+      }
     },
   });
 }

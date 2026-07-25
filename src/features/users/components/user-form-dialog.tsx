@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, Upload } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -20,12 +20,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { cn } from '@/shared/lib/utils';
 import { useLanguage } from '@/shared/hooks/use-language';
 import {
   userFormSchema,
   userFormDefaults,
   toApiFormat,
+  getPasswordStrength,
   type UserFormValues,
 } from '../schemas/user.schema';
 import { useCreateUser, useRoles } from '../hooks/use-users';
@@ -48,6 +50,8 @@ export function UserFormDialog({
   const { data: rolesData, isLoading: isRolesLoading } = useRoles();
   const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
   const [rolesOpen, setRolesOpen] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema) as any,
@@ -55,15 +59,25 @@ export function UserFormDialog({
   });
 
   const selectedRoleIds = form.watch('roleIds') || [];
+  const password = form.watch('password') || '';
 
   const prevOpenRef = useRef(false);
   useEffect(() => {
     if (open && !prevOpenRef.current) {
       setServerErrors({});
+      setImagePreview(null);
       form.reset(userFormDefaults);
     }
     prevOpenRef.current = open;
   }, [open, form]);
+
+  useEffect(() => {
+    if (createMutation.isSuccess) {
+      setServerErrors({});
+      setImagePreview(null);
+      form.reset(userFormDefaults);
+    }
+  }, [createMutation.isSuccess, form]);
 
   const toggleRole = (roleId: number) => {
     const current = form.getValues('roleIds') || [];
@@ -79,6 +93,16 @@ export function UserFormDialog({
       return parsed[language] || parsed.en || displayName;
     } catch {
       return displayName;
+    }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      form.setValue('image', file);
+      const reader = new FileReader();
+      reader.onloadend = () => setImagePreview(reader.result as string);
+      reader.readAsDataURL(file);
     }
   };
 
@@ -112,6 +136,8 @@ export function UserFormDialog({
     return t(errMsg, errMsg);
   };
 
+  const passwordStrength = getPasswordStrength(password);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[500px]">
@@ -123,6 +149,31 @@ export function UserFormDialog({
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-4" noValidate>
+          <div className="flex justify-center">
+            <div className="relative">
+              <Avatar className="size-20">
+                <AvatarImage src={imagePreview || undefined} alt="Avatar preview" />
+                <AvatarFallback className="bg-muted text-muted-foreground text-lg">
+                  <Upload className="size-6" />
+                </AvatarFallback>
+              </Avatar>
+              <button
+                type="button"
+                className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full opacity-0 hover:bg-black/40 hover:opacity-100 transition-opacity"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Upload className="size-5 text-white" />
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </div>
+          </div>
+
           <div className="space-y-1.5">
             <label htmlFor="name" className="text-sm font-medium">{t('usersForm.name')} *</label>
             <Input
@@ -156,6 +207,17 @@ export function UserFormDialog({
               placeholder={t('usersForm.password')}
               {...form.register('password')}
             />
+            {password && (
+              <div className="mt-1 space-y-1">
+                <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                  <div
+                    className={'h-full rounded-full transition-all ' + passwordStrength.color}
+                    style={{ width: passwordStrength.percent + '%' }}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">{passwordStrength.label}</p>
+              </div>
+            )}
             {getError('password') && (
               <p className="text-xs text-destructive">{getError('password')}</p>
             )}

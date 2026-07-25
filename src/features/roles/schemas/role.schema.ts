@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const roleFormSchema = z.object({
+  name: z.string().optional(),
   displayNameEn: z.string().min(1, 'validation.nameEnRequired'),
   displayNameAr: z.string().min(1, 'validation.nameArRequired'),
   permissionIds: z.array(z.number()).default([]),
@@ -9,10 +10,18 @@ export const roleFormSchema = z.object({
 export type RoleFormValues = z.infer<typeof roleFormSchema>;
 
 export const roleFormDefaults: RoleFormValues = {
+  name: '',
   displayNameEn: '',
   displayNameAr: '',
   permissionIds: [],
 };
+
+export function autoGenerateName(displayNameEn: string): string {
+  return displayNameEn
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_]/g, '');
+}
 
 export function toApiFormat(values: RoleFormValues) {
   return {

@@ -14,7 +14,7 @@ import type {
 } from '../types/auth.types';
 
 export async function login(data: LoginData): Promise<AuthData> {
-  const { data: response } = await axiosClient.post<LoginResponse>('/token', data);
+  const { data: response } = await axiosClient.post<LoginResponse>('/admin-login', data);
   return response.data;
 }
 

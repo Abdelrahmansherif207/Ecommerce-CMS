@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Dialog,
@@ -13,6 +13,9 @@ import { Input } from '@/shared/ui/input';
 import { Textarea } from '@/shared/ui/textarea';
 import { useSendReply } from '../hooks/use-contacts';
 import type { Contact } from '../types/contact.types';
+import type { ApiErrorResponse } from '@/shared/api';
+
+const MESSAGE_MAX = 5000;
 
 interface ContactReplyDialogProps {
   contact: Contact | null;
@@ -31,21 +34,38 @@ export function ContactReplyDialog({
   const sendReplyMutation = useSendReply();
   const [subject, setSubject] = useState('RE: ' + (contact?.subject || ''));
   const [message, setMessage] = useState('');
+  const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
+
+  useEffect(() => {
+    if (open) {
+      setSubject('RE: ' + (contact?.subject || ''));
+      setMessage('');
+      setServerErrors({});
+    }
+  }, [open, contact]);
 
   const handleSubmit = () => {
     if (!contact || !subject.trim() || !message.trim()) return;
+    setServerErrors({});
     sendReplyMutation.mutate(
       { id: contact.id, subject: subject.trim(), message: message.trim() },
       {
         onSuccess: () => {
           onSuccess();
           onOpenChange(false);
-          setSubject('RE: ');
-          setMessage('');
+        },
+        onError: (error: unknown) => {
+          const apiError = error as ApiErrorResponse;
+          if (apiError?.status === 422 && apiError.errors) {
+            setServerErrors(apiError.errors);
+          }
         },
       }
     );
   };
+
+  const subjectError = serverErrors['subject']?.[0];
+  const messageError = serverErrors['message']?.[0];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -66,6 +86,9 @@ export function ContactReplyDialog({
               onChange={(e) => setSubject(e.target.value)}
               maxLength={255}
             />
+            {subjectError && (
+              <p className="text-xs text-destructive">{subjectError}</p>
+            )}
           </div>
           <div className="space-y-2">
             <label htmlFor="reply-message" className="text-sm font-medium">{t('contacts.message')}</label>
@@ -74,9 +97,16 @@ export function ContactReplyDialog({
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={6}
-              minLength={3}
-              maxLength={5000}
+              maxLength={MESSAGE_MAX}
             />
+            <div className="flex items-center justify-between">
+              {messageError && (
+                <p className="text-xs text-destructive">{messageError}</p>
+              )}
+              <p className={'text-xs ml-auto ' + (message.length > MESSAGE_MAX * 0.9 ? 'text-destructive' : 'text-muted-foreground')}>
+                {message.length}/{MESSAGE_MAX}
+              </p>
+            </div>
           </div>
         </div>
 

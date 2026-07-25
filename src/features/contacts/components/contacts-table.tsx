@@ -27,17 +27,21 @@ import type { Contact } from '../types/contact.types';
 interface ContactsTableProps {
   data: Contact[];
   isLoading: boolean;
+  hasActiveFilters?: boolean;
   onView: (contact: Contact) => void;
   onReply: (contact: Contact) => void;
   onDelete: (contact: Contact) => void;
+  onClearFilters?: () => void;
 }
 
 export function ContactsTable({
   data,
   isLoading,
+  hasActiveFilters,
   onView,
   onReply,
   onDelete,
+  onClearFilters,
 }: ContactsTableProps) {
   const { t } = useTranslation();
 
@@ -52,6 +56,7 @@ export function ContactsTable({
           <TableRow>
             <TableHead>{t('contacts.email')}</TableHead>
             <TableHead>{t('contacts.subject')}</TableHead>
+            <TableHead className="hidden md:table-cell">{t('contacts.message')}</TableHead>
             <TableHead>{t('contacts.status')}</TableHead>
             <TableHead>{t('contacts.date')}</TableHead>
             <TableHead />
@@ -60,8 +65,19 @@ export function ContactsTable({
         <TableBody>
           {data.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="h-24 text-center">
-                {t('common.noData')}
+              <TableCell colSpan={6} className="h-24 text-center">
+                {hasActiveFilters ? (
+                  <div className="flex flex-col items-center gap-2">
+                    <p className="text-muted-foreground">{t('contacts.noFilterResults')}</p>
+                    <Button variant="outline" size="sm" onClick={onClearFilters}>
+                      {t('contacts.clearFilters')}
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center gap-2">
+                    <p className="text-muted-foreground">{t('contacts.empty')}</p>
+                  </div>
+                )}
               </TableCell>
             </TableRow>
           ) : (
@@ -74,8 +90,13 @@ export function ContactsTable({
                 <TableCell className="font-medium">{contact.email}</TableCell>
                 <TableCell>
                   <div className="min-w-0">
-                    <p className="truncate max-w-[300px]">{contact.subject}</p>
+                    <p className="truncate max-w-[280px]">{contact.subject}</p>
                   </div>
+                </TableCell>
+                <TableCell className="hidden md:table-cell">
+                  <p className="truncate max-w-[250px] text-sm text-muted-foreground">
+                    {contact.message}
+                  </p>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1.5">

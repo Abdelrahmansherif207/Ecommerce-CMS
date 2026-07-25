@@ -45,7 +45,7 @@ export async function sendReply(
   id: number,
   payload: { subject: string; message: string }
 ): Promise<ApiResponse<Contact>> {
-  const { data } = await axiosClient.post<ApiResponse<Contact>>('/contacts/' + id + '/replay', payload);
+  const { data } = await axiosClient.post<ApiResponse<Contact>>('/contacts/' + id + '/reply', payload);
   return data;
 }
 

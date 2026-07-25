@@ -55,6 +55,7 @@ export function SliderFormDialog({
   const [mobilePreview, setMobilePreview] = useState<string | null>(null);
   const [productSearch, setProductSearch] = useState('');
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+  const [productNames, setProductNames] = useState<Record<number, string>>({});
   const { data: productsData, isLoading: isSearchingProducts } = useProductSearch(productSearch);
 
   const form = useForm<SliderFormValues>({
@@ -72,6 +73,7 @@ export function SliderFormDialog({
       setDesktopPreview(null);
       setMobilePreview(null);
       setProductSearch('');
+      setProductNames({});
       form.reset(sliderFormDefaults);
     }
     prevOpenRef.current = open;
@@ -93,6 +95,9 @@ export function SliderFormDialog({
       setMobilePreview(d.image?.mobile || null);
       if (d.products && d.products.length > 0) {
         form.setValue('productIds', d.products.map((p) => p.id));
+        setProductNames(
+          d.products.reduce((acc, p) => ({ ...acc, [p.id]: p.name }), {})
+        );
       }
     }
   }, [sliderDetail, isEditing, slider, form]);
@@ -119,16 +124,18 @@ export function SliderFormDialog({
       ? current.filter((id) => id !== productId)
       : [...current, productId];
     form.setValue('productIds', updated, { shouldValidate: true });
+    if (!current.includes(productId)) {
+      const product = availableProducts.find((p) => p.id === productId);
+      if (product) {
+        setProductNames((prev) => ({ ...prev, [productId]: product.name }));
+      }
+    }
   };
 
   const removeProduct = (productId: number) => {
     const current = form.getValues('productIds') || [];
     form.setValue('productIds', current.filter((id) => id !== productId), { shouldValidate: true });
   };
-
-  const selectedProductNames = availableProducts
-    .filter((p) => selectedProductIds.includes(p.id))
-    .map((p) => p.name);
 
   const onSubmit = (values: SliderFormValues) => {
     setServerErrors({});
@@ -279,10 +286,10 @@ export function SliderFormDialog({
             </div>
             {selectedProductIds.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-1">
-                {selectedProductNames.map((name, i) => (
-                  <span key={i} className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-xs">
-                    {name}
-                    <button type="button" onClick={() => removeProduct(selectedProductIds[i])}>
+                {selectedProductIds.map((id) => (
+                  <span key={id} className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-xs">
+                    {productNames[id] || `#${id}`}
+                    <button type="button" onClick={() => removeProduct(id)}>
                       <X className="h-3 w-3" />
                     </button>
                   </span>

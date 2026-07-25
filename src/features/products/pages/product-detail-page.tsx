@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import {
   ArrowLeft,
+  Pencil,
   Trash2,
   Star,
   Zap,
@@ -140,6 +141,10 @@ export function ProductDetailPage() {
           {t('common.back')}
         </Button>
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => navigate(productRoutes.edit(detail.id))}>
+            <Pencil className="mr-2 h-4 w-4" />
+            {t('common.edit')}
+          </Button>
           <Button variant="destructive" size="sm" onClick={() => setDeleteOpen(true)}>
             <Trash2 className="mr-2 h-4 w-4" />
             {t('common.delete')}

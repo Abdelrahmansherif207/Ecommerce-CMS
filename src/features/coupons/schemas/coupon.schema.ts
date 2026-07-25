@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const couponFormSchema = z.object({
   nameEn: z.string().min(1, 'validation.nameEnRequired'),
   nameAr: z.string().min(1, 'validation.nameArRequired'),
-  discount: z.coerce.number().min(0, 'validation.discountMin'),
+  discount: z.coerce.number().min(0, 'validation.discountMin').optional().default(0),
   discountType: z.string().min(1, 'validation.discountTypeRequired'),
   maxDiscountAmount: z.coerce.number().optional(),
   startDate: z.string().min(1, 'validation.startDateRequired'),
@@ -14,6 +14,14 @@ export const couponFormSchema = z.object({
   borderless: z.string().optional(),
   imageDesktop: z.instanceof(File).optional(),
   imageMobile: z.instanceof(File).optional(),
+}).superRefine((data, ctx) => {
+  if (data.discountType !== 'free_shipping' && (!data.discount || data.discount === 0)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['discount'],
+      message: 'validation.discountMin',
+    });
+  }
 });
 
 export type CouponFormValues = z.infer<typeof couponFormSchema>;
@@ -38,7 +46,7 @@ export function toCreateApiFormat(values: CouponFormValues) {
   return {
     'name[en]': values.nameEn,
     'name[ar]': values.nameAr,
-    discount: values.discount.toString(),
+    ...(values.discountType !== 'free_shipping' ? { discount: values.discount.toString() } : {}),
     discount_type: values.discountType,
     start_date: values.startDate,
     end_date: values.endDate,
@@ -57,7 +65,7 @@ export function toUpdateApiFormat(values: CouponFormValues) {
     _method: 'PUT' as const,
     'name[en]': values.nameEn,
     'name[ar]': values.nameAr,
-    discount: values.discount.toString(),
+    ...(values.discountType !== 'free_shipping' ? { discount: values.discount.toString() } : {}),
     discount_type: values.discountType,
     start_date: values.startDate,
     end_date: values.endDate,

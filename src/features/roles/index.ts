@@ -1,4 +1,6 @@
 export { RolesPage } from './pages/roles-page';
+export { RoleDetailPage } from './pages/role-detail-page';
+export { roleRoutes } from './routes/role.routes';
 export {
   useRoles,
   useRole,

@@ -47,7 +47,9 @@ export const queryKeys = {
     all: ['banners'] as const,
     lists: () => ['banners', 'list'] as const,
     list: (params: Record<string, any>) => ['banners', 'list', params] as const,
-    filter: (q: string) => ['banners', 'filter', q] as const,
+    details: () => ['banners', 'detail'] as const,
+    detail: (id: number | string) => ['banners', 'detail', id] as const,
+    productSearch: (q: string) => ['banners', 'product-search', q] as const,
   },
   orders: {
     all: ['orders'] as const,
@@ -78,6 +80,13 @@ export const queryKeys = {
     list: (params: Record<string, any>) => ['coupons', 'list', params] as const,
     details: () => ['coupons', 'detail'] as const,
     detail: (id: number | string) => ['coupons', 'detail', id] as const,
+  },
+  reviews: {
+    all: ['reviews'] as const,
+    lists: () => ['reviews', 'list'] as const,
+    list: (params: Record<string, any>) => ['reviews', 'list', params] as const,
+    details: () => ['reviews', 'detail'] as const,
+    detail: (id: number | string) => ['reviews', 'detail', id] as const,
   },
   faqs: {
     all: ['faqs'] as const,
@@ -142,6 +151,36 @@ export const queryKeys = {
     unreadLists: () => ['notifications', 'unread'] as const,
     unreadList: (params: Record<string, any>) => ['notifications', 'unread', params] as const,
     count: () => ['notifications', 'count'] as const,
+  },
+  pickupLocations: {
+    all: ['pickup-locations'] as const,
+    lists: () => ['pickup-locations', 'list'] as const,
+    list: (params: Record<string, any>) => ['pickup-locations', 'list', params] as const,
+    details: () => ['pickup-locations', 'detail'] as const,
+    detail: (id?: number | string) => ['pickup-locations', 'detail', id] as const,
+  },
+  shipping: {
+    countries: {
+      all: ['shipping', 'countries'] as const,
+      lists: () => ['shipping', 'countries', 'list'] as const,
+      list: (params: Record<string, any>) => ['shipping', 'countries', 'list', params] as const,
+      details: () => ['shipping', 'countries', 'detail'] as const,
+      detail: (id: number | string) => ['shipping', 'countries', 'detail', id] as const,
+    },
+    governorates: {
+      all: ['shipping', 'governorates'] as const,
+      lists: () => ['shipping', 'governorates', 'list'] as const,
+      list: (params: Record<string, any>) => ['shipping', 'governorates', 'list', params] as const,
+      details: () => ['shipping', 'governorates', 'detail'] as const,
+      detail: (id: number | string) => ['shipping', 'governorates', 'detail', id] as const,
+    },
+    cities: {
+      all: ['shipping', 'cities'] as const,
+      lists: () => ['shipping', 'cities', 'list'] as const,
+      list: (params: Record<string, any>) => ['shipping', 'cities', 'list', params] as const,
+      details: () => ['shipping', 'cities', 'detail'] as const,
+      detail: (id: number | string) => ['shipping', 'cities', 'detail', id] as const,
+    },
   },
   dashboard: {
     all: ['dashboard'] as const,

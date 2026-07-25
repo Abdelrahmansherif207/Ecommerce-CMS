@@ -67,7 +67,10 @@ export function AttributesPage() {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-xl font-semibold">{t('attributes.pageTitle')}</h1>
+        <div>
+          <h1 className="text-xl font-semibold">{t('attributes.pageTitle')}</h1>
+          <p className="text-sm text-muted-foreground">{t('attributes.subtitle')}</p>
+        </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon-sm" onClick={() => refetch()}>
             <RefreshCw className="h-4 w-4" />

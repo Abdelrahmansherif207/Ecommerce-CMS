@@ -17,6 +17,11 @@ import {
   List,
   ShieldCheck,
   History,
+  MapPin,
+  Bell,
+  Globe,
+  Building2,
+  MapPinned,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -46,6 +51,7 @@ export function useNavGroups(): NavGroup[] {
       items: [
         { title: t('sidebar.products'), url: '/products', icon: Package },
         { title: t('sidebar.orders'), url: '/orders', icon: ShoppingCart },
+        { title: t('sidebar.pickupLocations'), url: '/pickup-locations', icon: MapPin },
         { title: t('sidebar.promotions'), url: '/promotions', icon: Megaphone },
         { title: t('sidebar.coupons'), url: '/coupons', icon: Tag },
       ],
@@ -64,9 +70,18 @@ export function useNavGroups(): NavGroup[] {
       items: [
         { title: t('sidebar.cms'), url: '/cms', icon: FileText },
         { title: t('sidebar.sliders'), url: '/sliders', icon: Image },
+        { title: t('sidebar.banners'), url: '/banners', icon: Image },
         { title: t('sidebar.faqs'), url: '/faqs', icon: HelpCircle },
         { title: t('sidebar.flashSale'), url: '/flash-sale', icon: Megaphone },
         { title: t('sidebar.contacts'), url: '/contacts', icon: Mail },
+      ],
+    },
+    {
+      title: t('sidebar.shipping'),
+      items: [
+        { title: t('sidebar.countries'), url: '/shipping/countries', icon: Globe },
+        { title: t('sidebar.governorates'), url: '/shipping/governorates', icon: Building2 },
+        { title: t('sidebar.cities'), url: '/shipping/cities', icon: MapPinned },
       ],
     },
     {
@@ -75,6 +90,7 @@ export function useNavGroups(): NavGroup[] {
         { title: t('sidebar.users'), url: '/users', icon: Users },
         { title: t('sidebar.roles'), url: '/roles', icon: ShieldCheck },
         { title: t('sidebar.activityLogs'), url: '/activity-logs', icon: History },
+        { title: t('sidebar.notifications'), url: '/notifications', icon: Bell },
         { title: t('sidebar.settings'), url: '/settings', icon: Settings },
       ],
     },

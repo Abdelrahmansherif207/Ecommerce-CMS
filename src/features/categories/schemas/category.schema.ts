@@ -8,7 +8,7 @@ export const categoryFormSchema = z.object({
   imageDesktop: z.instanceof(File).optional(),
   imageMobile: z.instanceof(File).optional(),
   parentId: z.number().nullable().optional(),
-  shopIds: z.array(z.number()).optional(),
+  status: z.boolean(),
 });
 
 export type CategoryFormValues = z.infer<typeof categoryFormSchema>;
@@ -21,7 +21,7 @@ export const categoryFormDefaults: CategoryFormValues = {
   imageDesktop: undefined,
   imageMobile: undefined,
   parentId: null,
-  shopIds: [],
+  status: true,
 };
 
 export function toApiFormat(values: CategoryFormValues) {
@@ -36,5 +36,6 @@ export function toApiFormat(values: CategoryFormValues) {
     'image-desktop': values.imageDesktop,
     'image-mobile': values.imageMobile,
     parent_id: values.parentId,
+    status: values.status ? '1' : '0',
   };
 }

@@ -4,6 +4,7 @@ import { queryKeys } from '@/shared/lib/query-keys';
 import {
   fetchUsers,
   fetchRoles,
+  fetchUser,
   createUser,
   toggleActivation,
   deleteUser,
@@ -34,6 +35,14 @@ export function useRoles() {
     queryKey: queryKeys.roles.all,
     queryFn: fetchRoles,
     staleTime: 10 * 60 * 1000,
+  });
+}
+
+export function useUser(id: number) {
+  return useQuery({
+    queryKey: queryKeys.users.detail(id),
+    queryFn: () => fetchUser(id),
+    enabled: !!id,
   });
 }
 

@@ -8,13 +8,16 @@ import type {
 } from '../types/notification.types';
 
 export interface FetchNotificationsParams {
+  page?: number;
   per_page?: number;
 }
 
 export async function fetchNotifications({
+  page = 1,
   per_page = 15,
 }: FetchNotificationsParams = {}): Promise<NotificationsListResponse> {
   const params = new URLSearchParams();
+  params.append('page', page.toString());
   params.append('per_page', per_page.toString());
   const { data } = await axiosClient.get<NotificationsListResponse>(
     `/admin/notifications?${params.toString()}`,
@@ -23,9 +26,11 @@ export async function fetchNotifications({
 }
 
 export async function fetchUnreadNotifications({
+  page = 1,
   per_page = 15,
 }: FetchNotificationsParams = {}): Promise<NotificationsListResponse> {
   const params = new URLSearchParams();
+  params.append('page', page.toString());
   params.append('per_page', per_page.toString());
   const { data } = await axiosClient.get<NotificationsListResponse>(
     `/admin/notifications/unread?${params.toString()}`,

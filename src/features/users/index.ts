@@ -1,6 +1,9 @@
 export { UsersPage } from './pages/users-page';
+export { UserDetailPage } from './pages/user-detail-page';
+export { userRoutes } from './routes/user.routes';
 export {
   useUsers,
+  useUser,
   useRoles,
   useCreateUser,
   useToggleActivation,
@@ -10,9 +13,11 @@ export {
 } from './hooks/use-users';
 export type {
   User,
+  UserDetail,
   Role,
   CreateUserData,
   UsersListResponse,
+  UserDetailResponse,
   CreateUserResponse,
   ApiActionResponse,
   RolesResponse,

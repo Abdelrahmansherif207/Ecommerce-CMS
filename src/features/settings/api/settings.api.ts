@@ -18,7 +18,7 @@ export async function updateSettings(payload: UpdateSettingsPayload): Promise<Se
     }
   });
 
-  const { data } = await axiosClient.post<SettingsResponse>('/settings/1', formData, {
+  const { data } = await axiosClient.post<SettingsResponse>('/settings', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
   return data;

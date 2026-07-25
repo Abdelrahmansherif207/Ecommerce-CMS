@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +21,7 @@ import {
   type ProductFormInput,
   type ProductFormValues,
 } from '../schemas/product.schema';
-import { useCreateProduct } from '../hooks/use-products';
+import { useCreateProduct, useUpdateProduct } from '../hooks/use-products';
 import { useCategories } from '@/features/categories/hooks/use-categories';
 import { useBrands } from '@/features/brands/hooks/use-brands';
 import { useSliders } from '@/features/sliders/hooks/use-sliders';
@@ -33,6 +33,8 @@ import type { ApiErrorResponse } from '@/shared/api';
 interface ProductFormProps {
   onSuccess: () => void;
   onCancel: () => void;
+  productId?: number;
+  initialValues?: ProductFormValues;
 }
 
 interface CheckboxListProps {
@@ -101,11 +103,13 @@ function parseLocalizedField(val: string | { en: string; ar: string }): string {
   return val.en || val.ar || '';
 }
 
-export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
+export function ProductForm({ onSuccess, onCancel, productId, initialValues }: ProductFormProps) {
   const { t } = useTranslation();
   const createMutation = useCreateProduct();
+  const updateMutation = useUpdateProduct();
   const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const isEditMode = !!productId;
 
   const { data: categoriesData } = useCategories({ perPage: 200 });
   const { data: brandsData } = useBrands({ perPage: 200 });
@@ -118,6 +122,12 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
     resolver: zodResolver(productFormSchema),
     defaultValues: productFormDefaults,
   });
+
+  useEffect(() => {
+    if (initialValues) {
+      form.reset(initialValues);
+    }
+  }, [initialValues, form]);
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -189,20 +199,34 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
     setServerErrors({});
     const apiData = toApiFormat(values);
 
-    createMutation.mutate(apiData, {
-      onSuccess: () => {
-        onSuccess();
-      },
-      onError: (error: unknown) => {
-        const apiError = error as ApiErrorResponse;
-        if (apiError?.status === 422 && apiError.errors) {
-          setServerErrors(apiError.errors);
-        }
-      },
-    });
+    if (isEditMode && productId) {
+      updateMutation.mutate({ id: productId, data: { ...apiData, _method: 'PUT' } }, {
+        onSuccess: () => {
+          onSuccess();
+        },
+        onError: (error: unknown) => {
+          const apiError = error as ApiErrorResponse;
+          if (apiError?.status === 422 && apiError.errors) {
+            setServerErrors(apiError.errors);
+          }
+        },
+      });
+    } else {
+      createMutation.mutate(apiData, {
+        onSuccess: () => {
+          onSuccess();
+        },
+        onError: (error: unknown) => {
+          const apiError = error as ApiErrorResponse;
+          if (apiError?.status === 422 && apiError.errors) {
+            setServerErrors(apiError.errors);
+          }
+        },
+      });
+    }
   };
 
-  const isPending = createMutation.isPending;
+  const isPending = isEditMode ? updateMutation.isPending : createMutation.isPending;
   const errors = form.formState.errors;
 
   const getServerError = (field: string): string | undefined => {
@@ -808,7 +832,7 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
               {t('common.loading')}
             </>
           ) : (
-            t('productsForm.createProduct')
+            t(isEditMode ? 'productsForm.editProduct' : 'productsForm.createProduct')
           )}
         </Button>
       </div>

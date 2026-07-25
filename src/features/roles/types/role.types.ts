@@ -2,6 +2,8 @@ export interface Role {
   id: number;
   name?: string;
   display_name: string;
+  guard_name?: string;
+  created_at?: string;
 }
 
 export interface Permission {
@@ -11,8 +13,10 @@ export interface Permission {
 
 export interface RoleDetail {
   id: number;
-  name: string;
+  name?: string;
   display_name: string;
+  guard_name?: string;
+  created_at?: string;
   permissions: Permission[];
 }
 

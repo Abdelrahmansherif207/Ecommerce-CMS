@@ -1,5 +1,7 @@
-﻿import { useState } from 'react';
+﻿import { useState, useMemo } from 'react';
 import {
+  ChevronRight,
+  ChevronDown,
   MoreHorizontal,
   Pencil,
   Star,
@@ -16,6 +18,7 @@ import {
   TableRow,
 } from '@/shared/ui/table';
 import { Button } from '@/shared/ui/button';
+import { Badge } from '@/shared/ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { Skeleton } from '@/shared/ui/skeleton';
+import { cn } from '@/shared/lib/utils';
 import { CategoryImageCell } from './category-image-cell';
 import { CategoryLevelBadge } from './category-level-badge';
 import { CategoryDeleteDialog } from './category-delete-dialog';
@@ -49,6 +53,46 @@ export function CategoriesTable({
 }: CategoriesTableProps) {
   const { t } = useTranslation();
   const [deleteTarget, setDeleteTarget] = useState<CategoryListItem | null>(null);
+  const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
+
+  const childrenMap = useMemo(() => {
+    const map = new Map<number | null, CategoryListItem[]>();
+    for (const cat of data) {
+      const pid = cat.parent_id;
+      if (!map.has(pid)) map.set(pid, []);
+      map.get(pid)!.push(cat);
+    }
+    return map;
+  }, [data]);
+
+  const rootNodes = childrenMap.get(null) || [];
+
+  const hasChildren = (id: number) => (childrenMap.get(id)?.length ?? 0) > 0;
+
+  const toggleExpand = (id: number) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const flattenTree = () => {
+    const result: { category: CategoryListItem; depth: number }[] = [];
+    const walk = (nodes: CategoryListItem[], depth: number) => {
+      for (const node of nodes) {
+        result.push({ category: node, depth });
+        if (expandedIds.has(node.id) && hasChildren(node.id)) {
+          walk(childrenMap.get(node.id) || [], depth + 1);
+        }
+      }
+    };
+    walk(rootNodes, 0);
+    return result;
+  };
+
+  const flatRows = flattenTree();
 
   if (isLoading) {
     return <TableSkeleton />;
@@ -60,24 +104,45 @@ export function CategoriesTable({
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-8" />
               <TableHead>{t('categories.image')}</TableHead>
               <TableHead>{t('categories.name')}</TableHead>
               <TableHead>{t('categories.level')}</TableHead>
               <TableHead>{t('categories.parent')}</TableHead>
               <TableHead className="text-end">{t('categories.products')}</TableHead>
+              <TableHead>{t('common.status')}</TableHead>
               <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.length === 0 ? (
+            {flatRows.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="h-24 text-center">
+                <TableCell colSpan={8} className="h-24 text-center">
                   {t('common.noData')}
                 </TableCell>
               </TableRow>
             ) : (
-              data.map((category) => (
+              flatRows.map(({ category, depth }) => (
                 <TableRow key={category.id}>
+                  <TableCell className="p-0">
+                    <div className="flex items-center" style={{ paddingLeft: `${depth * 20}px` }}>
+                      {hasChildren(category.id) ? (
+                        <button
+                          type="button"
+                          className="p-1 text-muted-foreground hover:text-foreground"
+                          onClick={() => toggleExpand(category.id)}
+                        >
+                          {expandedIds.has(category.id) ? (
+                            <ChevronDown className="h-4 w-4" />
+                          ) : (
+                            <ChevronRight className="h-4 w-4" />
+                          )}
+                        </button>
+                      ) : (
+                        <span className="inline-block w-6" />
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <CategoryImageCell
                       image={category.image}
@@ -106,36 +171,62 @@ export function CategoriesTable({
                     {category.products_count}
                   </TableCell>
                   <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
-                        <MoreHorizontal className="h-4 w-4" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => onEdit(category)}>
-                          <Pencil className="me-2 h-4 w-4" />
-                          {t('common.edit')}
-                        </DropdownMenuItem>
-                        {onViewProducts && (
-                          <DropdownMenuItem onClick={() => onViewProducts(category)}>
-                            <Package className="me-2 h-4 w-4" />
-                            {t('categories.products')}
-                          </DropdownMenuItem>
-                        )}
-                        {onToggleFeatured && (
-                          <DropdownMenuItem onClick={() => onToggleFeatured(category)}>
-                            <Star className="me-2 h-4 w-4" />
-                            {t('categories.addToFeatured')}
-                          </DropdownMenuItem>
-                        )}
-                        <DropdownMenuItem
-                          className="text-destructive"
-                          onClick={() => setDeleteTarget(category)}
+                    <Badge
+                      variant="outline"
+                      className={cn(
+                        'text-xs font-normal',
+                        category.status
+                          ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                          : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                      )}
+                    >
+                      {category.status ? t('categories.active') : t('categories.inactive')}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-1">
+                      {onToggleFeatured && (
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          onClick={() => onToggleFeatured(category)}
+                          title={t('categories.addToFeatured')}
                         >
-                          <Trash2 className="me-2 h-4 w-4" />
-                          {t('common.delete')}
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                          <Star
+                            className={cn(
+                              'h-4 w-4',
+                              category.is_featured
+                                ? 'fill-yellow-400 text-yellow-400'
+                                : 'text-muted-foreground'
+                            )}
+                          />
+                        </Button>
+                      )}
+                      <DropdownMenu>
+                        <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
+                          <MoreHorizontal className="h-4 w-4" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => onEdit(category)}>
+                            <Pencil className="me-2 h-4 w-4" />
+                            {t('common.edit')}
+                          </DropdownMenuItem>
+                          {onViewProducts && (
+                            <DropdownMenuItem onClick={() => onViewProducts(category)}>
+                              <Package className="me-2 h-4 w-4" />
+                              {t('categories.products')}
+                            </DropdownMenuItem>
+                          )}
+                          <DropdownMenuItem
+                            className="text-destructive"
+                            onClick={() => setDeleteTarget(category)}
+                          >
+                            <Trash2 className="me-2 h-4 w-4" />
+                            {t('common.delete')}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))
@@ -148,6 +239,7 @@ export function CategoriesTable({
         <CategoryDeleteDialog
           categoryId={deleteTarget.id}
           categoryName={deleteTarget.name}
+          hasChildren={hasChildren(deleteTarget.id)}
           open={!!deleteTarget}
           onOpenChange={(open) => {
             if (!open) setDeleteTarget(null);

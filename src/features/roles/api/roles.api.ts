@@ -31,7 +31,7 @@ export async function fetchRoles({ limit, search }: FetchRolesParams = {}): Prom
 }
 
 export async function fetchRole(id: number): Promise<RoleDetailResponse> {
-  const { data } = await axiosClient.get<RoleDetailResponse>(`/roles/${id}`);
+  const { data } = await axiosClient.get<RoleDetailResponse>(`/roles/${id}?with=permissions`);
   return data;
 }
 
@@ -53,6 +53,11 @@ export async function deleteRole(id: number): Promise<ApiResponse<null>> {
 export async function fetchPermissions(limit = 200): Promise<PermissionsListResponse> {
   const { data } = await axiosClient.get<PermissionsListResponse>(`/permissions?limit=${limit}`);
   return data;
+}
+
+export async function fetchPermissionsWithRoles(limit = 200): Promise<{ permissions: Permission[] }> {
+  const { data } = await axiosClient.get<PermissionsListResponse>(`/permissions?limit=${limit}`);
+  return { permissions: data.data };
 }
 
 export async function assignPermissions(roleId: number, payload: AssignPermissionsData): Promise<ApiResponse<null>> {

@@ -10,7 +10,13 @@ export interface User {
   email_verified_at: string | null;
   is_active: number | boolean;
   image: string | null;
+  phone_number: string;
+  type: string;
   permissions: UserPermission[];
+}
+
+export interface UserDetail extends User {
+  roles: UserRole[];
 }
 
 export interface Role {
@@ -98,4 +104,5 @@ export interface CreateUserData {
   phone_number: string;
   roles: number[];
   is_active: 0 | 1;
+  image?: File;
 }

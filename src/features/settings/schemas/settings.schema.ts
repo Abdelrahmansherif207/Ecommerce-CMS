@@ -1,5 +1,14 @@
 import { z } from 'zod';
 
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+
+const imageFileSchema = z
+  .instanceof(File)
+  .refine((f) => ALLOWED_IMAGE_TYPES.includes(f.type), 'validation.imageFormat')
+  .refine((f) => f.size <= MAX_IMAGE_SIZE, 'validation.imageMaxSize')
+  .optional();
+
 export const settingsSchema = z.object({
   siteNameEn: z.string().min(1, 'validation.nameEnRequired'),
   siteNameAr: z.string().min(1, 'validation.nameArRequired'),
@@ -17,8 +26,10 @@ export const settingsSchema = z.object({
   promotionVideoUrl: z.string().url('Invalid URL').optional().or(z.literal('')),
   youtube: z.string().url('Invalid URL').optional().or(z.literal('')),
   phone: z.string().optional(),
-  logo: z.instanceof(File).optional(),
-  favicon: z.instanceof(File).optional(),
+  logo: imageFileSchema,
+  favicon: imageFileSchema,
+  fastShippingPublish: z.string().default('0'),
+  minimumOrderAmount: z.string().default('0'),
 });
 
 export type SettingsFormValues = z.infer<typeof settingsSchema>;
@@ -41,5 +52,7 @@ export function toApiFormat(values: SettingsFormValues) {
     promotion_video_url: values.promotionVideoUrl || '',
     youtube: values.youtube || '',
     phone: values.phone || '',
+    fast_shipping_page_publish: values.fastShippingPublish,
+    minimumOrderAmount: values.minimumOrderAmount,
   };
 }

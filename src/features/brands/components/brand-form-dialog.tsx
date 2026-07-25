@@ -89,8 +89,14 @@ export function BrandFormDialog({
       }
       form.setValue('nameEn', parsedName.en || '');
       form.setValue('nameAr', parsedName.ar || '');
-      form.setValue('detailsEn', d.details || '');
-      form.setValue('detailsAr', d.details || '');
+      let parsedDetails: Record<string, string> = {};
+      try {
+        parsedDetails = typeof d.details === 'string' ? JSON.parse(d.details) : d.details || {};
+      } catch {
+        parsedDetails = { en: d.details || '', ar: d.details || '' };
+      }
+      form.setValue('detailsEn', parsedDetails.en || '');
+      form.setValue('detailsAr', parsedDetails.ar || '');
       form.setValue('status', d.status ? '1' : '0');
       setDesktopPreview(d.image?.desktop || null);
       setMobilePreview(d.image?.mobile || null);
@@ -248,8 +254,8 @@ export function BrandFormDialog({
               >
                 <span className={selectedProductIds.length === 0 ? 'text-muted-foreground' : ''}>
                   {selectedProductIds.length === 0
-                    ? t('slidersForm.selectProducts')
-                    : selectedProductIds.length + ' ' + t('slidersForm.productsSelected') }
+                    ? t('brandsForm.selectProducts')
+                    : selectedProductIds.length + ' ' + t('brandsForm.productsSelected') }
                 </span>
                 <ChevronsUpDown className="h-4 w-4 opacity-50" />
               </button>
@@ -258,7 +264,7 @@ export function BrandFormDialog({
                   <div className="relative mb-1">
                     <Search className="absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                     <Input
-                      placeholder={t('slidersForm.searchProducts')}
+                      placeholder={t('brandsForm.searchProducts')}
                       value={productSearch}
                       onChange={(e) => setProductSearch(e.target.value)}
                       className="h-7 ps-7 text-xs"
@@ -272,7 +278,7 @@ export function BrandFormDialog({
                       <p className="px-2 py-1 text-xs text-muted-foreground">{t('common.noData')}</p>
                     )}
                     {!isSearchingProducts && availableProducts.length === 0 && productSearch.length === 0 && (
-                      <p className="px-2 py-1 text-xs text-muted-foreground">{t('slidersForm.typeToSearch')}</p>
+                      <p className="px-2 py-1 text-xs text-muted-foreground">{t('brandsForm.typeToSearch')}</p>
                     )}
                     {availableProducts.map((product) => (
                       <div
@@ -310,12 +316,12 @@ export function BrandFormDialog({
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
               <label htmlFor="imageDesktop" className="text-sm font-medium">{t('brandsForm.desktopImage')}</label>
-              <Input id="imageDesktop" type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'imageDesktop', setDesktopPreview)} />
+              <Input id="imageDesktop" type="file" accept=".jpeg,.png,.jpg,.gif,.svg" onChange={(e) => handleFileChange(e, 'imageDesktop', setDesktopPreview)} />
               {desktopPreview && <ImagePreview src={desktopPreview} alt="Desktop preview" thumbnailClassName="h-16 rounded border object-cover mt-1" />}
             </div>
             <div className="space-y-1.5">
               <label htmlFor="imageMobile" className="text-sm font-medium">{t('brandsForm.mobileImage')}</label>
-              <Input id="imageMobile" type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'imageMobile', setMobilePreview)} />
+              <Input id="imageMobile" type="file" accept=".jpeg,.png,.jpg,.gif,.svg" onChange={(e) => handleFileChange(e, 'imageMobile', setMobilePreview)} />
               {mobilePreview && <ImagePreview src={mobilePreview} alt="Mobile preview" thumbnailClassName="h-16 rounded border object-cover mt-1" />}
             </div>
           </div>

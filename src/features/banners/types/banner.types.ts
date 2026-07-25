@@ -43,9 +43,53 @@ export interface BannersListResponse {
   data: BannersListOriginal;
 }
 
+export interface BannerDetailResponse {
+  status: number;
+  message: string;
+  success: boolean;
+  data: Banner;
+}
+
 export interface ApiResponse<T> {
   status: number;
   message: string;
   success: boolean;
   data: T;
+}
+
+export interface CreateBannerData {
+  'title[en]': string;
+  'title[ar]': string;
+  'description[en]': string;
+  'description[ar]': string;
+  image_desktop?: File;
+  image_mobile?: File;
+  status: string;
+  products?: number[];
+}
+
+export interface UpdateBannerData {
+  _method: 'PUT';
+  'title[en]'?: string;
+  'title[ar]'?: string;
+  'description[en]'?: string;
+  'description[ar]'?: string;
+  image_desktop?: File;
+  image_mobile?: File;
+  status?: string;
+  products?: number[];
+}
+
+export interface ProductSearchResult {
+  id: number;
+  name: string;
+}
+
+export interface ProductsResponse {
+  status: number;
+  message: string;
+  success: boolean;
+  data: {
+    data: ProductSearchResult[];
+  };
 }

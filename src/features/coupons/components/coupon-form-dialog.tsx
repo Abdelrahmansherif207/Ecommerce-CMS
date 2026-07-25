@@ -216,6 +216,7 @@ export function CouponFormDialog({
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
+            {selectedDiscountType !== 'free_shipping' && (
             <div className="space-y-1.5">
               <label htmlFor="discount" className="text-sm font-medium">{t('couponsForm.discount')} *</label>
               <Input id="discount" type="number" step="0.01" min="0" {...form.register('discount')} />
@@ -223,6 +224,7 @@ export function CouponFormDialog({
                 <p className="text-xs text-destructive">{getError('discount')}</p>
               )}
             </div>
+            )}
             <div className="space-y-1.5">
               <label className="text-sm font-medium">{t('couponsForm.discountType')} *</label>
               <Select
@@ -235,6 +237,7 @@ export function CouponFormDialog({
                 <SelectContent>
                   <SelectItem value="percentage">{t('couponsForm.percentage')}</SelectItem>
                   <SelectItem value="fixed_rate">{t('couponsForm.fixedRate')}</SelectItem>
+                  <SelectItem value="free_shipping">{t('couponsForm.freeShipping')}</SelectItem>
                 </SelectContent>
               </Select>
               {getError('discountType') && (

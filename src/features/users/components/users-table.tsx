@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import {
   MoreHorizontal,
   Pencil,
+  Eye,
   Trash2,
   RefreshCcw,
   Trash,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -35,6 +40,16 @@ interface UsersTableProps {
   isLoading: boolean;
   isTrash: boolean;
   onRefresh: () => void;
+  orderBy?: string;
+  sort?: string;
+  onSortChange?: (field: string) => void;
+}
+
+function SortIcon({ field, orderBy, sort }: { field: string; orderBy?: string; sort?: string }) {
+  if (orderBy !== field) return <ArrowUpDown className="ml-1 h-3 w-3 inline opacity-40" />;
+  return sort === 'asc'
+    ? <ArrowUp className="ml-1 h-3 w-3 inline" />
+    : <ArrowDown className="ml-1 h-3 w-3 inline" />;
 }
 
 export function UsersTable({
@@ -42,8 +57,12 @@ export function UsersTable({
   isLoading,
   isTrash,
   onRefresh,
+  orderBy = 'created_at',
+  sort = 'desc',
+  onSortChange,
 }: UsersTableProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [activationTarget, setActivationTarget] = useState<User | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<User | null>(null);
   const [forceDeleteTarget, setForceDeleteTarget] = useState<User | null>(null);
@@ -59,17 +78,36 @@ export function UsersTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>{t('users.name')}</TableHead>
-              <TableHead>{t('users.email')}</TableHead>
+              <TableHead
+                className="cursor-pointer select-none"
+                onClick={() => onSortChange?.('name')}
+              >
+                {t('users.name')}
+                <SortIcon field="name" orderBy={orderBy} sort={sort} />
+              </TableHead>
+              <TableHead
+                className="cursor-pointer select-none"
+                onClick={() => onSortChange?.('email')}
+              >
+                {t('users.email')}
+                <SortIcon field="email" orderBy={orderBy} sort={sort} />
+              </TableHead>
               <TableHead>{t('common.status')}</TableHead>
-              <TableHead className="hidden md:table-cell">{t('users.createdAt')}</TableHead>
+              <TableHead
+                className="hidden md:table-cell cursor-pointer select-none"
+                onClick={() => onSortChange?.('created_at')}
+              >
+                {t('users.createdAt')}
+                <SortIcon field="created_at" orderBy={orderBy} sort={sort} />
+              </TableHead>
+              <TableHead>{t('users.type')}</TableHead>
               <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center">
+                <TableCell colSpan={6} className="h-24 text-center">
                   {t('common.noData')}
                 </TableCell>
               </TableRow>
@@ -93,6 +131,9 @@ export function UsersTable({
                     </span>
                   </TableCell>
                   <TableCell>
+                    <span className="text-xs capitalize text-muted-foreground">{user.type}</span>
+                  </TableCell>
+                  <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
                         <MoreHorizontal className="h-4 w-4" />
@@ -114,6 +155,10 @@ export function UsersTable({
                           </>
                         ) : (
                           <>
+                            <DropdownMenuItem onClick={() => navigate('/users/' + user.id)}>
+                              <Eye className="me-2 h-4 w-4" />
+                              {t('common.view')}
+                            </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => setActivationTarget(user)}>
                               <Pencil className="me-2 h-4 w-4" />
                               {Boolean(user.is_active) ? t('users.deactivate') : t('users.activate')}

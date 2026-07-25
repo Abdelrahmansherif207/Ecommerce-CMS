@@ -43,8 +43,8 @@ export function NotificationsPage() {
 
   const unreadCount = useNotificationCount();
 
-  const allQuery = useNotifications({ per_page: 15 });
-  const unreadQuery = useUnreadNotifications({ per_page: 15 });
+  const allQuery = useNotifications({ page, per_page: 15 });
+  const unreadQuery = useUnreadNotifications({ page, per_page: 15 });
   const markAllAsReadMutation = useMarkAllAsRead();
   const deleteAllMutation = useDeleteAllNotifications();
 

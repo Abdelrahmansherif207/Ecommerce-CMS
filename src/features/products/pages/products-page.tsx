@@ -245,6 +245,10 @@ export function ProductsPage() {
     navigate(productRoutes.detail(product.id));
   };
 
+  const handleNavigateEdit = (product: Product) => {
+    navigate(productRoutes.edit(product.id));
+  };
+
   const toggleSortDir = () => {
     setSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
   };
@@ -482,6 +486,7 @@ export function ProductsPage() {
         isLoading={isLoading}
         onView={handleView}
         onNavigateDetail={handleNavigateDetail}
+        onEdit={handleNavigateEdit}
         onRefresh={refetch}
         selectedIds={selectedIds}
         onSelectionChange={setSelectedIds}

@@ -1,4 +1,18 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
   MoreHorizontal,
   Pencil,
@@ -45,7 +59,14 @@ export function BrandsTable({
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [deleteTarget, setDeleteTarget] = useState<Brand | null>(null);
+  const [optimisticIds, setOptimisticIds] = useState<number[] | null>(null);
   const reorderMutation = useReorderBrands();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
+  );
+
+  const items = optimisticIds ?? data.map((b) => b.id);
 
   const handleMoveUp = (index: number) => {
     if (index === 0) return;
@@ -53,6 +74,31 @@ export function BrandsTable({
     [ids[index - 1], ids[index]] = [ids[index], ids[index - 1]];
     reorderMutation.mutate(ids, { onSuccess: onRefresh });
   };
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      if (!over || active.id === over.id) return;
+
+      const currentIds = optimisticIds ?? data.map((b) => b.id);
+      const oldIndex = currentIds.indexOf(Number(active.id));
+      const newIndex = currentIds.indexOf(Number(over.id));
+      if (oldIndex === -1 || newIndex === -1) return;
+
+      const newIds = arrayMove(currentIds, oldIndex, newIndex);
+      setOptimisticIds(newIds);
+      reorderMutation.mutate(newIds, {
+        onSuccess: () => {
+          setOptimisticIds(null);
+          onRefresh();
+        },
+        onError: () => {
+          setOptimisticIds(null);
+        },
+      });
+    },
+    [data, optimisticIds, reorderMutation, onRefresh]
+  );
 
   if (isLoading) {
     return isMobile ? <MobileCardSkeleton /> : <TableSkeleton />;
@@ -101,75 +147,36 @@ export function BrandsTable({
   return (
     <>
       <div className="rounded-lg border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-10" />
-              <TableHead>{t('brands.image')}</TableHead>
-              <TableHead>{t('brands.name')}</TableHead>
-              <TableHead>{t('brands.details')}</TableHead>
-              <TableHead>{t('common.status')}</TableHead>
-              <TableHead />
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((brand, index) => (
-              <TableRow key={brand.id}>
-                <TableCell className="p-1">
-                  <div className="flex flex-col items-center gap-0.5">
-                    <button
-                      type="button"
-                      className="cursor-pointer text-muted-foreground hover:text-foreground disabled:opacity-30"
-                      onClick={() => handleMoveUp(index)}
-                      disabled={index === 0}
-                    >
-                      <GripVertical className="h-3.5 w-3.5 rotate-0" />
-                    </button>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <BrandImageCell image={brand.image} alt={brand.name} />
-                </TableCell>
-                <TableCell>
-                  <div className="min-w-0">
-                    <p className="font-medium truncate">{brand.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">
-                      /{brand.slug}
-                    </p>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm text-muted-foreground line-clamp-2">
-                    {brand.details || '—'}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <BrandStatusBadge status={brand.status} />
-                </TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
-                      <MoreHorizontal className="h-4 w-4" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => onEdit(brand)}>
-                        <Pencil className="me-2 h-4 w-4" />
-                        {t('common.edit')}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="text-destructive"
-                        onClick={() => setDeleteTarget(brand)}
-                      >
-                        <Trash2 className="me-2 h-4 w-4" />
-                        {t('common.delete')}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-10" />
+                  <TableHead>{t('brands.image')}</TableHead>
+                  <TableHead>{t('brands.name')}</TableHead>
+                  <TableHead>{t('brands.details')}</TableHead>
+                  <TableHead>{t('common.status')}</TableHead>
+                  <TableHead />
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {items.map((id) => {
+                  const brand = data.find((b) => b.id === id);
+                  if (!brand) return null;
+                  return (
+                    <SortableTableRow
+                      key={brand.id}
+                      brand={brand}
+                      onEdit={onEdit}
+                      onDelete={setDeleteTarget}
+                    />
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </SortableContext>
+        </DndContext>
       </div>
 
       {deleteTarget && (
@@ -184,6 +191,86 @@ export function BrandsTable({
         />
       )}
     </>
+  );
+}
+
+function SortableTableRow({
+  brand,
+  onEdit,
+  onDelete,
+}: {
+  brand: Brand;
+  onEdit: (brand: Brand) => void;
+  onDelete: (brand: Brand | null) => void;
+}) {
+  const { t } = useTranslation();
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: brand.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <TableRow ref={setNodeRef} style={style}>
+      <TableCell className="p-1">
+        <button
+          ref={setActivatorNodeRef}
+          type="button"
+          className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground"
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical className="h-3.5 w-3.5" />
+        </button>
+      </TableCell>
+      <TableCell>
+        <BrandImageCell image={brand.image} alt={brand.name} />
+      </TableCell>
+      <TableCell>
+        <div className="min-w-0">
+          <p className="font-medium truncate">{brand.name}</p>
+          <p className="text-xs text-muted-foreground truncate">/{brand.slug}</p>
+        </div>
+      </TableCell>
+      <TableCell>
+        <span className="text-sm text-muted-foreground line-clamp-2">
+          {brand.details || '—'}
+        </span>
+      </TableCell>
+      <TableCell>
+        <BrandStatusBadge status={brand.status} />
+      </TableCell>
+      <TableCell>
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
+            <MoreHorizontal className="h-4 w-4" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => onEdit(brand)}>
+              <Pencil className="me-2 h-4 w-4" />
+              {t('common.edit')}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-destructive"
+              onClick={() => onDelete(brand)}
+            >
+              <Trash2 className="me-2 h-4 w-4" />
+              {t('common.delete')}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
+    </TableRow>
   );
 }
 

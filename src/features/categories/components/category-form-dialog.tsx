@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
+import { Switch } from '@/shared/ui/switch';
 
 import { ImagePreview } from '@/shared/components/image-preview';
 import {
@@ -79,15 +80,17 @@ export function CategoryFormDialog({
   useEffect(() => {
     if (isEditing && category && categoryDetail?.data) {
       const d = categoryDetail.data;
-      const currentLang = i18n.language || 'en';
-      form.setValue(currentLang === 'en' ? 'nameEn' : 'nameAr', d.name);
-      form.setValue(currentLang === 'en' ? 'detailsEn' : 'detailsAr', d.details || '');
+      form.setValue('nameEn', d.name);
+      form.setValue('nameAr', d.name);
+      form.setValue('detailsEn', d.details || '');
+      form.setValue('detailsAr', d.details || '');
       form.setValue('parentId', d.parent_id ?? null);
+      form.setValue('status', d.status);
       setDesktopPreview(d.image?.desktop || null);
       setMobilePreview(d.image?.mobile || null);
       prevCategoryIdRef.current = category.id;
     }
-  }, [categoryDetail, isEditing, category, form, i18n.language]);
+  }, [categoryDetail, isEditing, category, form]);
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -232,6 +235,17 @@ export function CategoryFormDialog({
                 <p className="text-xs text-destructive">{serverErrors['image-mobile'][0]}</p>
               )}
             </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Switch
+              id="status"
+              checked={form.watch('status')}
+              onCheckedChange={(checked) => form.setValue('status', checked)}
+            />
+            <label htmlFor="status" className="text-sm font-medium cursor-pointer">
+              {form.watch('status') ? t('categories.active') : t('categories.inactive')}
+            </label>
           </div>
 
           <DialogFooter>

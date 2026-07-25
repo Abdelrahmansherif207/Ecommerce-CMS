@@ -13,6 +13,7 @@ export interface Category {
   products_count: number;
   details?: string;
   is_featured?: boolean;
+  status: boolean;
 }
 
 export interface CategoryProduct {
@@ -39,6 +40,7 @@ export interface CategoryListItem {
   products_count: number;
   details?: string;
   is_featured?: boolean;
+  status: boolean;
 }
 
 export interface PaginatedResponse<T> {
@@ -73,6 +75,7 @@ export interface CreateCategoryData {
   'image-desktop'?: File;
   'image-mobile'?: File;
   parent_id?: number | null;
+  status: string;
 }
 
 export interface UpdateCategoryData extends CreateCategoryData {

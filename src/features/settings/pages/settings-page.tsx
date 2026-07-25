@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { Loader2, Save } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
 import { Separator } from '@/shared/ui/separator';
 import { Skeleton } from '@/shared/ui/skeleton';
@@ -25,24 +28,26 @@ export function SettingsPage() {
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(settingsSchema),
     mode: 'onBlur',
-    values: data?.data ? {
-      siteNameEn: data.data.site_name || '',
-      siteNameAr: data.data.site_name || '',
-      siteDescEn: data.data.site_desc || '',
-      siteDescAr: data.data.site_desc || '',
-      metaDescEn: data.data.meta_desc || '',
-      metaDescAr: data.data.meta_desc || '',
-      siteCopyRightEn: data.data.site_copy_right || '',
-      siteCopyRightAr: data.data.site_copy_right || '',
-      siteEmail: data.data.site_email || '',
-      emailSupport: data.data.email_support || '',
-      facebook: data.data.facebook || '',
-      instagram: data.data.instagram || '',
-      linkedin: data.data.linkedin || '',
-      promotionVideoUrl: data.data.promotion_video_url || '',
-      youtube: data.data.youtube || '',
-      phone: data.data.phone || '',
-    } : undefined,
+    values: {
+      siteNameEn: data?.data?.site_name || '',
+      siteNameAr: data?.data?.site_name || '',
+      siteDescEn: data?.data?.site_desc || '',
+      siteDescAr: data?.data?.site_desc || '',
+      metaDescEn: data?.data?.meta_desc || '',
+      metaDescAr: data?.data?.meta_desc || '',
+      siteCopyRightEn: data?.data?.site_copy_right || '',
+      siteCopyRightAr: data?.data?.site_copy_right || '',
+      siteEmail: data?.data?.site_email || '',
+      emailSupport: data?.data?.email_support || '',
+      facebook: data?.data?.facebook || '',
+      instagram: data?.data?.instagram || '',
+      linkedin: data?.data?.linkedin || '',
+      promotionVideoUrl: data?.data?.promotion_video_url || '',
+      youtube: data?.data?.youtube || '',
+      phone: data?.data?.phone || '',
+      fastShippingPublish: String(data?.data?.fast_shipping_page_publish ?? '0'),
+      minimumOrderAmount: String(data?.data?.minimumOrderAmount ?? '0'),
+    },
   });
 
   useEffect(() => {
@@ -228,14 +233,45 @@ export function SettingsPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
               <label className="text-sm font-medium">{t('settings.logo')}</label>
-              <Input type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'logo', setLogoPreview)} />
+              <Input type="file" accept="image/jpeg,image/png,image/gif,image/svg+xml" onChange={(e) => handleFileChange(e, 'logo', setLogoPreview)} />
+              {getError('logo') && <p className="text-xs text-destructive">{getError('logo')}</p>}
               {logoPreview && <img src={logoPreview} alt="Logo" className="h-16 rounded border object-contain mt-1" />}
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium">{t('settings.favicon')}</label>
-              <Input type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'favicon', setFaviconPreview)} />
+              <Input type="file" accept="image/jpeg,image/png,image/gif,image/svg+xml" onChange={(e) => handleFileChange(e, 'favicon', setFaviconPreview)} />
+              {getError('favicon') && <p className="text-xs text-destructive">{getError('favicon')}</p>}
               {faviconPreview && <img src={faviconPreview} alt="Favicon" className="h-10 rounded border object-contain mt-1" />}
             </div>
+          </div>
+        </div>
+
+        <div className="rounded-lg border p-6 space-y-4">
+          <h2 className="text-lg font-semibold">{t('settings.shipping')}</h2>
+          <Separator />
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium">{t('settings.fastShippingLabel')}</p>
+              <p className="text-xs text-muted-foreground">{t('settings.fastShippingDesc')}</p>
+            </div>
+            <Select value={form.watch('fastShippingPublish')} onValueChange={(v) => form.setValue('fastShippingPublish', v)}>
+              <SelectTrigger className="w-[100px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">{t('common.enabled')}</SelectItem>
+                <SelectItem value="0">{t('common.disabled')}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium">{t('settings.minimumOrderAmount')}</label>
+            <Input
+              type="number"
+              min={0}
+              {...form.register('minimumOrderAmount')}
+              placeholder="100"
+            />
           </div>
         </div>
 

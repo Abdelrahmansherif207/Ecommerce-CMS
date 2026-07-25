@@ -119,6 +119,7 @@ export function AttributesTable({
         <AttributeDeleteDialog
           attributeId={deleteTarget.id}
           attributeName={deleteTarget.name}
+          valuesCount={deleteTarget.values?.length}
           open={!!deleteTarget}
           onOpenChange={(open) => { if (!open) setDeleteTarget(null); }}
           onDeleted={onRefresh}
@@ -129,15 +130,16 @@ export function AttributesTable({
 }
 
 function TableSkeleton() {
+  const { t } = useTranslation();
   return (
     <div className="rounded-lg border">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Slug</TableHead>
-            <TableHead>Values</TableHead>
+            <TableHead>{t('attributes.id')}</TableHead>
+            <TableHead>{t('attributes.name')}</TableHead>
+            <TableHead>{t('attributes.slug')}</TableHead>
+            <TableHead>{t('attributes.values')}</TableHead>
             <TableHead />
           </TableRow>
         </TableHeader>

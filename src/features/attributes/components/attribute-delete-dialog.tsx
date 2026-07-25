@@ -7,12 +7,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/dialog';
+import { AlertTriangle } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { useDeleteAttribute } from '../hooks/use-attributes';
 
 interface AttributeDeleteDialogProps {
   attributeId: number;
   attributeName: string;
+  valuesCount?: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onDeleted: () => void;
@@ -21,6 +23,7 @@ interface AttributeDeleteDialogProps {
 export function AttributeDeleteDialog({
   attributeId,
   attributeName,
+  valuesCount,
   open,
   onOpenChange,
   onDeleted,
@@ -44,9 +47,18 @@ export function AttributeDeleteDialog({
           <DialogTitle>{t('attributes.deleteTitle')}</DialogTitle>
           <DialogDescription>
             {t('attributes.deleteConfirm')} <strong>{attributeName}</strong>?
-            {t('attributes.deleteWarning')}
           </DialogDescription>
         </DialogHeader>
+
+        {valuesCount && valuesCount > 0 && (
+          <div className="flex items-start gap-3 rounded-lg border border-yellow-300 bg-yellow-50 p-3 dark:border-yellow-800 dark:bg-yellow-950/20">
+            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-yellow-600 dark:text-yellow-500" />
+            <p className="text-sm text-yellow-700 dark:text-yellow-400">
+              {t('attributes.deleteCascadeWarning', { count: valuesCount })}
+            </p>
+          </div>
+        )}
+
         <DialogFooter>
           <Button
             variant="outline"
