@@ -118,7 +118,7 @@ export function usePermissions() {
     }),
     staleTime: 15 * 60 * 1000,
     retry: (failureCount, error) => {
-      const apiErr = error as ApiErrorResponse;
+      const apiErr = error as unknown as ApiErrorResponse;
       if (apiErr?.status === 403) return false;
       return failureCount < 3;
     },

@@ -4,8 +4,8 @@ import type {
   ReviewDetailResponse,
   ApiResponse,
   Review,
-  FetchReviewsParams,
 } from '../types/review.types';
+import type { FetchReviewsParams } from '../types/review.types';
 
 export async function fetchReviews({
   product_id,

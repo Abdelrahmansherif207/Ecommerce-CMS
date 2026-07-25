@@ -171,7 +171,7 @@ export function ProductsPage() {
   const catItems = (catInf.data?.pages ?? []).flatMap(p => (p.data?.data ?? []).map(c => ({ id: c.id, label: c.name, slug: c.slug })));
 
   const bannerInf = useInfiniteQuery({
-    queryKey: queryKeys.banners.filter(bannerSearch),
+    queryKey: queryKeys.banners.list({ search: bannerSearch }),
     queryFn: ({ pageParam }) => fetchBanners({ page: pageParam, perPage: 50, search: bannerSearch || undefined }),
     getNextPageParam: (lastPage) => {
       if (!lastPage?.data) return undefined;

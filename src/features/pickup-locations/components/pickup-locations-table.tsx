@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MoreHorizontal, Eye, Pencil, Trash2 } from 'lucide-react';
+import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import {
   Table,
   TableBody,

@@ -5,8 +5,8 @@ import {
   fetchReviews,
   toggleApproveReview,
   deleteReview,
-  type FetchReviewsParams,
 } from '../api/reviews.api';
+import type { FetchReviewsParams } from '../types/review.types';
 import type { ApiErrorResponse } from '@/shared/api';
 
 function handleApiError(error: unknown, fallbackMessage: string): ApiErrorResponse {

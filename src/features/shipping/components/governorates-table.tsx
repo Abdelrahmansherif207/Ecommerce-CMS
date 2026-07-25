@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MoreHorizontal, Pencil, Trash2, MapPin, Zap, ZapOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/shared/ui/table';
@@ -13,7 +13,7 @@ import { Badge } from '@/shared/ui/badge';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { useIsMobile } from '@/shared/hooks/use-mobile';
 import { DeleteDialog } from './delete-dialog';
-import { useDeleteGovernorate, useGovernorateFastShipping } from '../hooks/use-shipping';
+import { useDeleteGovernorate } from '../hooks/use-shipping';
 import type { Governorate } from '../types/shipping.types';
 
 interface GovernoratesTableProps {
@@ -28,9 +28,7 @@ export function GovernoratesTable({ data, isLoading, isNested, onEdit, onRefresh
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-  const params = useParams();
   const deleteMutation = useDeleteGovernorate();
-  const fastShippingMutation = useGovernorateFastShipping();
   const [deleteTarget, setDeleteTarget] = useState<Governorate | null>(null);
 
   if (isLoading) return isMobile ? <MobileSkeleton /> : <TableSkeleton />;

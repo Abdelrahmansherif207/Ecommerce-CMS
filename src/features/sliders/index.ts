@@ -5,10 +5,9 @@ export {
   useCreateSlider,
   useUpdateSlider,
   useDeleteSlider,
-  useSliderChangeStatus,
-  useSliderReorder,
+  useChangeSliderStatus,
+  useReorderSliders,
   useProductSearch,
-  usePublicSliders,
 } from './hooks/use-sliders';
 export type {
   Slider,

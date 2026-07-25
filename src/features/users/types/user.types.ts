@@ -73,7 +73,7 @@ export interface UserDetailResponse {
   status: number;
   message: string;
   success: boolean;
-  data: User;
+  data: UserDetail;
 }
 
 export interface CreateUserResponse {

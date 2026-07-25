@@ -9,7 +9,7 @@ export function PickupLocationStatusBadge({ status }: PickupLocationStatusBadgeP
   const { t } = useTranslation();
 
   return (
-    <Badge variant={status ? 'success' : 'secondary'}>
+    <Badge variant={status ? 'default' : 'secondary'}>
       {status ? t('pickupLocations.active') : t('pickupLocations.inactive')}
     </Badge>
   );

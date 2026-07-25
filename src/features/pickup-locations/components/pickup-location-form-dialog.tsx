@@ -209,7 +209,7 @@ export function PickupLocationFormDialog({
                   <label className="text-xs text-muted-foreground">{t('pickupLocations.day')}</label>
                   <Select
                     value={hour.day}
-                    onValueChange={(v) => updateWorkingHour(index, 'day', v)}
+                    onValueChange={(v) => updateWorkingHour(index, 'day', v ?? '')}
                   >
                     <SelectTrigger className="h-8">
                       <SelectValue />

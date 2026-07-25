@@ -108,7 +108,7 @@ export function ReviewsPage() {
 
         <div className="space-y-1.5">
           <label className="text-sm font-medium">{t('reviews.filterStatus')}</label>
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v ?? 'all')}>
             <SelectTrigger className="w-[160px]">
               <SelectValue />
             </SelectTrigger>

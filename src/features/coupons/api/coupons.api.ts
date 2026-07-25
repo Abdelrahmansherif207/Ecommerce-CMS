@@ -51,7 +51,7 @@ export async function createCoupon(payload: CreateCouponData): Promise<ApiRespon
 
   formData.append('name[en]', payload['name[en]']);
   formData.append('name[ar]', payload['name[ar]']);
-  formData.append('discount', payload.discount);
+  if (payload.discount !== undefined) formData.append('discount', payload.discount);
   formData.append('discount_type', payload.discount_type);
   formData.append('start_date', payload.start_date);
   formData.append('end_date', payload.end_date);

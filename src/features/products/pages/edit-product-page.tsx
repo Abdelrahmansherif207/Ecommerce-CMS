@@ -31,7 +31,7 @@ function productToFormValues(product: Product): ProductFormValues {
     descriptionAr: description.ar,
     price: product.price || undefined,
     quantity: product.stock_quantity || undefined,
-    inStock: product.in_stock === 1 || product.in_stock === true,
+    inStock: product.in_stock === 1,
     status: product.status,
     categoryIds: product.categories?.map((c) => c.id) || [],
     brandIds: product.brands?.map((b) => b.id) || [],

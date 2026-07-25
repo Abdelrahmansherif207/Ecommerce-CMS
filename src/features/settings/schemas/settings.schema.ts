@@ -28,8 +28,8 @@ export const settingsSchema = z.object({
   phone: z.string().optional(),
   logo: imageFileSchema,
   favicon: imageFileSchema,
-  fastShippingPublish: z.string().default('0'),
-  minimumOrderAmount: z.string().default('0'),
+  fastShippingPublish: z.string(),
+  minimumOrderAmount: z.string(),
 });
 
 export type SettingsFormValues = z.infer<typeof settingsSchema>;

@@ -25,7 +25,7 @@ import {
   countryDefaults,
   type CountryFormData,
 } from '../schemas/shipping.schema';
-import { useCreateCountry, useUpdateCountry, useCountry } from '../hooks/use-shipping';
+import { useCreateCountry, useUpdateCountry } from '../hooks/use-shipping';
 import type { Country } from '../types/shipping.types';
 import type { ApiErrorResponse } from '@/shared/api';
 

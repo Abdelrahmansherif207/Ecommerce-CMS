@@ -15,6 +15,7 @@ import type {
   AssignRolePayload,
   UserDetail,
 } from '../types/user.types';
+import type { Permission } from '../types/role.types';
 
 export interface FetchRolesParams {
   limit?: number;

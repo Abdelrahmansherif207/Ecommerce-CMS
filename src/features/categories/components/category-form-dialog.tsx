@@ -48,7 +48,7 @@ export function CategoryFormDialog({
   onOpenChange,
   onSuccess,
 }: CategoryFormDialogProps) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const isEditing = !!category;
   const { data: parentCategoriesData } = useCategories({ perPage: 100, parentOnly: true }, open);
   const { data: categoryDetail, isLoading: isDetailLoading } = useCategory(category?.id ?? 0);

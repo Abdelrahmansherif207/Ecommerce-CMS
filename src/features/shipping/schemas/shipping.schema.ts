@@ -4,7 +4,7 @@ export const countrySchema = z.object({
   nameEn: z.string().min(1, 'English name is required'),
   nameAr: z.string().min(1, 'Arabic name is required'),
   phone_code: z.string().min(1, 'Phone code is required'),
-  status: z.string().default('1'),
+  status: z.string(),
 });
 
 export type CountryFormData = z.infer<typeof countrySchema>;
@@ -19,8 +19,8 @@ export const countryDefaults: CountryFormData = {
 export const governorateSchema = z.object({
   nameEn: z.string().min(1, 'English name is required'),
   nameAr: z.string().min(1, 'Arabic name is required'),
-  country_id: z.number({ required_error: 'Country is required' }),
-  status: z.string().default('1'),
+  country_id: z.number(),
+  status: z.string(),
   shippingPrice: z.string().optional(),
   estimatedDays: z.string().optional(),
   freeShippingOver: z.string().optional(),

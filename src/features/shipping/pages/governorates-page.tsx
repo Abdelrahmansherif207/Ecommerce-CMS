@@ -92,7 +92,7 @@ export function GovernoratesPage() {
             className="ps-9"
           />
         </div>
-        <Select value={status || 'all'} onValueChange={handleStatusFilter}>
+        <Select value={status || 'all'} onValueChange={(v) => handleStatusFilter(v ?? 'all')}>
           <SelectTrigger className="w-[140px]">
             <SelectValue placeholder={t('common.all')} />
           </SelectTrigger>

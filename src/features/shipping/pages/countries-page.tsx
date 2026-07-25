@@ -8,7 +8,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/shared/ui/select';
 import {
-  Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious,
+  Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious,
 } from '@/shared/ui/pagination';
 import { useCountries } from '../hooks/use-shipping';
 import { CountriesTable } from '../components/countries-table';
@@ -84,7 +84,7 @@ export function CountriesPage() {
             className="ps-9"
           />
         </div>
-        <Select value={status || 'all'} onValueChange={handleStatusFilter}>
+        <Select value={status || 'all'} onValueChange={(v) => handleStatusFilter(v ?? 'all')}>
           <SelectTrigger className="w-[140px]">
             <SelectValue placeholder={t('common.all')} />
           </SelectTrigger>

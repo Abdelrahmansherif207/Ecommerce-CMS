@@ -61,7 +61,7 @@ export interface ApiResponse<T> {
 export interface CreateCouponData {
   'name[en]': string;
   'name[ar]': string;
-  discount: string;
+  discount?: string;
   discount_type: string;
   max_discount_amount?: string;
   start_date: string;

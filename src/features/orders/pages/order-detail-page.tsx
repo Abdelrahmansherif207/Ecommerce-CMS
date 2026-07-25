@@ -230,7 +230,7 @@ export function OrderDetailPage() {
               {t('orders.shippingAddress')}
             </h2>
             <div className="space-y-1 text-sm">
-              <p>{address?.street ?? address?.street_address}</p>
+              <p>{(address as unknown as { street?: string; street_address?: string })?.street ?? (address as unknown as { street?: string; street_address?: string })?.street_address}</p>
               <p>
                 {address?.city}{address?.state ? `, ${address.state}` : ''}
               </p>

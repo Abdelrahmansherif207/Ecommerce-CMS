@@ -254,7 +254,7 @@ export function SettingsPage() {
               <p className="text-sm font-medium">{t('settings.fastShippingLabel')}</p>
               <p className="text-xs text-muted-foreground">{t('settings.fastShippingDesc')}</p>
             </div>
-            <Select value={form.watch('fastShippingPublish')} onValueChange={(v) => form.setValue('fastShippingPublish', v)}>
+            <Select value={form.watch('fastShippingPublish')} onValueChange={(v) => form.setValue('fastShippingPublish', v ?? '0')}>
               <SelectTrigger className="w-[100px]">
                 <SelectValue />
               </SelectTrigger>

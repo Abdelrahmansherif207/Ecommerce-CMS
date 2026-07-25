@@ -102,6 +102,7 @@ export function ProductsTable({ data, isLoading, onView, onNavigateDetail, onEdi
                   onCopySlug={handleCopySlug}
                   onView={onView}
                   onNavigateDetail={onNavigateDetail}
+                  onEdit={onEdit}
                   onDelete={setDeleteTarget}
                   selected={selectedIds.includes(product.id)}
                   onToggleSelect={toggleSelect}
@@ -294,12 +295,13 @@ interface ProductCardProps {
   onCopySlug: (slug: string, id: number) => void;
   onView: (product: Product) => void;
   onNavigateDetail: (product: Product) => void;
+  onEdit: (product: Product) => void;
   onDelete: (product: Product) => void;
   selected: boolean;
   onToggleSelect: (id: number) => void;
 }
 
-function ProductCard({ product, copiedSlugId, onCopySlug, onView, onNavigateDetail, onDelete, selected, onToggleSelect }: ProductCardProps) {
+function ProductCard({ product, copiedSlugId, onCopySlug, onView, onNavigateDetail, onEdit, onDelete, selected, onToggleSelect }: ProductCardProps) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
 

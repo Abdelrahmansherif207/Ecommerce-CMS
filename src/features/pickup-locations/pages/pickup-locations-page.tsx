@@ -97,7 +97,7 @@ export function PickupLocationsPage() {
             className="h-8 ps-9"
           />
         </div>
-        <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v); setPage(1); }}>
+        <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v ?? 'all'); setPage(1); }}>
           <SelectTrigger className="h-8 w-full md:w-[130px]">
             <SelectValue placeholder={t('common.status')} />
           </SelectTrigger>
@@ -107,7 +107,7 @@ export function PickupLocationsPage() {
             <SelectItem value="0">{t('pickupLocations.inactive')}</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v)); setPage(1); }}>
+        <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v ?? '15')); setPage(1); }}>
           <SelectTrigger className="h-8 w-full md:w-[90px]">
             <SelectValue />
           </SelectTrigger>

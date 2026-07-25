@@ -35,7 +35,7 @@ export function ContactsPage() {
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [readFilter, setReadFilter] = useState<string>('all');
-  const searchTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const [viewContactId, setViewContactId] = useState<number | null>(null);
   const [openDetail, setOpenDetail] = useState(false);
@@ -63,7 +63,7 @@ export function ContactsPage() {
   const lastPage = data?.data?.last_page ?? 1;
   const from = data?.data?.from ?? 0;
   const to = data?.data?.to ?? 0;
-  const hasActiveFilters = search || readFilter !== 'all';
+  const hasActiveFilters = !!(search || readFilter !== 'all');
 
   const handleView = useCallback((contact: Contact) => {
     setViewContactId(contact.id);
