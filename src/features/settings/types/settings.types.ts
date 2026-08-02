@@ -1,8 +1,13 @@
+export interface LocalizedString {
+  ar: string;
+  en: string;
+}
+
 export interface Settings {
-  site_name: string;
-  site_desc: string;
-  meta_desc: string;
-  site_copy_right: string;
+  site_name: LocalizedString;
+  site_desc: LocalizedString;
+  meta_desc: LocalizedString;
+  site_copy_right: LocalizedString;
   logo: string;
   footer_logo: string;
   favicon: string;

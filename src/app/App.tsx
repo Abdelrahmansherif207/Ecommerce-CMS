@@ -8,6 +8,7 @@ const DashboardPage = lazy(() => import("@/features/dashboard/pages/dashboard-pa
 const CategoriesPage = lazy(() => import("@/features/categories/pages/categories-page").then(m => ({ default: m.CategoriesPage })));
 const SettingsPage = lazy(() => import("@/features/settings/pages/settings-page").then(m => ({ default: m.SettingsPage })));
 const BrandsPage = lazy(() => import("@/features/brands/pages/brands-page").then(m => ({ default: m.BrandsPage })));
+const TagsPage = lazy(() => import("@/features/tags/pages/tags-page").then(m => ({ default: m.TagsPage })));
 const SlidersPage = lazy(() => import("@/features/sliders/pages/sliders-page").then(m => ({ default: m.SlidersPage })));
 const FaqsPage = lazy(() => import("@/features/faqs/pages/faqs-page").then(m => ({ default: m.FaqsPage })));
 const FlashSalePage = lazy(() => import("@/features/flash-sale/pages/flash-sale-page").then(m => ({ default: m.FlashSalePage })));
@@ -71,6 +72,7 @@ export default function App() {
               <Route path="/products/:id" element={<ProductDetailPage />} />
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/brands" element={<BrandsPage />} />
+              <Route path="/tags" element={<TagsPage />} />
               <Route path="/sliders" element={<SlidersPage />} />
               <Route path="/faqs" element={<FaqsPage />} />
               <Route path="/flash-sale" element={<FlashSalePage />} />
