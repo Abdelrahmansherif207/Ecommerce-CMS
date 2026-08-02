@@ -22,6 +22,7 @@ import {
   Globe,
   Building2,
   MapPinned,
+  Hash,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -61,6 +62,7 @@ export function useNavGroups(): NavGroup[] {
       items: [
         { title: t('sidebar.categories'), url: '/categories', icon: FolderTree },
         { title: t('sidebar.brands'), url: '/brands', icon: Tags },
+        { title: t('sidebar.tags'), url: '/tags', icon: Hash },
         { title: t('sidebar.attributes'), url: '/attributes', icon: List },
         { title: t('sidebar.reviews'), url: '/reviews', icon: Star },
       ],

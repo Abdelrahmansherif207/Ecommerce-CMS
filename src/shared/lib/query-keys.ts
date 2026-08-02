@@ -25,6 +25,13 @@ export const queryKeys = {
     detail: (id: number | string) => ['brands', 'detail', id] as const,
     productSearch: (q: string) => ['brands', 'product-search', q] as const,
   },
+  tags: {
+    all: ['tags'] as const,
+    lists: () => ['tags', 'list'] as const,
+    list: (params: Record<string, any>) => ['tags', 'list', params] as const,
+    details: () => ['tags', 'detail'] as const,
+    detail: (id: number | string) => ['tags', 'detail', id] as const,
+  },
   sliders: {
     all: ['sliders'] as const,
     lists: () => ['sliders', 'list'] as const,
