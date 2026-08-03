@@ -3,6 +3,14 @@ export interface LocalizedString {
   en: string;
 }
 
+export interface FastShippingSettings {
+  enabled: boolean;
+  duration_minutes: number;
+  fee: number;
+  start_hour: string;
+  end_hour: string;
+}
+
 export interface Settings {
   site_name: LocalizedString;
   site_desc: LocalizedString;
@@ -19,9 +27,8 @@ export interface Settings {
   promotion_video_url: string;
   youtube: string;
   phone: string;
-  fast_shipping_page_publish: number;
   minimumOrderAmount: number;
-  options: Record<string, any> | null;
+  options: { fast_shipping: FastShippingSettings } | null;
 }
 
 export interface SettingsResponse {
@@ -40,7 +47,6 @@ export interface UpdateSettingsPayload {
   'meta_desc[ar]': string;
   'site_copy_right[en]': string;
   'site_copy_right[ar]': string;
-  fast_shipping_page_publish?: string | number;
   minimum_order_amount?: string | number;
   site_email: string;
   email_support: string;
@@ -53,4 +59,19 @@ export interface UpdateSettingsPayload {
   logo?: File;
   footer_logo?: File;
   favicon?: File;
+}
+
+export interface FastShippingSettingsResponse {
+  status: number;
+  message: string;
+  success: boolean;
+  data: FastShippingSettings;
+}
+
+export interface UpdateFastShippingSettingsPayload {
+  enabled: boolean;
+  duration_minutes: number;
+  fee: number;
+  start_hour: string;
+  end_hour: string;
 }

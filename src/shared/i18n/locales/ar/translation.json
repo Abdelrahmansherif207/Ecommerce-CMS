@@ -211,7 +211,9 @@
     "atLeastOneAttribute": "اختر قيمة سمة واحدة على الأقل",
     "atLeastOneVariant": "أضف متغيراً واحداً على الأقل",
     "imageFormat": "Only JPEG, PNG, GIF, and SVG images are allowed",
-    "imageMaxSize": "Image must be 2MB or less"
+    "imageMaxSize": "Image must be 2MB or less",
+    "invalidNumber": "يرجى إدخال رقم صحيح غير سالب",
+    "invalidTime": "يرجى إدخال وقت صحيح (HH:MM)"
   },
   "auth": {
     "welcomeBack": "مرحباً بعودتك",
@@ -741,10 +743,15 @@
     "logo": "الشعار",
     "footerLogo": "شعار التذييل",
     "favicon": "أيقونة الموقع",
-    "fastShippingLabel": "Fast Shipping Page",
-    "fastShippingDesc": "Enable or disable the fast shipping public page",
-    "shipping": "Shipping",
-    "minimumOrderAmount": "Minimum Order Amount"
+    "shipping": "الشحن",
+    "fastShipping": "الشحن السريع",
+    "fastShippingEnabled": "تفعيل الشحن السريع",
+    "fastShippingDesc": "تكوين مدة الشحن السريع والرسوم وساعات التوصيل",
+    "fastShippingDurationMinutes": "المدة (بالدقائق)",
+    "fastShippingFee": "الرسوم",
+    "fastShippingStartHour": "ساعة البداية",
+    "fastShippingEndHour": "ساعة النهاية",
+    "minimumOrderAmount": "الحد الأدنى لقيمة الطلب"
   },
   "users": {
     "title": "المستخدمون",
