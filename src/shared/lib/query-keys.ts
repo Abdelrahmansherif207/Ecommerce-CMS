@@ -116,6 +116,7 @@ export const queryKeys = {
     typeSettings: (typeName: string) => ['sections', 'section-types', typeName, 'settings'] as const,
     productTypes: () => ['sections', 'product-types'] as const,
     entitySearch: (endpoint: string, q: string) => ['sections', 'entity-search', endpoint, q] as const,
+    entitySearchInfinite: (endpoint: string, q: string) => ['sections', 'entity-search-infinite', endpoint, q] as const,
   },
   promotions: {
     all: ['promotions'] as const,
