@@ -249,7 +249,9 @@
     "atLeastOneAttribute": "Select at least one attribute value",
     "atLeastOneVariant": "Add at least one variant",
     "imageFormat": "Only JPEG, PNG, GIF, and SVG images are allowed",
-    "imageMaxSize": "Image must be 2MB or less"
+    "imageMaxSize": "Image must be 2MB or less",
+    "invalidNumber": "Please enter a valid non-negative number",
+    "invalidTime": "Please enter a valid time (HH:MM)"
   },
   "auth": {
     "welcomeBack": "Welcome back",
@@ -825,9 +827,14 @@
     "logo": "Logo",
     "footerLogo": "Footer Logo",
     "favicon": "Favicon",
-    "fastShippingLabel": "Fast Shipping Page",
-    "fastShippingDesc": "Enable or disable the fast shipping public page",
     "shipping": "Shipping",
+    "fastShipping": "Fast Shipping",
+    "fastShippingEnabled": "Enable Fast Shipping",
+    "fastShippingDesc": "Configure fast shipping duration, fee, and delivery hours",
+    "fastShippingDurationMinutes": "Duration (minutes)",
+    "fastShippingFee": "Fee",
+    "fastShippingStartHour": "Start Hour",
+    "fastShippingEndHour": "End Hour",
     "minimumOrderAmount": "Minimum Order Amount"
   },
   "users": {

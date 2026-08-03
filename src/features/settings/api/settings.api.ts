@@ -1,5 +1,10 @@
 import { axiosClient } from '@/shared/api';
-import type { SettingsResponse, UpdateSettingsPayload } from '../types/settings.types';
+import type {
+  SettingsResponse,
+  UpdateSettingsPayload,
+  FastShippingSettingsResponse,
+  UpdateFastShippingSettingsPayload,
+} from '../types/settings.types';
 
 export async function fetchSettings(): Promise<SettingsResponse> {
   const { data } = await axiosClient.get<SettingsResponse>('/settings');
@@ -21,5 +26,12 @@ export async function updateSettings(payload: UpdateSettingsPayload): Promise<Se
   const { data } = await axiosClient.post<SettingsResponse>('/settings', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
+  return data;
+}
+
+export async function updateFastShippingSettings(
+  payload: UpdateFastShippingSettingsPayload
+): Promise<FastShippingSettingsResponse> {
+  const { data } = await axiosClient.put<FastShippingSettingsResponse>('/fast-shipping/settings', payload);
   return data;
 }

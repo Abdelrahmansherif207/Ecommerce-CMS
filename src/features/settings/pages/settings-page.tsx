@@ -5,21 +5,20 @@ import { useTranslation } from 'react-i18next';
 import { Loader2, Save } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
+import { Switch } from '@/shared/ui/switch';
 import { Separator } from '@/shared/ui/separator';
 import { Skeleton } from '@/shared/ui/skeleton';
-import { useSettings, useUpdateSettings } from '../hooks/use-settings';
-import { settingsSchema, toApiFormat, type SettingsFormValues } from '../schemas/settings.schema';
-import type { UpdateSettingsPayload } from '../types/settings.types';
+import { useSettings, useUpdateSettings, useUpdateFastShippingSettings } from '../hooks/use-settings';
+import { settingsSchema, toApiFormat, toFastShippingApiFormat, type SettingsFormValues } from '../schemas/settings.schema';
+import type { UpdateSettingsPayload, UpdateFastShippingSettingsPayload } from '../types/settings.types';
 import type { ApiErrorResponse } from '@/shared/api';
 
 export function SettingsPage() {
   const { t } = useTranslation();
   const { data, isLoading } = useSettings();
   const updateMutation = useUpdateSettings();
+  const updateFastShippingMutation = useUpdateFastShippingSettings();
   const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
 
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
@@ -46,8 +45,12 @@ export function SettingsPage() {
       promotionVideoUrl: data?.data?.promotion_video_url || '',
       youtube: data?.data?.youtube || '',
       phone: data?.data?.phone || '',
-      fastShippingPublish: String(data?.data?.fast_shipping_page_publish ?? '0'),
       minimumOrderAmount: String(data?.data?.minimumOrderAmount ?? '0'),
+      fastShippingEnabled: data?.data?.options?.fast_shipping?.enabled ?? false,
+      fastShippingDurationMinutes: String(data?.data?.options?.fast_shipping?.duration_minutes ?? ''),
+      fastShippingFee: String(data?.data?.options?.fast_shipping?.fee ?? ''),
+      fastShippingStartHour: data?.data?.options?.fast_shipping?.start_hour || '',
+      fastShippingEndHour: data?.data?.options?.fast_shipping?.end_hour || '',
     },
   });
 
@@ -78,6 +81,7 @@ export function SettingsPage() {
   const onSubmit = (values: SettingsFormValues) => {
     setServerErrors({});
     const apiData = toApiFormat(values);
+    const fastShippingData = toFastShippingApiFormat(values);
     const logo = form.getValues('logo');
     const favicon = form.getValues('favicon');
     const footerLogo = form.getValues('footerLogo');
@@ -90,6 +94,7 @@ export function SettingsPage() {
         }
       },
     });
+    updateFastShippingMutation.mutate(fastShippingData as UpdateFastShippingSettingsPayload);
   };
 
   const getError = (field: string): string | undefined => {
@@ -100,7 +105,7 @@ export function SettingsPage() {
     return t(errMsg, errMsg);
   };
 
-  const isPending = updateMutation.isPending;
+  const isPending = updateMutation.isPending || updateFastShippingMutation.isPending;
 
   if (isLoading) {
     return <SettingsSkeleton />;
@@ -258,21 +263,6 @@ export function SettingsPage() {
         <div className="rounded-lg border p-6 space-y-4">
           <h2 className="text-lg font-semibold">{t('settings.shipping')}</h2>
           <Separator />
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">{t('settings.fastShippingLabel')}</p>
-              <p className="text-xs text-muted-foreground">{t('settings.fastShippingDesc')}</p>
-            </div>
-            <Select value={form.watch('fastShippingPublish')} onValueChange={(v) => form.setValue('fastShippingPublish', v ?? '0')}>
-              <SelectTrigger className="w-[100px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">{t('common.enabled')}</SelectItem>
-                <SelectItem value="0">{t('common.disabled')}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
           <div className="space-y-1.5">
             <label className="text-sm font-medium">{t('settings.minimumOrderAmount')}</label>
             <Input
@@ -281,6 +271,65 @@ export function SettingsPage() {
               {...form.register('minimumOrderAmount')}
               placeholder="100"
             />
+          </div>
+        </div>
+
+        <div className="rounded-lg border p-6 space-y-4">
+          <h2 className="text-lg font-semibold">{t('settings.fastShipping')}</h2>
+          <Separator />
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium">{t('settings.fastShippingEnabled')}</p>
+              <p className="text-xs text-muted-foreground">{t('settings.fastShippingDesc')}</p>
+            </div>
+            <Switch
+              id="fastShippingEnabled"
+              checked={form.watch('fastShippingEnabled')}
+              onCheckedChange={(checked) => form.setValue('fastShippingEnabled', checked)}
+            />
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">{t('settings.fastShippingDurationMinutes')}</label>
+              <Input
+                type="number"
+                min={0}
+                {...form.register('fastShippingDurationMinutes')}
+                placeholder="120"
+              />
+              {getError('fastShippingDurationMinutes') && <p className="text-xs text-destructive">{getError('fastShippingDurationMinutes')}</p>}
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">{t('settings.fastShippingFee')}</label>
+              <Input
+                type="number"
+                min={0}
+                step="0.01"
+                {...form.register('fastShippingFee')}
+                placeholder="0"
+              />
+              {getError('fastShippingFee') && <p className="text-xs text-destructive">{getError('fastShippingFee')}</p>}
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">{t('settings.fastShippingStartHour')}</label>
+              <Input
+                type="time"
+                {...form.register('fastShippingStartHour')}
+              />
+              {getError('fastShippingStartHour') && <p className="text-xs text-destructive">{getError('fastShippingStartHour')}</p>}
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">{t('settings.fastShippingEndHour')}</label>
+              <Input
+                type="time"
+                {...form.register('fastShippingEndHour')}
+              />
+              {getError('fastShippingEndHour') && <p className="text-xs text-destructive">{getError('fastShippingEndHour')}</p>}
+            </div>
           </div>
         </div>
 

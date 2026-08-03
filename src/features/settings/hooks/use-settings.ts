@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { queryKeys } from '@/shared/lib/query-keys';
-import { fetchSettings, updateSettings } from '../api/settings.api';
-import type { UpdateSettingsPayload } from '../types/settings.types';
+import { fetchSettings, updateSettings, updateFastShippingSettings } from '../api/settings.api';
+import type { UpdateSettingsPayload, UpdateFastShippingSettingsPayload } from '../types/settings.types';
 import type { ApiErrorResponse } from '@/shared/api';
 
 export function useSettings() {
@@ -25,6 +25,22 @@ export function useUpdateSettings() {
     onError: (error: unknown) => {
       const apiError = error as ApiErrorResponse;
       toast.error(apiError?.message || 'Failed to update settings');
+    },
+  });
+}
+
+export function useUpdateFastShippingSettings() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: UpdateFastShippingSettingsPayload) => updateFastShippingSettings(data),
+    onSuccess: (response) => {
+      toast.success(response.message || 'Fast shipping settings updated successfully');
+      queryClient.invalidateQueries({ queryKey: queryKeys.settings.all });
+    },
+    onError: (error: unknown) => {
+      const apiError = error as ApiErrorResponse;
+      toast.error(apiError?.message || 'Failed to update fast shipping settings');
     },
   });
 }
