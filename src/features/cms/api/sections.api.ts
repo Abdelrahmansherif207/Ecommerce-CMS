@@ -76,10 +76,11 @@ export async function fetchProductTypes(): Promise<string[]> {
   return data;
 }
 
-export async function searchEntities(endpoint: string, search: string): Promise<any> {
+export async function searchEntities(endpoint: string, search: string, page = 1): Promise<any> {
   const params = new URLSearchParams();
   if (search) params.append('search', search);
   params.append('per_page', '20');
+  if (page > 1) params.append('page', page.toString());
   const { data } = await axiosClient.get(
     `/${endpoint}?${params.toString()}`
   );

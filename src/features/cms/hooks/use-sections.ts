@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { queryKeys } from '@/shared/lib/query-keys';
 import {
@@ -72,6 +72,23 @@ export function useEntitySearch(endpoint: string, search: string) {
   return useQuery({
     queryKey: queryKeys.sections.entitySearch(endpoint, search),
     queryFn: () => searchEntities(endpoint, search),
+    enabled: !!endpoint,
+    staleTime: 0,
+  });
+}
+
+export function useEntitySearchInfinite(endpoint: string, search: string) {
+  return useInfiniteQuery({
+    queryKey: queryKeys.sections.entitySearchInfinite(endpoint, search),
+    queryFn: ({ pageParam }) => searchEntities(endpoint, search, pageParam),
+    getNextPageParam: (lastPage: any) => {
+      const data = lastPage?.data;
+      if (!data) return undefined;
+      const current = data.current_page ?? 1;
+      const last = data.last_page ?? current;
+      return current < last ? current + 1 : undefined;
+    },
+    initialPageParam: 1,
     enabled: !!endpoint,
     staleTime: 0,
   });

@@ -10,6 +10,7 @@ import {
 import { useTypeSettings, useProductTypes } from '../hooks/use-sections';
 import { Loader2 } from 'lucide-react';
 import { SearchableMultiSelect } from './searchable-multi-select';
+import { SearchableSelect } from './searchable-select';
 
 // ─── Field type inference from template value ────────────────────
 
@@ -161,6 +162,7 @@ export function DynamicSettingsForm({
             {Object.entries(frontTemplate).map(([key, templateValue]) => (
               <SettingsField
                 key={key}
+                sectionType={sectionType}
                 fieldKey={key}
                 templateValue={templateValue}
                 currentValue={frontSettings[key]}
@@ -181,6 +183,7 @@ export function DynamicSettingsForm({
             {visibleBackFields.map(([key, templateValue]) => (
               <SettingsField
                 key={key}
+                sectionType={sectionType}
                 fieldKey={key}
                 templateValue={templateValue}
                 currentValue={backSettings[key]}
@@ -201,11 +204,27 @@ interface SettingsFieldProps {
   templateValue: unknown;
   currentValue: unknown;
   onChange: (value: unknown) => void;
+  sectionType?: string;
 }
 
-function SettingsField({ fieldKey, templateValue, currentValue, onChange }: SettingsFieldProps) {
+function SettingsField({ fieldKey, templateValue, currentValue, onChange, sectionType }: SettingsFieldProps) {
   const fieldType = inferFieldType(fieldKey, templateValue);
   const label = formatFieldLabel(fieldKey);
+
+  // Banner slug: pick a banner from a searchable dropdown instead of typing it
+  if (sectionType === 'banners' && fieldKey === 'slug') {
+    return (
+      <div className="space-y-1.5">
+        <label className="text-sm font-medium">{label}</label>
+        <SearchableSelect
+          endpoint="banners"
+          value={currentValue ? String(currentValue) : null}
+          onChange={(v) => onChange(v)}
+          placeholder={`Select ${label.toLowerCase()}...`}
+        />
+      </div>
+    );
+  }
 
   switch (fieldType) {
     case 'boolean':
