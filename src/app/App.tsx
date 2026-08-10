@@ -37,6 +37,7 @@ const SectionsPage = lazy(() => import("@/features/cms/pages/sections-page").the
 const ActivityLogsPage = lazy(() => import("@/features/activity-logs/pages/activity-logs-page").then(m => ({ default: m.ActivityLogsPage })));
 const NotificationsPage = lazy(() => import("@/features/notifications/pages/notifications-page").then(m => ({ default: m.NotificationsPage })));
 const ReviewsPage = lazy(() => import("@/features/reviews/pages/reviews-page").then(m => ({ default: m.ReviewsPage })));
+const SiteReviewsPage = lazy(() => import("@/features/site-reviews/pages/site-reviews-page").then(m => ({ default: m.SiteReviewsPage })));
 const BannersPage = lazy(() => import("@/features/banners/pages/banners-page").then(m => ({ default: m.BannersPage })));
 const PickupLocationsPage = lazy(() => import("@/features/pickup-locations/pages/pickup-locations-page").then(m => ({ default: m.PickupLocationsPage })));
 const CountriesPage = lazy(() => import("@/features/shipping/pages/countries-page").then(m => ({ default: m.CountriesPage })));
@@ -91,6 +92,7 @@ export default function App() {
               <Route path="/cms" element={<SectionsPage />} />
               <Route path="/activity-logs" element={<ActivityLogsPage />} />
               <Route path="/reviews" element={<ReviewsPage />} />
+              <Route path="/site-reviews" element={<SiteReviewsPage />} />
               <Route path="/banners" element={<BannersPage />} />
               <Route path="/pickup-locations" element={<PickupLocationsPage />} />
               <Route path="/notifications" element={<NotificationsPage />} />

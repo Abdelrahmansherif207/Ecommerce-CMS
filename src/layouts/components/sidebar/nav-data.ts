@@ -23,13 +23,17 @@ import {
   Building2,
   MapPinned,
   Hash,
+  MessageSquare,
   type LucideIcon,
 } from 'lucide-react';
+import { useAuthStore } from '@/features/auth/store/auth.store';
+import { SITE_REVIEW_PERMISSIONS } from '@/features/site-reviews/permissions/site-reviews.permissions';
 
 export interface NavItem {
   title: string;
   url: string;
   icon: LucideIcon;
+  permissions?: string[];
 }
 
 export interface NavGroup {
@@ -39,8 +43,9 @@ export interface NavGroup {
 
 export function useNavGroups(): NavGroup[] {
   const { t } = useTranslation();
+  const hasPermission = useAuthStore((s) => s.hasPermission);
 
-  return [
+  const groups = [
     {
       title: t('sidebar.overview'),
       items: [
@@ -76,6 +81,16 @@ export function useNavGroups(): NavGroup[] {
         { title: t('sidebar.faqs'), url: '/faqs', icon: HelpCircle },
         { title: t('sidebar.flashSale'), url: '/flash-sale', icon: Megaphone },
         { title: t('sidebar.contacts'), url: '/contacts', icon: Mail },
+        {
+          title: t('sidebar.siteReviews'),
+          url: '/site-reviews',
+          icon: MessageSquare,
+          permissions: [
+            SITE_REVIEW_PERMISSIONS.view,
+            SITE_REVIEW_PERMISSIONS.approve,
+            SITE_REVIEW_PERMISSIONS.reject,
+          ],
+        },
       ],
     },
     {
@@ -93,10 +108,19 @@ export function useNavGroups(): NavGroup[] {
         { title: t('sidebar.roles'), url: '/roles', icon: ShieldCheck },
         { title: t('sidebar.activityLogs'), url: '/activity-logs', icon: History },
         { title: t('sidebar.notifications'), url: '/notifications', icon: Bell },
-        { title: t('sidebar.settings'), url: '/settings', icon: Settings },
+{ title: t('sidebar.settings'), url: '/settings', icon: Settings },
       ],
     },
   ];
+
+  return groups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter(
+        (item) => !item.permissions || item.permissions.some((p) => hasPermission(p))
+      ),
+    }))
+    .filter((group) => group.items.length > 0);
 }
 
 

@@ -99,6 +99,13 @@ export const queryKeys = {
     details: () => ['reviews', 'detail'] as const,
     detail: (id: number | string) => ['reviews', 'detail', id] as const,
   },
+  siteReviews: {
+    all: ['site-reviews'] as const,
+    lists: () => ['site-reviews', 'list'] as const,
+    list: (params: Record<string, any>) => ['site-reviews', 'list', params] as const,
+    details: () => ['site-reviews', 'detail'] as const,
+    detail: (id: number | string) => ['site-reviews', 'detail', id] as const,
+  },
   faqs: {
     all: ['faqs'] as const,
     lists: () => ['faqs', 'list'] as const,
