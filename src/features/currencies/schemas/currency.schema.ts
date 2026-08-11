@@ -11,7 +11,7 @@ export const currencyFormSchema = z.object({
   numeric_code: z.string().optional(),
   decimal_places: z.number().int().min(0).max(4, 'Max 4 decimal places'),
   icon: z.string().optional(),
-  is_active: z.boolean().default(true),
+  is_active: z.boolean(),
   sort_order: z.number().int().nonnegative(),
 });
 

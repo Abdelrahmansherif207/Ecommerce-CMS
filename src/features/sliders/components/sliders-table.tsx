@@ -308,7 +308,7 @@ export function SlidersTable({
 }
 
 function SliderCard({ slider, index, onMoveUp, onEdit, onToggleStatus, onDelete, isPendingStatus }: { slider: Slider; index: number; onMoveUp: (index: number) => void; onEdit: (slider: Slider) => void; onToggleStatus: (slider: Slider) => void; onDelete: (slider: Slider) => void; isPendingStatus: boolean }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (

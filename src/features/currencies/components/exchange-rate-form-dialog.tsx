@@ -1,9 +1,8 @@
-﻿import { useState, useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { CalendarDays } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -14,13 +13,12 @@ import {
 } from '@/shared/ui/dialog';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import { cn } from '@/shared/lib/utils';
 import {
   exchangeRateFormSchema,
   exchangeRateFormDefaults,
   type ExchangeRateFormValues,
 } from '../schemas/exchange-rate.schema';
-import { useCreateExchangeRate, useUpdateExchangeRate, useExchangeRates } from '../hooks/use-currencies';
+import { useCreateExchangeRate, useUpdateExchangeRate } from '../hooks/use-currencies';
 import type { ExchangeRate } from '../types/currency.types';
 
 interface ExchangeRateFormDialogProps {
@@ -40,57 +38,29 @@ export function ExchangeRateFormDialog({
 }: ExchangeRateFormDialogProps) {
   const { t } = useTranslation();
   const isEditing = !!rate;
-  const { data: ratesData, isLoading: isLoadingRates } = useExchangeRates(currencyId);
-  const [form, setForm] = useState<any>(null);
-  const prevOpenRef = useRef(false);
+
+  const form = useForm<ExchangeRateFormValues>({
+    resolver: zodResolver(exchangeRateFormSchema),
+    defaultValues: exchangeRateFormDefaults,
+  });
 
   useEffect(() => {
-    if (open && !prevOpenRef.current) {
-      setFormDefaults();
-      resetForm();
+    if (open) {
       if (isEditing && rate) {
-        populateFormForEdit(rate, form);
+        form.reset({
+          effective_date: rate.effective_date.split('T')[0],
+          exchange_rate: rate.exchange_rate,
+        });
+      } else {
+        form.reset(exchangeRateFormDefaults);
       }
     }
-    prevOpenRef.current = open;
-  }, [open, isEditing, rate]);
+  }, [open, isEditing, rate, form]);
 
-  const setFormDefaults = () => {
-    const newForm = useForm<ExchangeRateFormValues>({
-      resolver: zodResolver(exchangeRateFormSchema),
-      defaultValues: exchangeRateFormDefaults,
-    });
-    setForm(newForm);
-  };
+  const createMutation = useCreateExchangeRate();
+  const updateMutation = useUpdateExchangeRate();
 
-  const populateFormForEdit = (rate: ExchangeRate, form: any) => {
-    form.setValue('effective_date', rate.effective_date.split('T')[0]); // Format for date input
-    form.setValue('exchange_rate', rate.exchange_rate);
-  };
-
-  const resetForm = () => {
-    // Reset form to defaults
-  };
-
-  const createMutation = useCreateExchangeRate({
-    onSuccess: (response) => {
-      toast.success(response.message || t('common.created'));
-      onSuccess();
-    },
-    onError: (error) => {
-      // Errors handled by mutation onError
-    }
-  });
-
-  const updateMutation = useUpdateExchangeRate({
-    onSuccess: (response) => {
-      toast.success(response.message || t('common.updated'));
-      onSuccess();
-    },
-    onError: (error) => {
-      // Errors handled by mutation onError
-    }
-  });
+  const isPending = createMutation.isPending || updateMutation.isPending;
 
   const onSubmit = async (data: ExchangeRateFormValues) => {
     try {
@@ -102,14 +72,14 @@ export function ExchangeRateFormDialog({
             exchange_rate: data.exchange_rate,
           },
         });
-        toast.success(updateMutation.data?.message || t('common.updated'));
+        toast.success(t('currencyRates.updated'));
       } else {
         await createMutation.mutateAsync({
           currency_id: currencyId,
           effective_date: data.effective_date,
           exchange_rate: data.exchange_rate,
         });
-        toast.success(createMutation.data?.message || t('common.created'));
+        toast.success(t('currencyRates.created'));
       }
       onSuccess();
       onOpenChange(false);
@@ -119,55 +89,47 @@ export function ExchangeRateFormDialog({
   };
 
   return (
-    <>
-      {form && (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-          <DialogContent className="w-[400px]">
-            <DialogHeader>
-              <DialogTitle>{isEditing ? t('exchangeRateForm.editTitle') : t('exchangeRateForm.createTitle')}</DialogTitle>
-              <DialogDescription>{isEditing ? t('exchangeRateForm.editSubtitle') : t('exchangeRateForm.createSubtitle')}</DialogDescription>
-            </DialogHeader>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <label htmlFor="effectiveDate" className="text-sm font-medium">{t('exchangeRateForm.effectiveDate')}</label>
-                <Input
-                  id="effectiveDate"
-                  type="date"
-                  value={form.watch('effective_date') || ''}
-                  onChange={(e) => form.setValue('effective_date', e.target.value)}
-                  max={new Date().toISOString().split('T')[0]}
-                />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="exchangeRate" className="text-sm font-medium">{t('exchangeRateForm.exchangeRate')}</label>
-                <Input
-                  id="exchangeRate"
-                  type="number"
-                  step="0.0001"
-                  min="0"
-                  value={form.watch('exchange_rate') || ''}
-                  onChange={(e) => form.setValue('exchange_rate', parseFloat(e.target.value) || 0)}
-                />
-              </div>
-              <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                  {t('common.cancel')}
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={form.formState.isPending || isLoadingRates}
-                >
-                  {isLoadingRates
-                    ? t('common.loading')
-                    : form.formState.isPending
-                      ? (isEditing ? t('common.updating') : t('common.creating'))
-                      : (isEditing ? t('common.update') : t('common.create'))}
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
-      )}
-    </>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="w-[400px]">
+        <DialogHeader>
+          <DialogTitle>{isEditing ? t('exchangeRateForm.editTitle') : t('exchangeRateForm.createTitle')}</DialogTitle>
+          <DialogDescription>{isEditing ? t('exchangeRateForm.editSubtitle') : t('exchangeRateForm.createSubtitle')}</DialogDescription>
+        </DialogHeader>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="effectiveDate" className="text-sm font-medium">{t('exchangeRateForm.effectiveDate')}</label>
+            <Input
+              id="effectiveDate"
+              type="date"
+              {...form.register('effective_date')}
+              max={new Date().toISOString().split('T')[0]}
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="exchangeRate" className="text-sm font-medium">{t('exchangeRateForm.exchangeRate')}</label>
+            <Input
+              id="exchangeRate"
+              type="number"
+              step="0.0001"
+              min="0"
+              {...form.register('exchange_rate', { valueAsNumber: true })}
+            />
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+              {t('common.cancel')}
+            </Button>
+            <Button
+              type="submit"
+              disabled={isPending}
+            >
+              {isPending
+                ? (isEditing ? t('common.updating') : t('common.creating'))
+                : (isEditing ? t('common.update') : t('common.create'))}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }

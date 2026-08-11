@@ -229,4 +229,11 @@ export const queryKeys = {
     dashboardCart: () => ['dashboard', 'cart'] as const,
     dashboardFinance: () => ['dashboard', 'finance'] as const,
   },
+  currencyRates: {
+    all: ['currency-rates'] as const,
+    lists: () => ['currency-rates', 'list'] as const,
+    list: (params: Record<string, any>) => ['currency-rates', 'list', params] as const,
+    details: () => ['currency-rates', 'detail'] as const,
+    detail: (id: number | string) => ['currency-rates', 'detail', id] as const,
+  },
 }

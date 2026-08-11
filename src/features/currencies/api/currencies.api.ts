@@ -6,7 +6,7 @@ import type {
   ExchangeRatesListResponse,
 } from '../types/currency.types';
 
-interface FetchCurrenciesParams {
+export interface FetchCurrenciesParams {
   page?: number;
   perPage?: number;
   search?: string;

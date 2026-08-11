@@ -175,7 +175,7 @@ export function SectionsTable({
   onEdit,
   onRefresh,
 }: SectionsTableProps) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [deleteTarget, setDeleteTarget] = useState<Section | null>(null);
   const toggleMutation = useToggleSectionActive();
   const reorderMutation = useReorderSections();

@@ -1,9 +1,7 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import {
-  CalendarDays,
   Trash2,
   Pencil,
-  RefreshCw,
   MoreHorizontal,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +15,6 @@ import {
   TableRow,
 } from '@/shared/ui/table';
 import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
 import { Skeleton } from '@/shared/ui/skeleton';
 import {
   DropdownMenu,
@@ -33,9 +30,7 @@ interface ExchangeRatesTableProps {
   isLoading: boolean;
   currencyName?: string | LocalizedName | null;
   onEdit: (rate: ExchangeRate) => void;
-  onDelete: (rate: ExchangeRate) => void;
   onRefresh: () => void;
-  baseCurrencyRate: number;
 }
 
 export function ExchangeRatesTable({
@@ -43,9 +38,7 @@ export function ExchangeRatesTable({
   isLoading,
   currencyName,
   onEdit,
-  onDelete,
   onRefresh,
-  baseCurrencyRate,
 }: ExchangeRatesTableProps) {
 const { t, i18n } = useTranslation();
   const [deleteTarget, setDeleteTarget] = useState<ExchangeRate | null>(null);
@@ -86,10 +79,8 @@ const { t, i18n } = useTranslation();
                 <TableCell>{(1 / rate.exchange_rate).toFixed(4)}</TableCell>
                 <TableCell>
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
+                    <DropdownMenuTrigger render={<Button variant="ghost" size="sm" className="h-8 w-8 p-0" />}>
+                      <MoreHorizontal className="h-4 w-4" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
