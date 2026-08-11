@@ -8,6 +8,7 @@ import {
   PowerOff,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedName } from '@/shared/lib/localize';
 import {
   DndContext,
   closestCenter,
@@ -69,7 +70,7 @@ function SortableRow({
   onDelete: (slider: Slider) => void;
   isPendingStatus: boolean;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     attributes,
     listeners,
@@ -105,11 +106,11 @@ function SortableRow({
         {slider.order}
       </TableCell>
       <TableCell>
-        <SliderImageCell image={slider.image} alt={slider.title} />
+        <SliderImageCell image={slider.image} alt={getLocalizedName(slider.title, i18n.language || 'en')} />
       </TableCell>
       <TableCell>
         <div className="min-w-0">
-          <p className="font-medium truncate">{slider.title}</p>
+          <p className="font-medium truncate">{getLocalizedName(slider.title, i18n.language || 'en')}</p>
           <p className="text-xs text-muted-foreground truncate">
             /{slider.slug}
           </p>
@@ -307,7 +308,7 @@ export function SlidersTable({
 }
 
 function SliderCard({ slider, index, onMoveUp, onEdit, onToggleStatus, onDelete, isPendingStatus }: { slider: Slider; index: number; onMoveUp: (index: number) => void; onEdit: (slider: Slider) => void; onToggleStatus: (slider: Slider) => void; onDelete: (slider: Slider) => void; isPendingStatus: boolean }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -321,11 +322,11 @@ function SliderCard({ slider, index, onMoveUp, onEdit, onToggleStatus, onDelete,
         >
           <GripVertical className="h-4 w-4" />
         </button>
-        <SliderImageCell image={slider.image} alt={slider.title} />
+        <SliderImageCell image={slider.image} alt={getLocalizedName(slider.title, i18n.language || 'en')} />
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
-              <p className="font-medium truncate">{slider.title}</p>
+              <p className="font-medium truncate">{getLocalizedName(slider.title, i18n.language || 'en')}</p>
               <p className="text-xs text-muted-foreground truncate">/{slider.slug}</p>
             </div>
             <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>

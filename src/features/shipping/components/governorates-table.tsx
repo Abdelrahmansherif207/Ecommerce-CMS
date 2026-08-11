@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MoreHorizontal, Pencil, Trash2, MapPin, Zap, ZapOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedName } from '@/shared/lib/localize';
 import { useNavigate } from 'react-router';
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
@@ -25,7 +26,7 @@ interface GovernoratesTableProps {
 }
 
 export function GovernoratesTable({ data, isLoading, isNested, onEdit, onRefresh }: GovernoratesTableProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const deleteMutation = useDeleteGovernorate();
@@ -56,7 +57,7 @@ export function GovernoratesTable({ data, isLoading, isNested, onEdit, onRefresh
             <div key={gov.id} className="rounded-lg border bg-card p-3 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <p className="font-medium">{gov.name}</p>
+                  <p className="font-medium">{getLocalizedName(gov.name, i18n.language || 'en')}</p>
                   {gov.shipping_price && (
                     <p className="text-xs text-muted-foreground">
                       {t('shipping.price')}: {gov.shipping_price.price} | {t('shipping.estimatedDays')}: {gov.shipping_price.estimated_days}
@@ -122,7 +123,7 @@ export function GovernoratesTable({ data, isLoading, isNested, onEdit, onRefresh
           <TableBody>
             {data.map((gov) => (
               <TableRow key={gov.id}>
-                <TableCell className="font-medium">{gov.name}</TableCell>
+                <TableCell className="font-medium">{getLocalizedName(gov.name, i18n.language || 'en')}</TableCell>
                 <TableCell>
                   <Badge variant={gov.status ? 'default' : 'secondary'}>
                     {gov.status ? t('shipping.active') : t('shipping.inactive')}

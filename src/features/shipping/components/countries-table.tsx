@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MoreHorizontal, Pencil, Trash2, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedName } from '@/shared/lib/localize';
 import { useNavigate } from 'react-router';
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
@@ -24,7 +25,7 @@ interface CountriesTableProps {
 }
 
 export function CountriesTable({ data, isLoading, onEdit, onRefresh }: CountriesTableProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const deleteMutation = useDeleteCountry();
@@ -50,7 +51,7 @@ export function CountriesTable({ data, isLoading, onEdit, onRefresh }: Countries
             <div key={country.id} className="rounded-lg border bg-card p-3 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <p className="font-medium">{country.name}</p>
+                  <p className="font-medium">{getLocalizedName(country.name, i18n.language || 'en')}</p>
                   <p className="text-xs text-muted-foreground">{t('shipping.phoneCode')}: {country.phone_code}</p>
                 </div>
                 <Badge variant={country.status ? 'default' : 'secondary'}>{country.status ? t('shipping.active') : t('shipping.inactive')}</Badge>
@@ -108,7 +109,7 @@ export function CountriesTable({ data, isLoading, onEdit, onRefresh }: Countries
           <TableBody>
             {data.map((country) => (
               <TableRow key={country.id}>
-                <TableCell className="font-medium">{country.name}</TableCell>
+                <TableCell className="font-medium">{getLocalizedName(country.name, i18n.language || 'en')}</TableCell>
                 <TableCell>+{country.phone_code}</TableCell>
                 <TableCell>
                   <Badge variant={country.status ? 'default' : 'secondary'}>

@@ -5,6 +5,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedName } from '@/shared/lib/localize';
 import {
   Table,
   TableBody,
@@ -38,7 +39,7 @@ export function AttributesTable({
   onEdit,
   onRefresh,
 }: AttributesTableProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [deleteTarget, setDeleteTarget] = useState<Attribute | null>(null);
 
   if (isLoading) {
@@ -69,7 +70,7 @@ export function AttributesTable({
               data.map((attr) => (
                 <TableRow key={attr.id}>
                   <TableCell className="text-xs text-muted-foreground">{attr.id}</TableCell>
-                  <TableCell className="font-medium">{attr.name}</TableCell>
+                  <TableCell className="font-medium">{getLocalizedName(attr.name, i18n.language || 'en')}</TableCell>
                   <TableCell>
                     <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
                       {attr.slug}

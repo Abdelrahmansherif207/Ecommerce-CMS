@@ -69,7 +69,8 @@ export function useNavGroups(): NavGroup[] {
         { title: t('sidebar.brands'), url: '/brands', icon: Tags },
         { title: t('sidebar.tags'), url: '/tags', icon: Hash },
         { title: t('sidebar.attributes'), url: '/attributes', icon: List },
-        { title: t('sidebar.reviews'), url: '/reviews', icon: Star },
+                { title: t('sidebar.reviews'), url: '/reviews', icon: Star },
+        { title: t('sidebar.currencies'), url: '/currencies', icon: Globe },
       ],
     },
     {

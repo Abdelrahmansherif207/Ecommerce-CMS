@@ -171,6 +171,16 @@ export const queryKeys = {
     unreadList: (params: Record<string, any>) => ['notifications', 'unread', params] as const,
     count: () => ['notifications', 'count'] as const,
   },
+  currencies: {
+    all: ['currencies'] as const,
+    lists: () => ['currencies', 'list'] as const,
+    list: (params: Record<string, any>) => ['currencies', 'list', params] as const,
+    details: () => ['currencies', 'detail'] as const,
+    detail: (id: number | string) => ['currencies', 'detail', id] as const,
+    rates: (currencyId: number | string, effectiveDate?: string) =>
+      ['currencies', 'rates', currencyId, effectiveDate] as const,
+    rate: (id: number | string) => ['currencies', 'rate', id] as const,
+  },
   pickupLocations: {
     all: ['pickup-locations'] as const,
     lists: () => ['pickup-locations', 'list'] as const,
@@ -218,5 +228,12 @@ export const queryKeys = {
     dashboardCoupons: () => ['dashboard', 'coupons'] as const,
     dashboardCart: () => ['dashboard', 'cart'] as const,
     dashboardFinance: () => ['dashboard', 'finance'] as const,
+  },
+  currencyRates: {
+    all: ['currency-rates'] as const,
+    lists: () => ['currency-rates', 'list'] as const,
+    list: (params: Record<string, any>) => ['currency-rates', 'list', params] as const,
+    details: () => ['currency-rates', 'detail'] as const,
+    detail: (id: number | string) => ['currency-rates', 'detail', id] as const,
   },
 }
