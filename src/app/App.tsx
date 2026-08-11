@@ -9,6 +9,7 @@ const CategoriesPage = lazy(() => import("@/features/categories/pages/categories
 const SettingsPage = lazy(() => import("@/features/settings/pages/settings-page").then(m => ({ default: m.SettingsPage })));
 const BrandsPage = lazy(() => import("@/features/brands/pages/brands-page").then(m => ({ default: m.BrandsPage })));
 const TagsPage = lazy(() => import("@/features/tags/pages/tags-page").then(m => ({ default: m.TagsPage })));
+const CurrenciesPage = lazy(() => import("@/features/currencies/pages/currencies-page").then(m => ({ default: m.CurrenciesPage })));
 const SlidersPage = lazy(() => import("@/features/sliders/pages/sliders-page").then(m => ({ default: m.SlidersPage })));
 const FaqsPage = lazy(() => import("@/features/faqs/pages/faqs-page").then(m => ({ default: m.FaqsPage })));
 const FlashSalePage = lazy(() => import("@/features/flash-sale/pages/flash-sale-page").then(m => ({ default: m.FlashSalePage })));
@@ -100,7 +101,8 @@ export default function App() {
               <Route path="/shipping/countries/:countryId/governorates" element={<GovernoratesPage />} />
               <Route path="/shipping/governorates" element={<GovernoratesPage />} />
               <Route path="/shipping/governorates/:governorateId/cities" element={<CitiesPage />} />
-              <Route path="/shipping/cities" element={<CitiesPage />} />
+                            <Route path="/shipping/cities" element={<CitiesPage />} />
+              <Route path="/currencies" element={<CurrenciesPage />} />
             </Route>
           </Route>
 

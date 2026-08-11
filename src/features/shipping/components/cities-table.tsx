@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedName } from '@/shared/lib/localize';
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/shared/ui/table';
@@ -22,7 +23,7 @@ interface CitiesTableProps {
 }
 
 export function CitiesTable({ data, isLoading, onEdit, onRefresh }: CitiesTableProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   const deleteMutation = useDeleteCity();
   const [deleteTarget, setDeleteTarget] = useState<City | null>(null);
@@ -45,7 +46,7 @@ export function CitiesTable({ data, isLoading, onEdit, onRefresh }: CitiesTableP
         <div className="space-y-3">
           {data.map((city) => (
             <div key={city.id} className="rounded-lg border bg-card p-3 flex items-center justify-between">
-              <p className="font-medium">{city.name}</p>
+              <p className="font-medium">{getLocalizedName(city.name, i18n.language || 'en')}</p>
               <DropdownMenu>
                 <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
                   <MoreHorizontal className="h-4 w-4" />
@@ -92,7 +93,7 @@ export function CitiesTable({ data, isLoading, onEdit, onRefresh }: CitiesTableP
           <TableBody>
             {data.map((city) => (
               <TableRow key={city.id}>
-                <TableCell className="font-medium">{city.name}</TableCell>
+                <TableCell className="font-medium">{getLocalizedName(city.name, i18n.language || 'en')}</TableCell>
                 <TableCell className="text-muted-foreground">{city.governorate_id}</TableCell>
                 <TableCell>
                   <DropdownMenu>

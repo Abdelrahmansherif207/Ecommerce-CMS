@@ -8,6 +8,7 @@ import {
   PowerOff,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedName } from '@/shared/lib/localize';
 import {
   DndContext,
   closestCenter,
@@ -69,7 +70,7 @@ function SortableRow({
   onDelete: (section: Section) => void;
   isPendingStatus: boolean;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     attributes,
     listeners,
@@ -109,7 +110,7 @@ function SortableRow({
       </TableCell>
       <TableCell>
         <div className="min-w-0">
-          <p className="font-medium truncate">{section.title}</p>
+          <p className="font-medium truncate">{getLocalizedName(section.title, i18n.language || 'en')}</p>
           <p className="text-xs text-muted-foreground truncate max-w-[250px]">
             {section.endpoint}
           </p>
@@ -174,7 +175,7 @@ export function SectionsTable({
   onEdit,
   onRefresh,
 }: SectionsTableProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [deleteTarget, setDeleteTarget] = useState<Section | null>(null);
   const toggleMutation = useToggleSectionActive();
   const reorderMutation = useReorderSections();
