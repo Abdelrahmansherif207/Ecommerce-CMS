@@ -74,9 +74,9 @@ const { t, i18n } = useTranslation();
             {data.map((rate) => (
               <TableRow key={rate.id}>
                 <TableCell>{new Date(rate.effective_date).toLocaleDateString()}</TableCell>
-                <TableCell>{rate.exchange_rate.toFixed(4)}</TableCell>
+                <TableCell>{Number(rate.exchange_rate).toFixed(4)}</TableCell>
                 <TableCell>{getLocalizedName(currencyName ?? null, i18n.language || 'en')}</TableCell>
-                <TableCell>{(1 / rate.exchange_rate).toFixed(4)}</TableCell>
+                <TableCell>{(1 / Number(rate.exchange_rate)).toFixed(4)}</TableCell>
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger render={<Button variant="ghost" size="sm" className="h-8 w-8 p-0" />}>

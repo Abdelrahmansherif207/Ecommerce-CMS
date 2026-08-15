@@ -24,6 +24,7 @@ import {
   MapPinned,
   Hash,
   MessageSquare,
+  Activity,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/auth.store';
@@ -71,6 +72,7 @@ export function useNavGroups(): NavGroup[] {
         { title: t('sidebar.attributes'), url: '/attributes', icon: List },
                 { title: t('sidebar.reviews'), url: '/reviews', icon: Star },
         { title: t('sidebar.currencies'), url: '/currencies', icon: Globe },
+        { title: t('sidebar.exchangeRates'), url: '/exchange-rates', icon: Activity },
       ],
     },
     {

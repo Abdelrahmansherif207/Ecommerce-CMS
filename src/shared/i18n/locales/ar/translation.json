@@ -76,7 +76,9 @@
     "shipping": "الشحن",
     "countries": "الدول",
     "governorates": "المحافظات",
-    "cities": "المدن"
+    "cities": "المدن",
+    "currencies": "العملات",
+    "exchangeRates": "أسعار الصرف"
   },
   "orders": {
     "title": "الطلبات",
@@ -632,7 +634,9 @@
     "createError": "فشل إنشاء العملة",
     "updateError": "فشل تحديث العملة",
     "deleteError": "فشل حذف العملة",
-    "setBaseError": "فشل تعيين العملة الأساسية"
+    "setBaseError": "فشل تعيين العملة الأساسية",
+    "catalogUpdated": "تم تحديث عملة الكاتالوج بنجاح",
+    "setCatalogError": "فشل تعيين عملة الكاتالوج"
   },
   "currenciesPage": {
     "deleteTitle": "حذف العملة",
@@ -641,13 +645,17 @@
     "deleting": "جاري الحذف...",
     "setBaseTitle": "تعيين العملة الأساسية",
     "setBaseConfirm": "هل أنت متأكد من تعيين هذه كعملة أساسية؟",
-    "setBase": "تعيين كأساسية"
+    "setBase": "تعيين كأساسية",
+    "setCatalogTitle": "تعيين عملة الكاتالوج",
+    "setCatalogConfirm": "هل أنت متأكد من تعيين هذه كعملة كاتالوج؟",
+    "setCatalog": "تعيين ككاتالوج"
   },
   "currency": {
     "active": "نشط",
     "inactive": "غير نشط",
     "base": "أساسية",
     "setBase": "تعيين كأساسية",
+    "setCatalog": "تعيين ككاتالوج",
     "catalog": "كاتالوج",
     "badges": "شارات",
     "activeDescription": "مرئية وقابلة للاستخدام في المتجر",
@@ -699,6 +707,15 @@
     "createSubtitle": "املأ التفاصيل لإضافة سعر صرف جديد.",
     "effectiveDate": "تاريخ السريان",
     "exchangeRate": "سعر الصرف"
+  },
+  "exchangeRates": {
+    "title": "أسعار الصرف",
+    "subtitle": "إدارة أسعار صرف عملات المتجر.",
+    "addRate": "إضافة سعر",
+    "selectCurrency": "اختر العملة",
+    "selectCurrencyHint": "اختر عملة لعرض أسعار الصرف الخاصة بها.",
+    "dateFrom": "من التاريخ",
+    "dateTo": "إلى التاريخ"
   },
   "attributes": {
     "pageTitle": "الخصائص",
