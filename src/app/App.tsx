@@ -10,6 +10,7 @@ const SettingsPage = lazy(() => import("@/features/settings/pages/settings-page"
 const BrandsPage = lazy(() => import("@/features/brands/pages/brands-page").then(m => ({ default: m.BrandsPage })));
 const TagsPage = lazy(() => import("@/features/tags/pages/tags-page").then(m => ({ default: m.TagsPage })));
 const CurrenciesPage = lazy(() => import("@/features/currencies/pages/currencies-page").then(m => ({ default: m.CurrenciesPage })));
+const ExchangeRatesPage = lazy(() => import("@/features/currencies/pages/exchange-rates-page").then(m => ({ default: m.ExchangeRatesPage })));
 const SlidersPage = lazy(() => import("@/features/sliders/pages/sliders-page").then(m => ({ default: m.SlidersPage })));
 const FaqsPage = lazy(() => import("@/features/faqs/pages/faqs-page").then(m => ({ default: m.FaqsPage })));
 const FlashSalePage = lazy(() => import("@/features/flash-sale/pages/flash-sale-page").then(m => ({ default: m.FlashSalePage })));
@@ -103,6 +104,7 @@ export default function App() {
               <Route path="/shipping/governorates/:governorateId/cities" element={<CitiesPage />} />
                             <Route path="/shipping/cities" element={<CitiesPage />} />
               <Route path="/currencies" element={<CurrenciesPage />} />
+              <Route path="/exchange-rates" element={<ExchangeRatesPage />} />
             </Route>
           </Route>
 

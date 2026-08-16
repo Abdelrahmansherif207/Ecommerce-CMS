@@ -10,15 +10,17 @@ import {
   updateCurrency,
   deleteCurrency,
   setBaseCurrency as apiSetBaseCurrency,
+  setCatalogCurrency as apiSetCatalogCurrency,
   fetchExchangeRates as apiFetchExchangeRates,
   createExchangeRate,
   updateExchangeRate,
   deleteExchangeRate as apiDeleteExchangeRate,
   type FetchCurrenciesParams,
+  type FetchExchangeRatesParams,
 } from '../api/currencies.api';
 
 // Re-export for consumers
-export type { FetchCurrenciesParams };
+export type { FetchCurrenciesParams, FetchExchangeRatesParams };
 
 // Error handler
 function handleApiError(error: unknown, fallbackMessage: string): ApiErrorResponse {
@@ -127,13 +129,28 @@ export function useSetBaseCurrency() {
   });
 }
 
+export function useSetCatalogCurrency() {
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => apiSetCatalogCurrency(id),
+    onSuccess: (response) => {
+      toast.success(response.message || t('currencies.catalogUpdated'));
+      queryClient.invalidateQueries({ queryKey: queryKeys.currencies.lists() });
+    },
+    onError: (error: unknown) => {
+      handleApiError(error, t('currencies.setCatalogError'));
+    },
+  });
+}
+
 // ─── Exchange Rate Hooks ─────────────────────────────────────────────────────
 
-export function useExchangeRates(currencyId: number, effectiveDate?: string) {
+export function useExchangeRates(params: FetchExchangeRatesParams) {
   return useQuery({
-    queryKey: queryKeys.currencyRates.list({ currencyId, effectiveDate }),
-    queryFn: () => apiFetchExchangeRates(currencyId, effectiveDate),
-    enabled: !!currencyId,
+    queryKey: queryKeys.currencyRates.list(params),
+    queryFn: () => apiFetchExchangeRates(params),
+    enabled: !!(params.currency_id || params.code),
     staleTime: 5 * 60 * 1000,
   });
 }

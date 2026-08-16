@@ -16,6 +16,16 @@ export interface FetchCurrenciesParams {
   sortedBy?: string;
 }
 
+export interface FetchExchangeRatesParams {
+  currency_id?: number;
+  effective_date?: string;
+  date_from?: string;
+  date_to?: string;
+  code?: string;
+  page?: number;
+  perPage?: number;
+}
+
 
 // Currency CRUD
 
@@ -66,12 +76,25 @@ export async function setBaseCurrency(id: number) {
 }
 
 
+// Catalog Currency
+
+export async function setCatalogCurrency(id: number) {
+  const response = await axiosClient.post<CurrenciesListResponse>(`/currencies/${id}/set-catalog`);
+  return response.data;
+}
+
+
 // Exchange Rates
 
-export async function fetchExchangeRates(currencyId: number, effectiveDate?: string) {
+export async function fetchExchangeRates(params: FetchExchangeRatesParams) {
   const paramsQuery = new URLSearchParams();
-  paramsQuery.append('currency_id', currencyId.toString());
-  if (effectiveDate) paramsQuery.append('effective_date', effectiveDate);
+  if (params.currency_id) paramsQuery.append('currency_id', params.currency_id.toString());
+  if (params.effective_date) paramsQuery.append('effective_date', params.effective_date);
+  if (params.date_from) paramsQuery.append('date_from', params.date_from);
+  if (params.date_to) paramsQuery.append('date_to', params.date_to);
+  if (params.code) paramsQuery.append('code', params.code);
+  if (params.page) paramsQuery.append('page', params.page.toString());
+  if (params.perPage) paramsQuery.append('limit', params.perPage.toString());
   const response = await axiosClient.get<ExchangeRatesListResponse>('/currency-rates?' + paramsQuery.toString());
   return response.data;
 }

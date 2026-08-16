@@ -21,6 +21,7 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { CurrencyDeleteDialog } from './currency-delete-dialog';
 import { SetBaseCurrencyDialog } from './set-base-currency-dialog';
+import { SetCatalogCurrencyDialog } from './set-catalog-currency-dialog';
 import type { Currency } from '../types/currency.types';
 
 interface CurrenciesTableProps {
@@ -40,6 +41,7 @@ export function CurrenciesTable({
   const lang = i18n.language?.startsWith('ar') ? 'ar' : 'en';
   const [deleteTarget, setDeleteTarget] = useState<Currency | null>(null);
   const [baseTarget, setBaseTarget] = useState<Currency | null>(null);
+  const [catalogTarget, setCatalogTarget] = useState<Currency | null>(null);
 
   if (isLoading) return <TableSkeleton />;
 
@@ -133,6 +135,13 @@ export function CurrenciesTable({
                         {t('currency.setBase')}
                       </DropdownMenuItem>
                       <DropdownMenuItem
+                        onClick={() => setCatalogTarget(currency)}
+                        disabled={currency.is_catalog}
+                      >
+                        <BookOpen className="me-2 h-4 w-4" />
+                        {t('currency.setCatalog')}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
                         className="text-destructive focus:text-destructive"
                         onClick={() => setDeleteTarget(currency)}
                         disabled={currency.is_base}
@@ -160,6 +169,12 @@ export function CurrenciesTable({
         onOpenChange={(open) => !open && setBaseTarget(null)}
         currency={baseTarget}
         onBaseChanged={onRefresh}
+      />
+      <SetCatalogCurrencyDialog
+        open={!!catalogTarget}
+        onOpenChange={(open) => !open && setCatalogTarget(null)}
+        currency={catalogTarget}
+        onCatalogChanged={onRefresh}
       />
     </>
   );

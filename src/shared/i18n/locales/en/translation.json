@@ -77,7 +77,8 @@
     "countries": "Countries",
     "governorates": "Governorates",
     "cities": "Cities",
-    "currencies": "Currencies"
+    "currencies": "Currencies",
+    "exchangeRates": "Exchange Rates"
   },
   "orders": {
     "title": "Orders",
@@ -717,7 +718,9 @@
     "createError": "Failed to create currency",
     "updateError": "Failed to update currency",
     "deleteError": "Failed to delete currency",
-    "setBaseError": "Failed to set base currency"
+    "setBaseError": "Failed to set base currency",
+    "catalogUpdated": "Catalog currency updated successfully",
+    "setCatalogError": "Failed to set catalog currency"
   },
   "currenciesPage": {
     "deleteTitle": "Delete Currency",
@@ -726,13 +729,17 @@
     "deleting": "Deleting...",
     "setBaseTitle": "Set Base Currency",
     "setBaseConfirm": "Are you sure you want to set this as the base currency?",
-    "setBase": "Set as Base"
+    "setBase": "Set as Base",
+    "setCatalogTitle": "Set Catalog Currency",
+    "setCatalogConfirm": "Are you sure you want to set this as the catalog currency?",
+    "setCatalog": "Set as Catalog"
   },
   "currency": {
     "active": "Active",
     "inactive": "Inactive",
     "base": "Base",
     "setBase": "Set Base",
+    "setCatalog": "Set Catalog",
     "catalog": "Catalog",
     "badges": "Badges",
     "activeDescription": "Visible and usable in the storefront",
@@ -784,6 +791,15 @@
     "createSubtitle": "Fill in the details to add a new exchange rate.",
     "effectiveDate": "Effective Date",
     "exchangeRate": "Exchange Rate"
+  },
+  "exchangeRates": {
+    "title": "Exchange Rates",
+    "subtitle": "Manage exchange rates for store currencies.",
+    "addRate": "Add Rate",
+    "selectCurrency": "Select Currency",
+    "selectCurrencyHint": "Select a currency to view its exchange rates.",
+    "dateFrom": "Date From",
+    "dateTo": "Date To"
   },
   "attributes": {
     "pageTitle": "Attributes",
